@@ -1,0 +1,411 @@
+1) What is Pyspark? How is it different from Python?
+
+Pyspark is a Python API for Apache Spark allowing us to write spark application 
+using python It is different from Python because It works in a  distributed environment 
+allowing parallel processing of large datasets across cluster which Python can't do alone.
+cluster - group of connected computer 
+distributed environment - divide work in many computer
+parallel processing - doing many tasks at same time instead one by one
+
+2) RDD vs DataFrame vs Dataset?
+
+RDD(Resilient Distributed Datasets): low-level, unstructured, slower
+DataFrame: structured, optimized, SQL support
+Dataset: type-safe(mainly scala not python)
+
+In PySpark, DataFrames are preferred
+
+3) SparkContext vs SparkSession?
+
+SparkContext connects spark to the cluster,Entry point for RDDs(older)
+SparkSession is the modern single entry point that does everything,
+Unified entry point (DataFrames, SQL, Streaming)
+
+4) Create a SparkSession?
+
+By using Sparksession builder to start a spark application
+
+5) Lazy Evaluation?
+
+Spark doesn't execute transformations immediately. Execution happens only when an action
+is called. Improves performance by optimizing execution plans.
+
+
+6) Transformations vs Actions
+
+Transformations - Just Instruction (select, filter, groupBy)
+Actions - Actually runs the job and gives output (show, count, collect)
+
+7) Read & Write CSV/JSON/Parquet
+
+using spark.read and df.write for CSV, JSON, Parquet files
+
+8) Add/Drop/Rename Columns
+
+Add Column - withColumn()
+Remove Column - drop()
+Rename Column - withColumnRenamed()
+
+9) Filter Rows
+
+using filter() or where() 
+
+
+10) Pyspark Joins Types -
+
+Join is used to combine rows from two or more tables based on common column between them
+
+inner
+left
+right
+full
+
+11) Aggregation 
+
+An aggregate function performs a calculation on multiple rows and 
+returns a single summarized value
+Example-
+COUNT(), SUM(), AVG(), MAX(), MIN() etc.
+
+
+12) groupBy vs Window
+
+groupBy: aggregate data by reducing no. of rows
+Window:  aggregate data without reducing the no. of rows 
+
+13) Handling null values
+
+by using fillna(), dropna(), replace()
+
+14) Partitioning and shuffling
+
+#Improves parallelism and performance
+df.repartition(10)
+
+#Reduce Shuffling
+Filter early
+Avoid wide transformations
+Use broadcast joins
+
+
+15) Broadcast join
+
+A broadcast join sends a small DataFrame to all executors to avoid shuffling large data 
+and improve join performance
+large_df.join(broadcast(small_df),"id")
+
+16) Catalyst Optimizer
+
+Spark's query optimizer for DataFrames & SQL
+
+17) Cache vs Persist
+
+#stores data in memory for reuse
+df.cache()
+df.persist()
+
+18) UDFs and drawbacks
+
+Custom Python functions for complex logic
+and Slower than built-in functions
+
+
+19) Removing duplicates
+
+df.dropDuplicates()
+df.dropDuplicates(["empid"])
+
+20) Window function use cases
+
+Window functions perform calculations across related rows while keeping all rows
+sum("salary").over(Window.partitionBy("dept").orderBy("date"))
+UseCase-
+Running/Cumulative Total - cumulative sales over time
+Ranking(row_number,rank,dense_rank) - top N employees by salary per department
+Moving Average - last 7-day average sales
+
+21) Pyspark Performance optimization Technique
+
+Use DataFrames
+Avoid UDFs
+Partition Properly
+Cache reused data
+Use broadcast joins
+
+22) Handing skewed data
+
+Salting keys
+Broadcast joins
+AQE
+
+23) Spark architecture
+
+Driver - Runs the main program, create DAG and coordinates tasks
+Cluster Manager - Allocates resource (YARN,kubernetes,standalone)
+Executors - Execute tasks and store data in memory
+Worker Nodes - Machines where executors run
+
+Flow= Driver->Cluster Manager->Executors->Result back to Driver
+
+24) Real project experience
+
+Your Project
+
+
+Handson1- before do anything create sparksession not required in databricks
+
+from pyspark.sql import SparkSession
+spark=SparkSession.builder \
+.appName("CSV Processing") \
+.master("local[*]") \
+.getOrCreate()
+
+# for json or parquet files just replace with JSON Processing or Parquet Processing
+
+from pyspark.sql import SparkSession
+from pyspark.sql. import StructType, StructField,
+IntegerType, StringType
+
+spark=SparkSession.builder \
+.appName("Dataset Processing") \
+.master("local[*]") \
+.getOrCreate()
+
+schema=StructType([
+   StructField("id",IntegerType(),True),
+   StructField("name",StrigType(),True),
+   StructField("age",IntegerType(),True)
+])
+
+#for dataset it is required to defined schema
+
+Handson2- Reading and Writing
+
+Dataframe-CSV,JSON,PARQUET
+df=spark.read.csv("path/input.csv",header=True,inferSchema=True)
+Dataset Case
+dataset=spark.read.csv("path/input.csv",header=True,schema=True)
+
+Dataframe-CSV,JSON,PARQUET
+df=write.csv("path/to/output.csv",header=True,mode=overwrite)
+Dataset Case
+dataset=write.csv("path/to/output.csv",header=True,mode=overwrite)
+
+overwrite- delete existing data add this one
+append- keep existing data  add this on top of existing data
+ignore- do nothing if data already existing
+header= tell spark to treat first raw as column name instead of raw data
+inferschema= tell spark to auto detect data types of each column instead 
+of  treating everything as a string
+
+Handson3- Filtering & output
+
+from pyspark.sql.functions import col
+
+df.filter(col("age")>25)
+df.where(col("age")>25)
+
+df.show()
+#Empty values or Missing values in CSV are automatically read as NULL
+when you use df.show() spark internally converts them to NULL
+
+Helpful operator in Pyspark
+
+comparison(==,!=,>,<,>=,<=)
+logical(&,|,~)
+null(isNulll(),isNotNull())
+isin()-instead of multiple OR condition
+string(like(),startswith(),endswith(),contains())
+
+Handson4- Transform Column
+
+Add a fresh column without using any existing column
+
+from pyspark.sql.functions import lit
+df.withColumn("country",lit("india"))
+
+Add a new column using existing column
+df.withColumn("age_plus_5",df.age+5)
+
+Drop column
+df.drop("salary")
+
+Rename column
+df.withColumnRenamed("name","employee_name")
+
+
+Handson5- Handle missing and null values
+
+# drop a row if any column has null value (1 Aman NULL then drop)
+df.dropna() or df.dropna(how="any") 
+
+# drop a row only if all column has null value (NULL NULL NULL then drop)
+df.drop(how="all")
+
+# drop a row if age or salary column has null value ignore other columns
+df.drop(how="any",subset=["age","salary"])
+
+# fill null with single work only for None or NULL
+df.fillna(0)
+
+# fill column-wise
+df.fillna({"age":0,"salary":30000,"department":"unknown"})
+
+# missing value replace only with None or NULL 
+sometimes csv file contain 'null' 'Null' replace with None or NULL
+b/c fillna work only these two
+df.replace("",NULL) 
+df.replace("",None) 
+
+
+Handson6- Handle Duplicate value
+
+# remove duplicate rows    
+df.dropDuplicates() or df.distinct()    
+1 Aman 50000 {remove both}
+1 Aman 50000
+
+# remove duplicate based only on specific column  
+df.dropDuplicate(["empid"])   
+1 Aman 50000 {remove either Aman or Gaurav row}
+1 Gaurav 20000                      
+
+
+Handson7- Aggregate function and Group By
+
+#count(),sum(),avg()/mean(),min(),max(),countDistinct() etc.
+
+count not a aggregate function
+df.count() - count total no. of rows 
+just normal builtin function like distict()
+
+count as a aggregate function
+df.agg(count("empid".alias("emp_count")).show() #aggregate function
+
+df.agg(sum("salary").alias("total_salary")).show() 
+total_salary
+50000
+
+df.groupBy("deptname").sum("salary").show()   
+deptname salary
+IT       20000
+HR       40000  
+
+
+Handson8- Sorting
+
+# Ascending order through a specific column
+df.orderBy("salary").show() 
+
+#Descending order through a specific column
+df.orderBy(desc("salary")).show()
+
+Handson9- Join
+
+-let suppose two tables we have
+empdf=spark.read.csv("path/employee.csv",header=True,inferSchema=True)
+deptdf=spark.read.csv("path/department.csv",header=True,inferSchema=True)
+
+empdf.join(deptdf,on="deptid",how="inner").show()
+empdf.join(deptdf,on="deptid",how="left").show()
+empdf.join(deptdf,on="deptid",how="right").show()
+empdf.join(deptdf,on="deptid",how="full").show()
+
+-Join when columns names are different but content inside both columns same
+
+from pyspark.sql.functions import col
+empdf.join(deptdf,col("empdf.deptid")==col("deptdf.departmentname),"inner")
+
+
+Handson10- SQLvsPANDASvsPYSPARK
+
+1)Read,Write
+SQL
+LOAD DATA INFILE 'emp.csv' INTO TABLE emp;
+PANDAS
+pd.read_csv("emp.csv")
+PYSPARK
+spark.read.csv("emp.csv",header=True,inferSchema=True)
+
+2)Display
+SQL
+SELECT * FROM emp; - for all
+SELECT name,salary FROM emp; - for specific column
+PANDAS
+df - for all
+df[['name','salary']] - for specific column
+PYSPARK
+df.show() - for all
+df.select("name","salary") - for specific column
+
+3)Filter(WHERE)
+SQL
+WHERE salary>5000
+PANDAS
+df[df.salary>5000]
+PYSPARK
+df.filter(df.salary>5000)
+
+4)Transform column(Add/Drop/Rename)
+SQL
+ALTER TABLE emp ADD salary INT (ADD)
+ALTER TABLE emp DROP COLUMN salary (DROP)
+ALTER TABLE emp RENAME COLUMN name TO empname (RENAME)
+PANDAS
+df["salary"]=5000 (ADD)
+df.drop(columns=["salary"],inplace=True) (DROP)
+df.rename(columns={"name":"empname"},inplace=True) (RENAME)
+PYSPARK
+df.withColumn("salary",lit(5000)) (ADD)
+df.drop("salary") (DROP)
+df.withColumnRenamed("name","empname") (RENAME)
+
+5)Handle Null & Missing Value
+SQL
+check, replace, drop= IS NULL, COALESCE(sal,0), WHERE sal IS NOT NULL
+PANDAS
+check, replace, drop= df.isnull(), df.fillna(0), df.dropna()
+PYSPARK
+check, replace, drop= df.isNull(), df.fillna(0), df.dropna()
+
+6)Remove Duplicate
+SQL
+SELECT DISTINCT * FROM emp;
+PANDAS
+df.drop_duplicates()
+PYSPARK
+df.dropDuplicates()
+
+7)Aggregate Function
+SQL
+SELECT SUM(salary) FROM emp;
+PANDAS
+df['salary'].sum()
+PYSPARK
+df.agg(sum("salary"))
+
+8)Group By
+SQL
+GROUP BY dept
+PANDAS
+df.groupby('dept')
+PYSPARK
+df.groupBy('dept')
+
+9)Order By
+SQL
+ORDER BY salary, ORDER BY salary DESC
+PANDAS
+df.sort_values('salary'),df.sort_values('salary',ascending=False)
+PYSPARK
+df.orderBy("salary"),df.orderBy(df.salary.desc())
+
+10)Join
+SQL
+SELECT * FROM emp e
+INNER JOIN dept d
+ON e.deptid = d.deptid;
+PANDAS
+pd.merge(emp,dept,on="deptid",how="inner")
+PYSPARK
+emp.join(dept,on="deptid",how="inner")
