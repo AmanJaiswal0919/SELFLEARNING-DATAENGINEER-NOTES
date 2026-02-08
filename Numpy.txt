@@ -1,0 +1,407 @@
+Ques1- If Python already has list Why do we even need something like NumPy? 
+or How are NumPy Arrays better than Lists in Python?
+
+Answer- 1) Performance
+-Speed = NumPy Array is built on C While Python List on Python C Language is much faster than Python
+-Memory= NumPy Array takes less memory than Python List
+
+2) BroadCasting & Vectorization
+Answer - Python List perform Mathmatical operation with the help of loop While in NumPy Array 
+we dont need loop In NumPy Array we use vectorization &broadcasting
+Vectorization=Perform mathematical operation without loops but still need same shape
+Broadcasting = Perform mathematical operation for different shape but still need 
+vectorization to perform mathmatical operation you can say that broadcasting is depend 
+on vectorization to perform mathmatical operation.
+
+3) Multidimensional Arrays
+Answer- Numpy Supports n-dimensional arrays while Python List are naturally 1-D and 
+need nesting for matrix like structure (which become messy and slow)
+
+4) Data Types
+Answer- In numpy array only some data types allowed while Python list allowed mixed data type.
+
+
+
+
+Ques2- How can we import and install numpy?
+
+Answer- import numpy as np
+In a Python Script(.py file) - you need print statement for output and output inside this array([]) example-VS Code
+In a interactive environment - just write variable name for output and output inside this[] - 
+jupiter notebbook or google colab (assume this for this document)
+
+
+
+
+Ques3- How can you create a numpy array from a python list?
+
+Answer- Using np.array() Constructor
+pyhon_list=[1,2,3,4,5]
+numpy_array = np.array(python_list)
+print(numpy_array)  -----------Output-----------------------array([1,2,3,4,5])
+
+
+
+
+Ques4- How can you access elements in Numpy array elements ?
+
+Answer- Through Indexing and Slicing
+
+#Indexing
+
+arr=np.array([10,20,30,40])
+arr -------------------Output-----------------[10 20 30 40 50]
+condition=arr>30
+arr[condition] -------------------Output-----------------[40 50]
+arr[2]   -------------------Output----------------- 30
+arr[-1]  -------------------Output----------------- 50
+arr[[0,2,3]]   -------------------Output----------------- [10 30 50]
+
+#for 2D array
+
+arr1=np.array([[1,2,3],[4,5,6]])
+arr -------------------Output----------------- [[1 2 3]
+                                                [4 5 6]]
+arr1[0,1]     -------------------Output----------------- 2
+arr1[1,2]     -------------------Output----------------- 6
+
+#Slicing
+
+arr=np.array([10,20,30,40,50])
+arr -------------------Output-----------------[10 20 30 40 50]
+arr[1:4]    -------------------Output----------------- [20 30 40]
+arr[:4]      -------------------Output----------------- [10 20 30 40]
+arr[1:]      -------------------Output----------------- [20 30 40 50]
+arr[0:4:2]   -------------------Output----------------- [10 30]
+
+#for 2D array
+
+arr1=np.array([[1,2,3],[4,5,6]])
+arr -------------------Output----------------- [[1 2 3]
+                                                [4 5 6]]
+arr1[0:2,1:3]     -------------------Output----------------- [[2 3]
+                                                               [5 6]]
+
+
+
+
+Ques5- Dimension and slicing
+
+arr=np.array([[1,2,3],[4,5,6]])
+arr ------------------Output----------------- [[1 2 3]
+                                                [4 5 6]]
+arr.ndim     -------------------Output----------------- 2 because this is 2d array
+arr.shape    -------------------Output----------------- (2,3) because this is 2 rows and 3 column
+arr.size     -------------------Output----------------- 6 because this is no. of element
+arr.dtype    -------------------Output----------------- int64 because this is integer type
+
+
+
+
+
+Ques6- what are some common data types supported by NumPy? and how to create an array with a specific dtype?
+
+int32  -------------1,2,3
+int64 by default -------------100,250
+float32  -------------1.0,3.14
+float64 by default  -------------1.0000001
+bool   -------------True,False
+str    -------------"hello","123"
+np.array([1,2,3],dtype='float32']
+
+
+
+
+Ques7- Typecasting and Typecasting Errors
+
+   arr=np.array([1,2,3])
+   arr  ----------Output------------[1 2 3]
+   arr.dtype----------Output------------int64
+
+   #Typecasting--convert integer to float data type
+   new_arr=arr.astype(np.float64)
+   new_arr  ----------Output------------[1. 2. 3.]
+   
+   #Typecasting error
+   arr1=np.array(["1","2","hello"])
+   arr2=arr1.astype(np.int64)
+   arr2  -------------Output-----------Error because you cant convert a string into integer 
+   or float but you can convert integer or float into string
+
+
+
+
+Ques8- How to generate random number in numpy?
+
+Answer- 1)Using np.random.rand()= generate float between 0 and 1
+
+random_float=np.random.rand(10)-----------generate 10 random number b/w 0 to 1
+random_float ----------Output------------[0.27918 0.90403 0.85672________0.38567]
+
+
+random_float=np.random.rand(2,3)-----------generate random numbers in 2 rows and 3 columns
+random_float ----------Output------------[[0.27918 0.90403 0.85672________0.38567] [0.57918 0.60403 0.15672________0.58567]]
+
+2)Using np.randomint()= generate random integer
+
+arr=np.randomint(10,100)-----------------generate a random number between 10 and 100
+arr   ----------Output------------99
+
+
+
+
+
+Ques9- How to convert multidimensional array into 1D array?
+
+Answer- 1)Reshape= Sometime we need to reshape array without changing the data
+arr=np.array([1,2,3,4,5,6])
+reshaped=arr.reshape(2,3)
+reshaped ----------Output------------[[1 2 3] [4 5 6]]
+
+2)Ravel= Convert any shape array into 1D array
+ravel=reshaped.ravel()
+ravel  ----------Output------------[1 2 3 4 5 6]
+
+3)flatten= Like Ravel convert into 1D array but return a copy of array
+flatten=reshaped.flatten()
+flatten  ----------Output------------[1 2 3 4 5 6] {Copy of Original array}
+
+
+Prove-
+#flatten = [1 2 3 4 5 6]
+flatten[0]=100
+flatten    ----------Output------------[100 2 3 4 5 6]
+reshaped   ----------Output------------[1 2 3 4 5 6] {Original is not change}
+
+#ravel = [1 2 3 4 5 6]
+ravel[0]=100
+ravel    ----------Output------------[100 2 3 4 5 6]
+reshaped   ----------Output------------[100 2 3 4 5 6] {Original is change}
+
+
+
+
+
+Ques10- What are the common methods to create numpy array?What is numpy?
+
+Answer- It is a powerful python library used for numerical and scientific computing
+We can create numpy array by following methods-
+
+a)np.array()
+arr1=np.array([1,2,3,4])
+arr1 ------------Output-----------[1 2 3 4]
+
+b)np.zeros()
+arr2=np.zeros((2,3))
+arr2 ------------Output-----------[[0. 0. 0.] 
+                                   [0. 0. 0.]]
+c)np.ones()
+arr3=np.ones((3,2))
+arr3 ------------Output-----------[[1. 1.] 
+                                   [1. 1.]
+                                   [1. 1.]]
+d)np.full()
+arr4=np.full((2,2),7)
+arr4 ------------Output-----------[[7 7] 
+                                   [7 7]]
+e)np.arrange(start stop step) 
+arr5=np.arrange(0,10,2)
+arr5  ------------Output-----------[0 2 4 6 8]
+
+f)np.arrange(start stop no.ofvalues)
+arr6=np.linespace(1,5,5)
+arr6  ------------Output-----------[1. 2. 3. 4. 5.]
+
+# why dot appears after number np.zeros(),np.ones(),np.linespace() because by default datatype is float
+
+
+
+
+
+Ques11- Explain Concatenation, Repeating, Aggregate function, Cumulative Operation?
+
+Answer- #Concatenation
+arr1=np.array([1,2]) arr2=np.array([3,4])
+combine=np.concatenate((arr1,arr2))
+combine ------------Output-----------[1 2 3 4]
+
+arr3=np.array([[1,2],[3,4]])
+arr4=np.array([[5,6],[7,8]])
+
+np.vstack((arr3,arr4)) ------------Output-----------[[1 2] 
+                                                      [3 4]
+                                                      [5 6]   ==shape(4,2)
+                                                      [7 8]]
+
+
+np.hstack((arr3,arr4)) ------------Output-----------[[1 2 5 6]
+                                                      [3 4 7 8]]  ==shape(2,4)
+
+
+np.stack((arr3,arr4),axis=0)) ------------Output-----------[[[1 2] 
+                                                             [3 4]]   ==shape(2,2,2) no.of matrix, 
+                                                            [[5 6]    no.of row each matrix , no.of column each matrix
+                                                             [7 8]]]
+
+np.stack((arr3,arr4),axis=1)) ------------Output-----------[[[1 5] 
+                                                             [2 6]]   ==shape(2,2,2) no.of matrix, no.of row each matrix, 
+                                                            [[3 7]     no.of column each matrix
+                                                             [4 8]]]  
+
+#Repeating
+
+arr=np.array([1,2,3])
+np.repeat(arr,3)---------------Output--------------[1 1 1 2 2 2 3 3 3]
+
+
+
+#Aggregate Functions:
+
+arr=np.array([1,3,2])
+np.sum(arr)  ---------------Output-------------- 6
+
+np.mean(arr) ---------------Output-------------- np.float64(2.0)
+
+np.median(arr)  ---------------Output-------------- np.float64(2.0)
+
+n.std(arr)  ---------------Output-------------- np.float64(0.8164)
+
+np.var(arr) ---------------Output-------------- np.float64(0.6666)
+
+np.min(arr) ---------------Output-------------- np.float64(1)
+
+np.max(arr) ---------------Output-------------- np.float64(3)
+
+np.sort(arr) ---------------Output--------------[1 2 3]
+
+
+
+matrix=np.array([1,2,3],[4,5,6],[7,8,9])
+matrix -------------------Output----------- [[1 2 3]
+                                              [4 5 6]
+                                              [7 8 9]]
+
+
+np.sum(matrix,axis=0)  ---------------Output--------------[12 15 18]
+np.sum(matrix,axis=1)  ---------------Output--------------[6 15 24]
+
+
+
+#Cumulative OPerations -- running total
+arr=np.array([1,2,3])
+np.cumsum(arr)   ---------------Output--------------[1 3 6]
+np.cumprod(arr)   ---------------Output--------------[1 2 6]
+
+
+
+
+
+Ques12- Conditional Based Choices in numpy array?
+
+Answer- arr=np.array([10,25,35,50])
+arr ------------Output------------[1 2 3]
+
+result1=np.where(arr<20,"low","high")
+result1  ------------Output------------['low' 'high' 'high' 'high']
+
+result2=np.argwhere(arr>20)
+result2  ------------Output------------[[1]
+                                        [2]
+                                        [3]]
+
+
+
+matrix = np.array([1,2,3],[4,5,6],[7,8,9])
+matrix  ---------------Output-------------- [[1 2 3] 
+                                            [4 5 6]
+                                            [7 8 9]]
+
+
+np.argwhere(matrix>5)-----------Output----------[[1 2]
+                                                 [2 0]
+                                                 [2 1]
+                                                 [2 2]]
+
+
+
+
+
+
+Ques13- Difference between logical and, logical or?
+
+Answer- arr=np.array([100,2,3,4,5,6])
+
+mask1=np.logical_and(arr>3,arr<6)
+mask1  ------------Output------------[false false false True True false]
+arr[mask1]  ------------Output------------[4 5]
+
+
+
+mask2=np.logical_or(arr<4,arr>5)
+mask2  ------------Output------------[True True True false false True]
+arr[mask2]  ------------Output------------[100 2 3 6]
+
+
+arr2=np.array([0,1,5,0,5])
+arr2   ------------Output------------[0,1,5,0,5]
+np.nonzero(arr2)  ------------Output------------[1,2,4]
+
+# In where only limitation we can have only two conditions
+
+
+
+
+
+
+Ques14- Explain all Broadcasting Rules with example?
+
+Answer- 1)If shapes are equal they are compatible then broadcasting possible
+
+        example- a=np.array([1,2,3]) b=np.array([4,5,6]) print(a+b) = [5 7 9] ------ {[1 2 3] + [4 5 6]}
+
+        2)If one array is one It can be stretched to match other other then broadcasting possible
+
+        example- a=np.array([1,2,3]) b=5  print(a+b) = [6 7 8]----- {[1 2 3]+[5 5 5]}
+
+        3)If shapes are different and not equal(for this check last digit) then broadcasting not possible
+
+        example- a=np.array([[1,2,3],[4,5,6]]) b=np.array([10,20,30]) print(a+b) = [[11 22 33]
+                                                                                    [14 25 36]]
+        #shape(a)=(2,3),shape(b)=(1,3)=>3==3 then print(2,3)
+
+
+
+        example- a=np.array([[1],[2],[3]]) b=np.array([10,20,30]) print(a+b) = [[11 21 31]
+                                                                                [12 22 32]
+                                                                                [13 23 33]]
+        #shape(a)=(3,1),shape(b)=(1,3)=>oneofthemis 1 then print(3,3)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+
+
+
+
+
+
+
+
