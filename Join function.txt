@@ -1,0 +1,335 @@
+students(ist table)
+     studentid   studentname    studentcity
+       1           Aman          Delhi
+       2           Rohan         Pune 
+       3           Simran        Delhi 
+       4           Priya         Mumbai
+       5           Rahul         Pune
+
+
+courses(2nd table)                                                                     
+     courseid    studentid     coursename
+      101          1             SQL
+      102          1             Python
+      103          2             SQL 
+      104          3             Java
+      105          6             C++
+
+
+Answer
+
+-Inner Join
+focus on 2nd table common column i.e student_id and data we ne need to display(studentname,coursename,studentcity)
+1 SQL match -> 1 Aman Delhi
+Aman          SQL        Delhi  
+1 Python match -> 1 Aman Delhi
+Aman          Python     Delhi
+2 SQL match -> 2 Rohan Pune 
+Rohan         SQL        Pune
+3 Java match -> 3 Simran Delhi 
+Simran        Java       Delhi
+6 C++ doesn't match with any
+
+#Final output
+studentname  coursename  studentcity
+Aman          SQL        Delhi 
+Aman          Python     Delhi 
+Rohan         SQL        Pune
+Simran        Java       Delhi
+
+
+
+-Left Join
+focus on 2nd table common column i.e student_id and data we ne need to display(studentname,coursename,studentcity)
+1 SQL match -> 1 Aman Delhi
+Aman          SQL        Delhi  
+1 Python match -> 1 Aman Delhi
+Aman          Python     Delhi
+2 SQL match -> 2 Rohan Pune 
+Rohan         SQL        Pune
+3 Java match -> 3 Simran Delhi
+Simran        Java       Delhi
+6 C++ doesn't match with any
+
+remaining element which doesn't match 
+ 4   Priya  Mumbai
+ 5   Rahul  Pune
+
+
+#Final output
+studentname  coursename studentcity
+Aman          SQL        Delhi 
+Aman          Python     Delhi 
+Rohan         SQL        Pune
+Simran        Java       Delhi
+Priya         NULL       Mumbai
+Rahul         NULL       Pune
+
+
+
+-Right Join
+focus on 2nd table common column i.e student_id and data we ne need to display(studentname,coursename,studentcity)
+1 SQL match -> 1 Aman Delhi
+Aman          SQL        Delhi  
+1 Python match -> 1 Aman Delhi
+Aman          Python     Delhi
+2 SQL match -> 2 Rohan Pune 
+Rohan         SQL        Pune
+3 Java match -> 3 Simran Delhi
+Simran        Java       Delhi
+6 doesn't match with any
+
+remaining element which doesn't match from ist table
+ 105          6             C++
+
+
+#Final output
+studentname coursename  studentcity
+Aman          SQL        Delhi 
+Aman          Python     Delhi 
+Rohan         SQL        Pune
+Simran        Java       Delhi
+NULL          C++        NULL
+
+
+
+-Full Outer Join
+focus on 2nd table common column i.e student_id and data we ne need to display(studentname,coursename,studentcity)
+1 match
+Aman          SQL        Delhi  
+1 match
+Aman          Python     Delhi
+2 match
+Rohan         SQL        Pune
+3 match
+Simran        Java       Delhi
+6 doesn't match 
+
+remaining element which doesn't match from both ist table and 2nd table
+4     Priya    Mumbai
+5     Rahul    Pune
+105    6       C++
+
+#Final output
+studentname coursename studentcity
+Aman          SQL        Delhi 
+Aman          Python     Delhi 
+Rohan         SQL        Pune
+Simran        Java       Delhi
+NULL          C++        NULL
+Priya         NULL      Mumbai
+Rahul          NULL     Pune
+
+
+
+-Cross Join
+focus on 2nd table common column i.e student_id combined every student id of Ist table
+1 with 1    1 with 1     1 with 2     1 with 3     1 with 6
+2 with 1    2 with 1     2 with 2     2 with 3     2 with 6
+3 with 1    3 with 1     3 with 2     3 with 3     3 with 6
+4 with 1    4 with 1     4 with 2     4 with 3     4 with 6
+5 with 1    5 with 1     5 with 2     5 with 3     5 with 6
+
+#Final output
+studentname  studentcity coursename
+Aman          Delhi     SQL
+Aman          Delhi     Python
+Aman          Delhi     SQL
+Aman          Delhi     Java
+Aman          Delhi     C++
+
+Rohan         Pune      SQL
+Rohan         Pune      Python 
+Rohan         Pune      SQL 
+Rohan         Pune      Java 
+Rohan         Pune      C++
+
+Simran        Delhi     SQL
+Simran        Delhi     Python
+Simran        Delhi     SQL
+Simran        Delhi     Java
+Simran        Delhi     C++
+
+Priya         Mumbai    SQL
+Priya         Mumbai    Python
+Priya         Mumbai    SQL
+Priya         Mumbai    Java
+Priya         Mumbai    C++
+
+Rahul         Pune      SQL
+Rahul         Pune      Python
+Rahul         Pune      SQL
+Rahul         Pune      Java
+Rahul         Pune      C++
+
+
+-Self Join (with left join)
+
+emp_id       emp_name        manager_id             
+1             Aman             NULL
+2             Rahul             1
+3             Neha              1
+4             Pooja             2
+
+
+employees as e (employee view) left table
+e.emp_name        e.manager_id
+   Aman             NULL
+   Rahul             1
+   Neha              1
+   Pooja             2
+
+
+employees as m (manager view) right table
+m.emp_id(employee_id of employee whose act manager)    m.emp_name (employee_name of employee whose act manager)       
+1                                                         Aman             
+2                                                         Rahul             
+3                                                         Neha              
+4                                                         Pooja      
+
+#final output (left)
+
+focus on empname common in both tables
+
+-for Aman NULL 
+search null in m.emp_id column no match 
+-for Rahul 1 
+search 1 in m.emp_id column match i.e Aman
+-for Neha 1 
+search 1 in m.emp_id column match i.e Aman
+-for Pooja 2 
+search 2 in m.emp_id column match i.e Rahul
+
+#match data
+Rahul            Aman
+Neha             Aman
+Pooja            Rahul
+#unmatch data
+Aman             NULL
+
+for left join (match from both + not match from left)
+employeename            managername
+Rahul                    Aman
+Neha                     Aman
+Pooja                    Rahul
+Aman                     NULL
+
+for inner join (match from both)
+employeename            managername
+Rahul                    Aman
+Neha                     Aman
+Pooja                    Rahul
+
+
+Identification-
+assigned,enrolled  - INNER
+never,no,not  -  LEFT
+all orders/all courses(when right table is priority) - RIGHT
+all from both - FULL OUTER
+combination - cross
+only one table is given - SELF
+
+PRACTICE 
+
+1) find all employees who are assigned to a department?
+SELECT e.empid,e.empname
+FROM employees e
+INNER JOIN departments d
+ON e.deptid = d.deptid;
+
+2) find all employees even if they are not assigned to any department?
+SELECT e.empid,e.empname
+FROM employees e
+LEFT JOIN departments d
+ON e.deptid = d.deptid;
+
+3) find all department that have no employees
+SELECT d.deptid,d.deptname
+FROM employees e
+RIGHT JOIN departments d
+ON e.deptid = d.deptid;
+WHERE e.empid IS NULL;
+
+4) find customers who have never placed an order 
+SELECT c.custid,c.custname
+FROM customers c
+LEFT JOIN orders o
+ON c.custid = o.custid;
+WHERE o.custid IS NULL;
+
+5) find customers along with their order 
+
+SELECT c.custid,c.custname,o.orderid
+FROM customers c
+INNER JOIN orders o
+ON c.custid = o.custid;
+
+6) find all orders even if customer details are missing 
+
+SELECT c.custid,c.custname,o.orderid
+FROM customers c
+RIGHT JOIN orders o
+ON c.custid = o.custid;
+
+7) find all students who are enrolled in courses 
+
+SELECT s.studid,s.studname
+FROM students s
+INNER JOIN enrollments e
+ON s.studid = e.studid;
+
+8) find all students even if they are not enrolled in any course 
+
+SELECT s.studid,s.studname
+FROM students s
+LEFT JOIN enrollments e
+ON s.studid = e.studid;
+
+9) find all courses even if no student enrolled 
+
+SELECT c.courid,c.courname
+FROM students s
+RIGHT JOIN courses c
+ON c.custid = o.custid;
+
+10) find all students and all courses regardless of enrollment 
+
+SELECT s.studid,s.studname,c.courseid,c.coursename
+FROM students s
+FULL JOIN enrollments e
+ON s.studid = e.studid;
+FULL JOIN courses c
+ON e.courseid = c.courseid;
+
+11) show all records from both tables including unmatched 
+
+SELECT s.studid,s.studname,c.courseid,c.coursename
+FROM students s
+FULL JOIN courses c
+ON s.studid = c.courseid;
+
+12) generate all possible student-course combination 
+
+SELECT s.studid,s.studname,c.courseid,c.coursename
+FROM students s
+CROSS JOIN courses c;
+
+13) pair every product with every supplier  
+
+SELECT p.productid,p.productname,s.supplierid,s.suppliername
+FROM products p
+CROSS JOIN suppliers s;
+
+14) find employees and who have a manager
+
+SELECT e.emp_name AS employee_name, m.emp_name AS manager_name
+FROM employees e
+INNER JOIN employees m
+ON e.manager_id = m.emp_id;
+
+15) find employees who do not have a manager 
+SELECT e.emp_name AS employee_name
+FROM employees e
+LEFT JOIN employees m
+ON e.manager_id = m.emp_id;
+WHERE m.empid IS NULL;
