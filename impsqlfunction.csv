@@ -1,0 +1,26 @@
+﻿MYSQL = PostgreSQL = ANSI SQL(Standard SQL),MYSQL
+when you need to join two column ,"CONCAT(firstcolumn,secondcolumn)"
+change all letter to uppercase alphabet,UPPER(columnname)
+when you need to fetch particular number of character in a column value,"SUBSTRING(columnname,start,no.ofcharacter)"
+when you need to find particular character position in a column value,"INSTR(columnname,'that character')"
+when you need to replace a character with another character in a column value,"REPLACE(columnname,'a character','another character')"
+when you want to fetch only those column value which start with particular character,LIKE  thatcharacter% 
+when you want to fetch only those column value which end with particular character,LIKE   %thatcharacter
+when you want to fetch only those column value which not start with particular character,NOT LIKE  thatcharacter% 
+when you want to fetch only those column value which not end with particular character,NOT LIKE  %thatcharacter
+when you need both conditions must be true/when you need only one conditions be true,AND/OR
+when you need length of a column value,LENGTH(columnname)
+when you need to find even/odd and check remainder,columnname%2=0 || columnname%2 !=0
+when you need all unique value in a particular column,DISTINCT columnname
+when you need a value in particular range,BETWEEN 10000 AND 20000
+when you round to a nearest integer,"ROUND(AVG(salary),2)"
+when you round up,CEIL(4.1)
+when you have to remove value after decimal,TRUNCATE(4.9)
+when you have to find null values,IS NULL
+when you have to find  values that is not null,IS NOT NULL
+when you find a column value  from a list of values,"IN ('IT','HR','Finance')"
+when you find a column value not  from a list of values,"NOT IN ('IT','HR','Finance')"
+greater than and equal to a particular value,>= particular value
+less than and equal to a particular value,<= particular value
+comparison ,single(=)
+when you round down,Floor()
