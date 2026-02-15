@@ -1,4 +1,4 @@
-students(ist table)
+students(Ist table)
      studentid   studentname    studentcity
        1           Aman          Delhi
        2           Rohan         Pune 
@@ -333,3 +333,4 @@ FROM employees e
 LEFT JOIN employees m
 ON e.manager_id = m.emp_id;
 WHERE m.empid IS NULL;
+
