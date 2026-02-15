@@ -1,0 +1,309 @@
+Category 1- SELECT,WHERE,AGGREGATE
+
+a) Write a query that outputs all of the content of table?
+#SELECT *
+FROM EMPLOYEES;
+
+b) Write a query that return the names of all the employees in the table?
+#SELECT name
+FROM EMPLOYEES;
+
+c) Write a query that return all departments in the table (no duplicates)?
+#SELECT DISTINCT department
+FROM EMPLOYEES;
+
+d) Write a query that returns the name and salary of the professor with the highest salary?
+#SELECT Name, MAX(Salary) 
+FROM EMPLOYEES;
+
+e) Show first name, last name, and gender of patients whose gender is 'M'?
+#SELECT first_name, last_name, gender
+FROM patients
+WHERE gender = 'M';
+
+f) Show first name and last name of patients who does not have allergies (null)?
+#SELECT first_name, last_name
+FROM patients
+WHERE allergies IS NULL;
+
+g)Query all columns for all American cities in the CITY table with populations larger than 100000. 
+The CountryCode for America is USA?
+#SELECT *FROM CITY
+WHERE countrycode = 'USA'
+AND population > 100000;
+
+h) Show first name and last name of patients that weight within the range of 100 to 120?
+#SELECT first_name, last_name
+FROM patients
+WHERE weight BETWEEN 100 AND 120;
+
+i)Update the patients table for the allergies column.
+If the patient's allergies is null then replace it with 'NKA'?
+#UPDATE patients
+SET allergies = 'NKA'
+WHERE allergies IS NULL;
+
+j)Show first name and last name concatenated into one column to show their full name?
+#SELECT CONCAT(first_name, ' ', last_name) AS full_name
+FROM patients;
+
+k)Show how many patients have a birth_date with 2010 as the birth year?
+#SELECT COUNT(*) AS total_patients
+FROM patients
+WHERE YEAR(birth_date) = 2010;
+
+l)Show all columns for patients who have one of the following patient_ids:
+1,45,534,879,1000?
+#SELECT * FROM patients
+WHERE patient_id IN (1, 45, 534, 879, 1000);
+
+m)Show the patient id and the total number of admissions for patient_id 579?
+#SELECT patient_id, COUNT(*) AS total_admissions
+FROM admissions
+WHERE patient_id = 579;
+
+n)Based on the cities that our patients live in, show unique cities that are in province_id 'NS'?
+#SELECT DISTINCT city
+FROM patients
+WHERE province_id = 'NS';
+
+o)Write a query to find the first_name, last name and birth date of patients 
+who has height greater than 160 and weight greater than 70?
+#SELECT first_name, last_name, birth_date
+FROM patients
+WHERE height > 160
+AND weight > 70;
+
+p)Write a query to find list of patients first_name, last_name, and allergies 
+where allergies are not null and are from the city of 'Hamilton'?
+#SELECT first_name, last_name, allergies
+FROM patients
+WHERE city = 'Hamilton'
+AND allergies IS NOT NULL;
+
+q)Write a SQL query to fetch "FIRST_NAME" from the student table in upper case and use ALIAS name as STUDENT_NAME?
+#SELECT UPPER(first_name) AS STUDENT_NAME
+FROM student;
+
+r)Write a SQL query to print the first 3 characters of FIRST_NAME from student table?
+#SELECT SUBSTRING(first_name, 1, 3)
+FROM student;
+
+s)Write a SQL query to find the position of alphabet('a') in the FIRST NAME column 'Shivansh' from student table?
+#SELECT INSTR(LOWER(first_name), 'a')
+FROM student
+WHERE first_name = 'Shivansh';
+
+t) Write a SQL query that fetches the unique values of MAJOR column from student table and print its length?
+#SELECT DISTINCT major, LENGTH(major)
+FROM student;
+
+u)Write a SQL query to print FIRST_NAME column from student table after replacing 'a' with 'A'?
+#SELECT REPLACE(first_name, 'a', 'A')
+FROM student;
+
+v)Write a Query the average population for all cities in CITY rounded down to the nearest integer?
+#SELECT FLOOR(AVG(population))
+FROM CITY;
+
+w)Write a SQL query to show only odd rows from student table?
+#SELECT *
+FROM student
+WHERE student_id % 2 != 0;
+
+x)Write a query that returns the name and salary of the professor with highest salary in the "Computer Science" department?
+#SELECT Name, MAX(salary) FROM Employees
+WHERE Department = "Computer Science";
+
+y) Write a SQL query CITY names FROM STATION which have vowels (a,e,i,o,u) 
+as both their first and last character. your result cannot contain duplicates?
+#SELECT DISTINCT CITY FROM STATION  
+WHERE (CITY LIKE 'A%' OR CITY LIKE 'E%' OR CITY LIKE '1%' OR CITY LIKE '0%' OR CITY LIKE '%') 
+AND (CITY LIKE '%a' OR CITY LIKE '%e' OR CITY LIKE '%' OR CITY LIKE '%0 OR CITY LIKE '%u');  
+  
+z) Write a SQL query CITY names FROM STATION that either do not start with vowels 
+or do not end with vowels. your result cannot contain duplicates?
+#SELECT DISTINCT CITY FROM STATION  
+WHERE (CITY NOT LIKE 'A%' AND CITY NOT LIKE 'E%' AND CITY NOT LIKE '1%' AND CITY NOT LIKE '0%' AND CITY NOT LIKE 'U%') 
+OR (CITY NOT LIKE '%a' AND CITY NOT LIKE '%e' AND CITY NOT LIKE '%i' AND CITY NOT LIKE '%0' AND CITY NOT LIKE '%u');  
+  
+z-1) Samantha was tasked with calculating the average monthly salaries for all employees 
+in EMPLOYEES table but did not realize her keyboard 0 key was broken until 
+after completing the calculation Write a query calculating the amount of error 
+(actual - miscalculated average monthly salaries) and round it up to the next integer?  
+#SELECT CEIL(AVG(SALARY) - AVG(REPLACE(SALARY,'0','")))  
+FROM EMPLOYEES;
+  
+z-2)Write a SQL query the sum of Northern Latitudes (LAT_N) from STATION having values greater than 38.7880 
+and less than 137.2345 Truncate your answer to 4 decimal places?  
+#SELECT TRUNCATE (SUM(LAT_N),4) FROM STATION WHERE LAT_N>38.7880 
+AND LAT_N<137.2345;  
+
+Category2-GROUPBY, HAVING, LIMIT, OFFSET, ORDER BY  
+  
+a)Write a query that returns the name and salary of Top 5 highest earning professors?  
+#SELECT Name, Salary FROM EMPLOYEES  
+ORDER BY Salary DESC LIMIT 5;  
+  
+b)Write a query that returns the third highest salary in the table Duplicate salaries count as one 
+For example if you have 20,20,10,5 here 10 is the second highest salary?  
+SELECT DISTINCT Salary FROM EMPLOYEES  
+ORDER BY Salary DESC LIMIT 1 OFFSET 2;  
+
+Note- When a column contain duplicate values alone dont require GROUP BY then we use DISTINCT GROUP BY is required 
+when we want to apply aggregate functions on those duplicate values to get summarized result.
+
+c)Write a query that return all departments and their aggregate salaries?    
+SELECT Department, SUM(Salary) FROM EMPLOYEES  
+GROUP BY Department;
+
+d) Find top3 departments with highest average salary only for departments having at least 5 employees?
+SELECT department_id, AVG(salary) AS avg_salary
+FROM Employees
+GROUP BY department_id
+HAVING COUNT(*)>=5
+ORDER BY avg_salary DESC LIMIT 3;
+empid   name   department    salary
+1       Asha     IT          60000
+2       Ravi     IT          55000
+3       Neha     HR          40000
+4       karan    HR          42000
+5       John     IT          65000
+6       Meena    HR          38000
+
+
+e) Find the second highest selling product based on total sales amount?
+SELECT product_id,SUM(amount) AS total_sales
+FROM sales
+GROUP BY product_id
+ORDER BY total_sales DESC
+LIMIT 1 OFFSET 1;
+saleid    productid     amount
+1          P1            500
+2          P2            800
+3          P1            700
+4          P3            300
+5          P2            400
+
+f)Customers who placed more than 10 orders, sorted by order count, return rank 6–10 only.
+SELECT customer_id,COUNT(*) AS order_count
+FROM orders
+GROUP BY customer_id
+HAVING COUNT(*) > 10
+ORDER BY order_count DESC
+LIMIT 5 OFFSET 5;
+orderid        customerid
+1                 C1
+2                 C1
+3                 C2
+4                 C3
+5                 C1
+6                 C2
+7                 C2
+8                 C2
+
+g)Top 5 cities with the highest number of employees, only cities with more than 20 employees.
+SELECT city,COUNT(*) AS employee_count
+FROM employees
+GROUP BY city
+HAVING COUNT(*) > 20
+ORDER BY employee_count DESC
+LIMIT 5;
+empid      name        city
+1         Asha         Delhi
+2         Ravi         Delhi
+3         Neha         Mumbai
+4         Karan        Delhi
+5         John         Mumbai
+6         Meena        Delhi
+
+h)Find 3 months with the lowest total revenue, excluding months where revenue < 10,000.
+SELECT MONTH(payment_date) AS month,SUM(amount) AS total_revenue
+FROM payments
+GROUP BY MONTH(payment_date)
+HAVING SUM(amount) >= 10000
+ORDER BY total_revenue ASC
+LIMIT 3;
+paymentid    paymentdate    amount
+1            2024-01-10      5000
+2            2024-01-20      3000
+3            2024-02-05      2000
+4            2024-02-18      1500
+5            2024-03-12      7000
+
+
+i)Products sorted by total quantity sold, show 3rd page, page size = 5?
+SELECT product_id,SUM(quantity) AS total_quantity
+FROM sales
+GROUP BY product_id
+ORDER BY total_quantity DESC
+LIMIT 5 OFFSET 10;
+saleid   productid   quantity
+1          P1            5
+2          P2            10
+3          P3             8
+4          P1             7
+5          P2             4
+6          P3             6
+j)Managers who manage more than 4 employees, show top 2 managers?
+SELECT manager_id,COUNT(*) AS employee_count
+FROM employees
+GROUP BY manager_id
+HAVING COUNT(*) > 4
+ORDER BY employee_count DESC
+LIMIT 2;
+empid      name       managerid
+1          Asha         M1
+2          Ravi         M1
+3          Neha         M2
+4          Karan        M1
+5          John         M2
+6          Meena        M1
+k)Show customers ranked 11 to 20 by total spending?
+SELECT customer_id,SUM(amount) AS total_spent
+FROM transactions
+GROUP BY customer_id
+ORDER BY total_spent DESC
+LIMIT 10 OFFSET 10;
+txnid       customerid           amount
+1              C1                 500
+2              C2                 1000
+3              C1                  700
+4              C3                  400
+5              C2                  300
+
+l)Products whose average quantity per order > 3, return top 4?
+SELECT product_id,AVG(quantity) AS avg_quantity
+FROM sales
+GROUP BY product_id
+HAVING AVG(quantity) > 3
+ORDER BY avg_quantity DESC
+LIMIT 4;
+saleid        productid          quantity
+1               P1                  2
+2               P1                  4
+3               P2                  6
+4               P2                  8
+5               P3                  1
+
+m) Days with more than 100 orders, return 2nd and 3rd most active days?
+SELECT order_date,COUNT(*) AS order_count
+FROM orders
+GROUP BY order_date
+HAVING COUNT(*) > 100
+ORDER BY order_count DESC
+LIMIT 2 OFFSET 1;
+orderid               orderdate
+1                     2024-01-01
+2                     2024-01-01
+3                     2024-01-02
+4                     2024-01-02
+5                     2024-01-02
+6                     2024-01-03
+
+
+
+
+
+  
+
