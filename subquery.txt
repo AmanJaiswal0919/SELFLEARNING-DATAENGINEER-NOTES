@@ -1,0 +1,199 @@
+Types of Subqueries in SQL (with examples and flow)
+
+1. Scalar Subquery
+Definition:
+Returns exactly one row and one column (single value).
+Used in: SELECT, WHERE, HAVING
+
+Example: Find employees earning more than company average salary?
+SELECT empname, salary
+FROM employees
+WHERE salary > (
+    SELECT AVG(salary)
+    FROM employees
+);
+
+Flow of execution:
+Step 1: Subquery executes first
+SELECT AVG(salary) FROM employees;
+Subquery Output:
+5000
+Step 2: Main query executes
+SELECT empname, salary
+FROM employees
+WHERE salary>5000
+Final Output:
+Ravi   6000
+Sara   8000
+
+2. Correlated Subquery
+Definition:
+Depends on outer query value.
+Runs once for every row of outer query.
+
+Example: Find employees earning more than their department average salary?
+SELECT empname, salary, deptid
+FROM employees e
+WHERE salary > (
+    SELECT AVG(salary)
+    FROM employees
+    WHERE deptid = e.deptid
+);
+
+Flow of execution:
+Step 1: Subquery executes first
+SELECT AVG(salary)
+    FROM employees
+    WHERE deptid = e.deptid
+Subquery Output:
+5500
+5500
+6000
+6000
+Step 2: Main query executes
+SELECT empname, salary, deptid
+FROM employees e
+WHERE salary > 5500,5500,6000,6000
+Final Output:
+Ravi  6000  10
+Sara  8000  20
+
+3. Table Subquery
+Definition:
+Returns multiple rows and multiple columns
+Used in FROM clause.
+Example: Departments having more than 5 employees?
+SELECT deptid
+FROM (
+    SELECT deptid, COUNT(*) AS cnt
+    FROM employees
+    GROUP BY deptid
+) table
+WHERE cnt > 5;
+
+Flow of execution:
+Step 1: Subquery executes first
+SELECT deptid, COUNT(*) AS cnt
+    FROM employees
+    GROUP BY deptid
+Subquery Output:
+table
+deptid   cnt
+10        3
+20        8
+30        5
+40       12
+Step 2: Main query executes
+SELECT deptid
+FROM table
+WHERE cnt > 5;
+Final Output:
+20
+40
+
+4. Column Subquery
+Definition:
+Returns single column but multiple rows
+Used with:
+IN
+ANY
+ALL
+Example: Employees working in Delhi departments?
+SELECT empname, deptid
+FROM employees
+WHERE deptid IN (
+    SELECT deptid
+    FROM department
+    WHERE location = 'DELHI'
+);
+
+
+Flow of execution:
+Step 1: Subquery executes first
+SELECT deptid
+    FROM department
+    WHERE location = 'DELHI'
+Subquery Output:
+10
+30
+Step 2: Main query executes
+SELECT empname, deptid
+FROM employees
+WHERE deptid IN (10,30);
+Final Output:
+A   10
+C   30
+
+5. Row Subquery
+Definition:
+Returns one or more rows with multiple columns
+Example: Highest salary in each department?
+SELECT empname, deptid, salary
+FROM employees
+WHERE (deptid, salary) IN (
+    SELECT deptid, MAX(salary)
+    FROM employees
+    GROUP BY deptid
+);
+
+Flow of execution:
+Step 1: Subquery executes first
+SELECT deptid, MAX(salary)
+    FROM employees
+    GROUP BY deptid
+Subquery Output:
+10   6000
+20   8000
+Step 2: Main query executes
+SELECT empname, deptid, salary
+FROM employees
+WHERE (deptid, salary) IN (10   6000,20   8000);
+Final Output:
+Ravi   10   6000
+Sara   20   8000
+
+6. Nested Subquery
+Definition:
+Subquery inside another subquery
+Example: Customers whose order count is above average order count?
+
+SELECT custid,
+FROM orders
+GROUP BY custid
+HAVING COUNT(*) > (
+    SELECT AVG(cnt)
+    FROM (
+        SELECT COUNT(*) AS cnt
+        FROM orders
+        GROUP BY custid
+    ) table
+);
+
+Flow of execution:
+Step 1: Subquery executes first
+SELECT COUNT(*) AS cnt,custid
+        FROM orders
+        GROUP BY custid
+Subquery Output:
+table
+cnt  custid
+2      1
+5      2
+3      3
+10     4
+Step 2: Subquery executes Second
+SELECT AVG(cnt)
+FROM table
+Subquery Output:
+5
+Step 2: Main query executes
+SELECT COUNT(*) > 5 AS cnt
+FROM orders
+GROUP BY custid
+HAVING COUNT(*) > 5 AS cnt
+Subquery Output:
+cnt
+10
+
+Final Output:
+4
