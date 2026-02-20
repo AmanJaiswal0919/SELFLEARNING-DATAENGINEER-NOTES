@@ -194,6 +194,69 @@ HAVING COUNT(*) > 5 AS cnt
 Subquery Output:
 cnt
 10
-
 Final Output:
 4
+
+a) Find top3 departments with highest average salary only for departments having at least 5 employees?
+
+highest average salary only for departments having at least 5 employees (average salary, at least 5 employees aggregate function required here you can it is asking more than 1 employee means multiple employee belong to same department means department will be duplicate category value so groupby required)
+
+SELECT AVG(salary), department
+FROM employees
+GROUP BY department
+HAVING COUNT (empid) >= 5;
+-Find top3 departments
+ORDER BY avgsalary DESC (highest to lowest)
+LIMIT 3; (return top3 result)
+
+b) Find the second highest selling product based on total sales amount? (total sales aggregate function required here in sql product based on total sales amount always means total sales amount per product means product will be duplicate category value so groupby required)
+SELECT SUM(amount), product
+FROM sales
+GROUP BY product;
+-Find the second highest ORDER BY totalsales DESC (highest to lowest)
+LIMIT 1 OFFSET 1; (skip ist b/c offset is 1 then return 2nd b/c now 2nd is on top as limit is 1)
+
+c) Customers who placed more than 10 orders, sorted by order count, return rank 6-18 only?(more than 10 aggregation function required here you can see that it is asking more than 18 orders means the same customer ordered multiple times means customer will be duplicate category value so groupby required)
+
+SELECT COUNT(*) AS ordercount, Customer
+FROM orders
+GROUP BY Customer
+HAVING ordercount>10;
+-Sorted by order count, Return rank 6-18 only
+ORDER BY ordercount DESC (highest to lowest)
+LIMIT 5 OFFSET 5; (skip 5. b/c offset is 5 then return 6-10 b/c now 6-10 is on top as limit is 5)
+
+d) Top 5 cities with the highest number of employees, only cities with more than 20 employees? (more than 10 aggregation function required here you can see that it is asking more than 20 employees means the multiple employees from within same city city will be duplicate category value so groupby required)
+
+SELECT city, COUNT(*) AS employeecount
+FROM employees
+GROUP BY city
+HAVING employeecount>20;
+-Top 5 cities
+ORDER BY employeecount DESC (highest to lowest)
+LIMIT 5; (return top5 result)
+
+e) Find 3 months with the lowest total revenue, excluding months where revenue < 10,000? (total revenue aggregation function required filtering < 10000 based on total revenue (aggregation value) so whenever filtering based on aggregated value Having is used so with having groupBy used)
+Here full date is not duplicate but month is so we did grouping based on same month here
+
+SELECT SUM(amount) AS totalrevenue, MONTH(paymentdate) AS month
+FROM payments
+GROUP BY MONTH (paymentdate)
+HAVING totalrevenue>=10000
+-Find 3 months with lowest revenue
+ORDER BY totalrevenue ASC
+LIMIT 3;
+input - paymemntid   paymentdate   amount 
+output flow
+totalrevenue  month
+6000+5000     Jan(1)
+4000+3000     Feb(2)
+12000         Mar(3)
+8000+3000     Apr(4)
+15000         May(5)
+Find 3 months 
+totalrevenue    month 
+11000              1
+11000              4
+12000              3
+
