@@ -183,5 +183,55 @@ customer_id   customerrevenue
 102            300
 103            400
 
+Now your important concept: When GROUP BY is useless
+employees table:
+emp_id  dept salary 
+1 IT 5000
+2 IT 6000
+3 HR  7000
+emp_id is unique.
+
+SELECT emp_id, SUM(salary)
+FROM employees
+GROUP BY emp_id;
+emp_id  SUM(salary)
+1 5000
+2 6000
+3 7000
+
+Why useless?
+Because each emp_id already has only one row.
+GROUP BY did nothing.
+Equivalent to simply:
+SELECT emp_id, salary
+FROM employees;
+
+Useful query:
+SELECT dept, SUM(salary)
+FROM employees
+GROUP BY dept;
+
+Explanation:
+dept has duplicates (IT appears twice)
+So grouping combines rows.
+Output:
+dept SUM(salary)
+IT  11000
+HR 7000
+
+Interview-level conclusion (Important)
+GROUP BY is useful when:
+• Column contains duplicate category values
+• You want one summarized result per category
+Examples:
+Revenue per customer
+Salary per department
+Orders per product
+GROUP BY is useless when:
+• Column contains only unique values
+• Each row already represents one category
+Example:
+salary per emp_id (because emp_id is already unique)
+
 
 
