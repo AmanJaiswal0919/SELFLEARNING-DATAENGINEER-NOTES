@@ -1,0 +1,181 @@
+1) How to make chai (using functions & steps)
+Question-Write steps to make chai and represent them using a Python function.
+Solution
+def make_chai():
+    if not kettle_has_water():
+        fill_kettle()
+    plug_in_kettle()
+    boil_water()
+
+    if not is_cup_clean():
+        wash_cup()
+
+    add_to_cup("tea leaves")
+    add_to_cup("sugar")
+    pour("boiled water")
+    mix("cup")
+    serve("chai")
+
+make_chai()
+Key Takeaways
+def make_chai(): → function definition
+Indentation (4 spaces) is mandatory in Python
+Function calls like fill_kettle() execute actions
+make_chai() outside the block calls the function
+
+2) Class and Object (OOP basics)
+Question
+Create a Chai class with properties and methods.
+Solution
+class Chai:
+    def __init__(self, sweetness, milk_level):
+        self.sweetness = sweetness
+        self.milk_level = milk_level
+
+    def sip(self):
+        print("sipping chai")
+
+    def add_sugar(self, amount):
+        print("added the sugar")
+
+my_chai = Chai(sweetness=3, milk_level=2)
+my_chai.add_sugar(3)
+Explanation
+Class → Chai
+Object → my_chai
+Properties → self.sweetness, self.milk_level
+Methods → sip(), add_sugar()
+
+3) Mutable vs Immutable (ID concept)
+Question
+Demonstrate immutability and mutability using examples.
+Solution
+# Immutable example (int)
+sugar_amount = 2
+print(f"Initial Sugar: {sugar_amount}")
+sugar_amount = 12
+print(f"After Sugar: {sugar_amount}")
+
+print(f"ID of 2: {id(2)}")
+print(f"ID of 12: {id(12)}")
+
+# Mutable example (set)
+spice_mix = set()
+print(spice_mix)
+
+spice_mix.add("Ginger")
+spice_mix.add("Cardamom")
+print(spice_mix)
+
+print(f"Initial id: {id(spice_mix)}")
+print(f"Final id: {id(spice_mix)}")
+Conclusion
+Immutable → ID changes (int, string, tuple)
+Mutable → ID remains same (list, set, dict)
+
+4) Operators & Boolean values
+Question
+Demonstrate arithmetic operators and Boolean behavior.
+Solution
+a = 14
+b = 3
+print(f"sum of a and b is {a+b}")
+
+e = 7
+f = 4
+print(f"divide of e and f is {e/f}")
+print(f"double slash of e and f is {e//f}")
+
+h = 2
+i = 3
+print(f"h power of i is {h**i}")
+
+k = 0
+print(bool(k))
+
+k = None
+print(bool(k))
+
+k = 42
+print(bool(k))
+
+Boolean Rule
+0 and None → False
+Any other number → True
+
+5) String Indexing & Slicing
+Question
+Perform indexing and slicing on a string.
+Solution
+chai_description = "Aromatic and Bold"
+
+print(chai_description[3])       # indexing
+print(chai_description[0:8])     # slicing
+print(chai_description[0:8:2])   # skip letters
+print(chai_description[::-1])    # reverse string
+print(chai_description[11:])     # after space
+
+6) List Operations (Grocery Cart)
+Question
+Perform multiple list operations step-by-step.
+Solution
+my_cart = ["apples", "bananas", "milk"]
+print(my_cart)
+
+my_cart.append("bread")
+print(my_cart)
+
+my_cart.insert(0, "ketchup")
+print(my_cart)
+
+my_cart.remove("bananas")
+print(my_cart)
+
+removed_item = my_cart.pop()
+print(removed_item)
+
+my_cart.extend(["rice", "butter"])
+print(my_cart)
+
+my_cart.sort()
+print(my_cart)
+
+my_cart.reverse()
+print(my_cart)
+
+list2 = ["juice", "jam"]
+res = my_cart + list2
+print(res)
+
+duplist = my_cart * 2
+print(duplist)
+
+veg = "tomato cucumber spinach"
+veglist = veg.split()
+print(veglist)
+
+7) Set & Frozenset Operations
+Question
+Perform set operations between two branches.
+Solution
+branch_a_products = {"bread", "milk", "butter", "jam"}
+branch_b_products = {"bread", "cheese", "butter", "ketchup"}
+
+print(branch_a_products)
+print(branch_b_products)
+
+# Union
+print(branch_a_products.union(branch_b_products))
+
+# Intersection
+print(branch_a_products.intersection(branch_b_products))
+
+# Difference
+print(branch_a_products - branch_b_products)
+
+# Membership check
+print("ketchup" in branch_a_products)
+
+# Frozenset
+essential_items = frozenset(["milk", "bread", "ketchup"])
+print(essential_items)
