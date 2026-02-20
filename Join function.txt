@@ -334,3 +334,21 @@ LEFT JOIN employees m
 ON e.manager_id = m.emp_id;
 WHERE m.empid IS NULL;
 
+#Quick things to remember
+inner- agr ist table mein 2nd ki bhi involvement hai tho positive way mein
+left- negative statement or agr ist table ko priority mile
+right- agr 2nd table ko hi priority milli hai tho
+full-all from both table
+cross- combination, pair, every with every
+self-inner- when we need to combine table with itself and agr ist table mein 2nd ki bhi involvement hai tho positive way mein
+self+left- when we need to combine table with itself and agr ist table mein 2nd ki bhi involvement hai tho negative way mein
+IS NULL column without a another column
+only join column with or without another column
+
+#How to approach a join question
+-first we have to find which table is first or second
+template you have to follow
+FROM ist table
+join second table
+-second we have to find out which join is needed here
+-third common column
