@@ -1,0 +1,489 @@
+Quest)What is GCP?      
+      
+GCP stand for Google Cloud Platform is a suite of cloud computing service offered by google 
+that allows individuals or organizations to build, deploy, manage application and data on google infrastructure.      
+      
+Ques2) Difference between Cloud Provider and On Premises?          
+Cloud Provider is a company that offers computing services(like servers, storages, databases, networking) 
+over the internet instead of you having to your own physical computer.      
+Ex- GCP ANS, Azure      
+On Premises is a physical location where your computing services(like servers, storages, databases, networking) 
+are physically located. It has two types Server Room (On Premises) Datacenter (On Premises) a dedicated room, 
+small space company building, large space      
+      
+On Premises         
+Your own the server          
+you hire the IT people          
+you rent space      
+      
+Cloud Provider           
+Company own the server Company hire the IT people           
+Company own the space    
+    
+Ques3) Difference between GCP, Azure and AWS?     
+GCP-9%, When focus on Data, AI ML     
+Azure- 32%, When using Microsoft Tools     
+AWS-44%, When need wide range of services    
+    
+Region- A geographical location where your infrastructure is hosted    
+Ex- Delhi, Fact- one region can have multiple zones    
+Zone A Sub location inside a region    
+Ex- South Delhi, Fact- one zone can have multiple data center    
+Data Center- It is a physical location where infrastructure is hosted    
+Ex- South Delhi, Fact- one data center can have multiple server    
+    
+Server- A single physical or virtual machine (computer) that provide services 
+to other client Computer over a network Difference-    
+Computer (Personal machine) provide service only to you made for you    
+Server (Public machine) provide service to many made for many    
+    
+Ques4) Deployment Model    
+    
+Public CloudTrain (GCP, AWS, AZURE)    
+a) you pay based on how long you use, you share the train with many others, 
+you don't worry about maintenance Its handled by the railway. Same as Public Cloud You Pay for Usage, 
+Share Resources and Provider Manages Everything.    
+    
+Private Cloud Own Car (VMWARE, IBM CLOUD)    
+a) you pay a huge amount initially to buy the car, Later on you can use it anytime and 
+much as you want without worry about money, you are responsible for maintenance. 
+Same as Private Cloud High setup cost but full control and privacy    
+    
+Hybrid Cloud Booked Cab only for yourself (Google Anthos help to connect on prem servers with google cloud platform)    
+a) you don't need to pay huge amount initially but you need share it with others (Private Cloud). 
+Same as Hybrid Cloud to pay how long you use (Public Cloud), But during your ride it feels private 
+because you don't You use both private and public setups depending on need flexible and cost efficient.    
+    
+Ques5) Service Model     
+Iaas (Compute Engine) you manage infrastructure OS and application and its code Cloud Provides server, storage.    
+Paas (App Engine) you manage application and its code only and Cloud Provides server, storage and 
+also handle infrastructure 
+Saas (Gmail) cloud manage everything you have to just use the application. 
+(Infrastructure. Means Virtual Hardware Resources (CPU, Memory Disk, Networking))    
+    
+Ques6) Technical Terms        
+AutoScaling - Automatically Add new server (VMs) when traffic is high and remove server when traffic is low        
+Service Name MIG (Managed Instance Group)      
+Load balancing - Distribute traffic across many server (VMs) so no single machine crashes       
+Service Name Cloud Load Balancing       
+Database Replication- Primary (Master) handle all writes, Replicas (Copies of Primary) handle read queries       
+Service Name Cloud SQL       
+Caching Store - Frequently access data (developer decides which data)       
+make operation faster       
+Service Name Cloud CDN or MemoryStore    
+    
+Ques7)What is IAM?    
+    
+IAM Stand for Identity and Access Management Controls Who can access GCP resource and what action they can perform. 
+Types of IAM Role-    
+    
+1) Basic Role    
+Always applied on project-level, Provided by Google All resources of all service in the project (Editor, Viewer, Owner), 
+IAM Only roles/viewer read everything Compute Engine (VMs), Cloud Storage (buckets), BigQuery(datasets), 
+IAM (Service Accounts) etc.    
+    
+2) Predefined Role    
+can be applied on project-level, resource-level, object-level, Provided by Google All resources of one service in the project, 
+Both IAM and ACL    
+    
+-roles/storage.admin full control over resource and object Permissions=roles/storage.objectAdmin, 
+roles/storage.objectCreator, roles/storage.objectViewer    
+    
+-roles/storage.objectAdmin full control over object Permissions-roles/storage.objectCreator, 
+roles/storage.objectViewer    
+    
+-roles/storage.objectViewer read only access of object Permissions-storage.objects.get, 
+storage.objects.list    
+    
+-roles/storage.objectCreator can upload object but not read or delete Permissions-storage.objects.get, 
+storage.objects.list, storage.objects.create    
+    
+-roles/compute.admin-full control over compute engine resources (VMs.networks.disks) 
+Permissions-roles/compute.instanceAdmin.v1, roles/compute.networkAdmin, roles/compute.securityAdmin, 
+roles/compute.storageAdmin, roles/compute.viewer    
+
+
+3) Custom Role    
+can be applied on project-level, resource-level, object-level, you defined these roles 
+All resources of one service in the project for specific action, IAM Only    
+    
+a)Storage ObjectUpload and Viewer Allow user to upload, read files but not delete 
+Permissions storage.objects.create, storage.objects.get, storage.objects.list    
+    
+b) Read-Only ComputeViewer-Allow operation team to only view VM configurations not start/stop 
+Permissions=compute.instances.get, compute.instances.list, compute.disks.get, compute.networks.get    
+    
+Example your requirement is upload object, view, download, list files but dont delete object, 
+bucket or change permission so here there is no predefined role present which is fullfil this requirement    
+    
+our requirement only upload and view object inside the bucket    
+    
+roles/storage.admin give you full control over bucket like delete or change permission 
+roles/storage.objectAdmin give you full control over object like delete or permission     
+roles/storage.objectViewer allow only you to view object    
+roles/storage.objectCreator allow only to create object    
+roles/compute.admin allow you to do anything in bucket    
+so here we create custom role for our requirement i.e StorageObjectUploadandViewer    
+    
+IAM Roles in Details-There are three level of Permission Project(apna-project-1909), 
+Resource(bucket) and object(a specific file in bucket)    
+    
+Scenario- you want to give your colleague access to manage objects inside a specific bucket in Google Cloud Storage?    
+    
+Step1- Identify the key pieces Member your colleague google account (colleague@gmail.com) 
+Resource The specific cloud storage bucket(my-bucket-2000)    
+Action create, update, delete object    
+Step2- Choose the right role among all Predefined roles-Storage Object Viewer can only read 
+object Storage Object Creator can only upload object Storage Object Admin-can create, update, delete 
+object Storage Admin full control over all buckets+object    
+Step3- Create a Policy Binding Member+Role->Resources colleague@gmail.com + Storage Object Admin->my-bucket-2000    
+Using google CLI    
+-Resource level binding gcloud projects add-iam-policy-binding my-bucket-name\ --member="user:colleague@gmail.com"\    
+--role="roles/storage.objectAdmin"    
+-Project level binding    
+gcloud projects add-iam-policy-binding my-project-id\ --member="user:colleague@gmail.com"\    
+--role="roles/storage.objectAdmin"    
+    
+Note- Suppose If you have two buckets let's say bucket-2000, bucket-5678 then 
+you have to run resource level binding command for each bucket one by one 
+just replace my-bucket-name variable with bucket-2000 then bucket-5678 
+If you do Project level binding it is less secure because its impact other services in your project 
+also not just cloud storage  
+  
+QuesS) IAM VS ACL     
+  
+What is ACL?    
+-Access Control List provide access control at resource, object level 
+but mostly used in object level IAM Provide access control at project, resource, object level 
+but mostly used in project, resource level    
+    
+ACL ROLES in GCP Storage    
+READER- can read only    
+WRITER- can upload, edit, delete    
+OWNER- full control: read, write, delete and managed ACL Permission 
+(add new acl permission, modify existing acl, remove existing acl)    
+    
+Through IAM    
+gcloud storage objects add-iam-policy-binding gs://news-archive-bucket/breaking-news.jpg\    
+--member="allUsers"\    
+--role="roles/storage.objectViewer"    
+Through ACL     
+gcloud storage objects add-acl-binding breaking-news.jpg\    
+--bucket-news-archive-bucket\    
+-member-allUsers\    
+--role-READER    
+Note-gs://used for path(location) but you don't need in ACL with gcloud command    
+    
+Ques9) What is Service Account?    
+    
+A service account is a special type of account in GCP that belongs to a service 
+not a human user to securily access GCP resource Managed Instance Group (MIG)    
+    
+-Managed Instance Group is a collection of identical VM instance that are managed 
+as a single unit In this you define a template (VM Configuration- machine,    
+os & storage, network, startup script) 
+-MIG do creates, delete or replaces VM instance based on that template    
+-MIG can autoscale (add/remove VMs instance on traffic load) and self-heal (if one vm crashes, replace it with another)    
+-MIG support load balancing so traffic is distributed across healthy VMs.    
+    
+Ques10) Difference between VM, VM instance, Image?    
+The idea of a virtual computer, The template/blueprint that defines what computer will look, 
+The actual running computer you created from the image    
+
+Image Include OS(eg. Ubuntu, Windows, Centos, Debian), Disk Configuration    
+    
+Public Image-google give you ready made template(like ubuntu, window, debian), 
+cant modify/save them as your own, basic configuration (os+minimal tools)    
+    
+Custom Image-start from VM creation using a public image, you can modify for extra configuration 
+(like mysql, Java), and save it as custom image before saving it is public, 
+whenever you need more VM with same setup so you can launch directly from this template
+    
+Shared Image-It is basically a custom image that you share with others
+(like in teams, department inside your organisation) It is solved the problem in custom image 
+every user so just share them that custom image in group so everyone don't need to launch now    
+it is called shared image after sharing    
+    
+Ques11) Compute Engine (Iaas)    
+
+1) What is it?    
+Compute Engine is a gcp service that provide virtual machine (VMs)   
+  
+2) When to use?      
+When you need control over OS      
+
+a) Security Testing -> need full control over Computer A cyber security company wants 
+to test for client system, application, website how viruses effect for this you need full access on computer 
+create vms install different os because we don't know which os client system, website or application will use 
+after test that virus on different os one by one    
+b)run old software -> need special os    
+A bank still uses an old accounting application that for this you need special os (window server 2008) 
+choose that special os and run the old software only run on window server 2008 create vms and choose 
+that special os and run the old software    
+    
+Ques12) App Engine (Paas)    
+    
+1) what is it?    
+It let you build and run your web application without managing server    
+    
+2) When to use?    
+Run or build application without managing server (VMs)    
+need automatic scaling    
+use specific programming languages (Python, Java, Node.js, PHP etc.)    
+
+3) Different Types of App Engine Environment?    
+App Engine Standard-> Fully Serverless    
+don't manage any VMs or Server uses google pre made environment    
+-less control (cant install anything extra), Fast, cheap and scales to zero when no traffic    
+    
+App Engine Flexible-> Partially Serverless    
+Run on VMs managed by Google    
+More Control(can install anything you need), Slower, Costlier and At least 
+one ym instance always running (can't scale to zero)    
+    
+When to use App Engine Flexible over Cloud Run?    
+App needs long running background tasks such as video processing cloud run has max 60min request 
+time limit while app engine flexible allows unlimited request time limit    
+    
+Ques13)Cloud Run(Paas)    
+    
+1) what is it?    
+Run Containerized application in a serverless environment    
+    
+2) When to use?    
+Run your containerized application without managing server (VMs) need automatic scaling, 
+don't worry about any specific language    
+    
+Container- It stores application code, all dependencies (libraries, runtime environment,packages), 
+system tools and setting(basic os commands and configuration)    
+Folder-It stores only your application code    
+Container-uses a docker image to run    
+Dockerfile-Instruction to build docker image    
+Docker image-a blueprint/ template of your application    
+Container a running form of that image    
+    
+How it works when you build a container you write a docker file inside the container 
+at the running time of conatiner that docker file create a docker image which help container to run    
+    
+Difference Suppose if you build the same app using a folder and a container and 
+both will work fine on your local machine but when you move them to another system 
+or any cloud platform In folder case will fail due to missing libraries, tools or settings 
+while container case wil work perfectly fine everywhere(whether it any cloud platform or any other system) 
+because container already includes everything the app needs.    
+    
+Ques14) Cloud Storage    
+    
+Type of Storage:-    
+Object Storage (stores data as files like images, videos, pdfs.)    
+    
+Data Type:-    
+Unstructured data (anything that's not in rows and columns)    
+    
+Scalability:-    
+Infinitely scalable can store terabytes or even petabytes easily    
+    
+Availability: High(5)    
+
+Read/Write Speed:-    
+Medium good for large file uploads and downloads, not for small frequent updates.    
+    
+Latency (the average time taken by system to respond a user request):-    
+Low but not real time(it is made for storing and fetching not for instant read/write like database)    
+    
+Best Used for:-      
+Storing backups, photos, videos, websites files and app assets.    
+    
+Query Ability:-    
+No SQL or query you just fetch or upload objects(image, videos etc.) using API or name    
+    
+Global Scaling:-    
+yes your files can be accessed globally through URLs or storage buckets    
+    
+Types of Cloud Storage    
+    
+Standard    
+Frequently Accessed Data    
+Images, Videos, Files that user open daily and running apps where data is read/written often    
+-Think of like Keeping your daily use clothes in your cupboard for quick and easy access    
+    
+Nearline       
+Data accessed less than once in a month       
+Logs or reports you check once in a while Think of like Clothes you wear only on weekends    
+Coldline       
+Data accessed less than once a quarter(3month)       
+Compliance record       
+Think of like Winter Jackets you take out once in 3-4 months    
+    
+Archieve       
+Data accessed less than once in a year       
+Legal/Medical documents       
+Think of like-Old photo album or certificate in your locker       
+Cost Wise- Standard(Most expensive b/c frequently access data)>Nearline Coldline>Archive (Cheapest b/c rarely access data)    
+    
+Ques15) Cloud Firestore    
+    
+Type of Storage:-      
+NoSQL Document Database    
+  
+- Data Type:-     
+Semi-Structured data(stored as JSON-like documents inside collections)    
+    
+- Scalability:-    
+Automatically scales with your app no manual setup needed    
+    
+Availability: Highest(1)    
+    
+- Read/Write Speed:-    
+Very fast-optimized for small, frequent read and writes    
+    
+- Latency:-    
+Very Low real time updates possible (data changes reflect instanty in all devices)    
+    
+Best Used for:-    
+Chat apps, online games and any app needing real-time data sync    
+    
+- Query Ability:-    
+Limited you can query by fields, filters and indexes but not complex joins    
+    
+Global Scaling:-    
+yes-multi-region replication and global access built-in    
+    
+Ques16) Cloud BigTable    
+    
+-Type of Storage: -    
+NoSQL wide-column database (like a massive spreadsheet)    
+    
+Data Type:-    
+Structured or semi structured key value or time series type data    
+    
+Scalability:-    
+Extremely high-handles billions of rows and thousands of writes per second    
+    
+Availability: Very High(2)    
+    
+Read/Write Speed:-    
+Very High-made for big, continuous read/write operations.    
+    
+Latency: -    
+Very Low suitable for real time analytics or IOT sensor data    
+    
+- Best Used for:-    
+Iot data, stocks prices, user activity logs, real time analytics systems    
+    
+Query Ability:-    
+Limited only key-based lookups; no full sql queries    
+    
+Global Scaling: -    
+yes- designed for large global data workloads    
+    
+Ques17) Cloud SQL    
+    
+Type of Storage:    
+Relational Database (supports MySQL, PostgreSQL, SQL Server)    
+    
+Data Type:-    
+Structured stored in tables with rows and columns    
+    
+Scalability:-    
+Medium scales vertically (by upgrading cpu/ram not horizontally)    
+    
+Availability:High(4)    
+    
+Read/Write Speed: -       
+Moderate not as fast as firestore or bigtable but consistent    
+    
+-Latency:-        
+Moderate good for web apps not for massive analytics    
+    
+Best Used for:-       
+Traditional applications like banking systems or websites needing transactions    
+    
+Query Ability:-       
+Full SQL Support can do joins, filters, conditions etc.    
+    
+- Global Scaling:-       
+No- Regional only (data stored in one region, not multi- region).    
+    
+Ques18) BigQuery    
+    
+Type of Storage:      
+Data Warehouse (used for analyzing massive datasets)    
+    
+Data Type:-      
+Structured = Structured and semi structured (can handle nested json)    
+    
+Scalability:-    
+Very High completely serverless and scales automatically    
+    
+Availability: High(3)    
+    
+Read/Write Speed: -    
+Reading (querying) is very fast; writing (loading data) is slower and usually done in batches    
+    
+-Latency:-    
+Moderate not real time, meant for large query analysis    
+    
+Best Used for:-    
+Buisness analytics, reports, dashboards, analyzing huge data    
+    
+Query Ability:-    
+Full SQL Support with advanced features great for data analysis    
+    
+Global Scaling:-    
+Yes supports global access and distributed queries.
+
+Ques19) Cloud Spanner    
+    
+Type of Storage:    
+Relational Database (SQL) but distributed across many servers (hybrid of SQL NoSQL power)    
+    
+Data Type:-   
+Structured data= tables, rows, columns (like Cloud SQL)    
+    
+Scalability:-    
+Very High-horizontally scalable (can grow across multiple machine, unlike cloud sql)    
+    
+Availability: Highest(1)    
+  
+Read/Write Speed:-    
+High-designed for large-scale, global systems with many read/write requests.    
+    
+-Latency:-       
+Low to moderate keeps data consistent across region    
+    
+Best Used for:-    
+Financial app or any large app needing strong consistency+global scale Google uses    
+spanner internally for Gmail data management    
+    
+Query Ability:-    
+Full SQL support like cloud sql (joins, filters, indexes etc.) but with global consistency    
+    
+- Global Scaling: -    
+yes- multi region replication, automatic scaling and global transactions.    
+    
+Ques20) Quick Summarise all of these    
+    
+1) Very High Scalability and Very High Availability Cloud Spanner or Bigtable    
+Very High Scalability and High Availability BigQuery    
+High Scalability and Very High Availability Firestore    
+Moderate Scalability and Availability Cloud Storage    
+Low Scalability and Availability Cloud SQL so whenever you see strong consistency 
+or scaling or availability just tick on spanner or bigtable    
+    
+2 ) latency Bigtable<spanner<firestore<sql<bigquery<cloud stoarge    
+real time data update low latency (fast response)+push notification+real time listeners    
+low latency fast reply when you ask    
+real time push instant updates without you asking    
+Only Firestore have these because it is real time database    
+so whenever you see real time just tick on firestore    
+    
+3) whenever you see time series or lot, sensor kind thing just tick on bigtable    
+   
+4) SQL, Spanner, BigQuery Relational (use SQL), Firestore, Bigtable= Non Relational (NoSQL),    
+Cloud Storage Not a database Cloud SQL Relational, OLTP, small to medium apps    
+Cloud Spanner Relational, OLTP, Large apps, horizontal scaling    
+BigQuery SQL engine for analytics not for apps, OLAP    
+Firestore Non Relational, document db(json key value type storage)    
+Bigtable Non Relational, wide column db(excel sheet with unlimited columns+extreme performance)    
+Cloud Storage-object storage (object image, video, pdf)    
+   
