@@ -1,0 +1,181 @@
+Python interview friendly Questions-
+
+1) What is Python?
+
+Python is high-level, interpreted, object-oriented programming language used for automation, data, web and cloud tasks.
+high level human readable
+interpreted code is executed line by line
+OOP support class and object
+Cross platform runs any OS like windows, linux, macOS etc.
+Open Source free to use and has large community support
+
+2) What is different data types in python?
+
+It defines what kind of data a variable can store.
+a)int store a whole numbers single value so concept of order doesn't apply IMMUTABLE x=10
+b)float store a decimal value single value so concept of order doesn't apply IMMUTABLE x=3.14
+c)stre stores multiple value of characters ORDERED IMMUTABLE s="Aman"
+d)list store multiple values of any data type
+ORDERED
+MUTABLE
+l=[1,2,3]
+
+e)tuple store multiple values of any data type
+ORDERED 
+IMMUTABLE
+t=(1,2,3)
+
+f)dict store multiple data value in key value pair
+ORDERED (Python 3.7+)
+MUTABLE
+d={"a":1}
+
+g)set store multiple unique value
+UNORDERED
+MUTABLE
+s={1,2,3}
+
+h)bool store True or False
+ORDERED
+IMMUTABLE
+flag-True
+
+i) None= represent no value or empty state
+ORDERED
+IMMUTABLE
+y=None
+
+#only list,dict, set are mutable
+
+3) why list, dictionary, string, tuple, set considered as data structure but int, float, bool, not?
+int, float, bool can store only single value so they are called primitive data types 
+whereas list, dictionary, string, tuple, set can store and organize multiple value which makes them data structure.
+
+4) What is variable and valid variable name?
+
+A variable is a named storage in Python that holds a value. variable must be start with a letter or underscore
+- in variable name you can include number but not in start and cannot include hypens(-) in naming
+
+5) What is the correct way to write a comment in python?
+Using Hash (#This is a comment)
+
+6) Operator in Pythons
+
+Arithmetic=> +,-,*,/,%,***,//
+Comparison=> ==, =, >, <, >=, <=
+Assignment=> =, +=, -=, *=, /=, %=
+Logical=> and, or, not
+Bitwise=>&,|,^,~,<<,>>
+
+10) OOPS in Python
+
+-What is OOPS?
+O0Ps (Object Oriented Programming) is a programming approach based on and classes 
+and objects to organize and manage code.
+
+-What is a Class?
+A class is a blueprint for creating objects that defines properties (variable) and methods (function).
+
+What is an Object?
+
+An object is an instance of a class that represents a real world entity.
+Real life example Animal is a Class and A Dog is object
+
+-What is init_method?
+init is a constructor that initialize a object when an object is created
+
+-What is self?
+self refers to current object and is used to access class variables and functions
+
+-What is Encapsulation?
+It means binding properties and methods together and restricting them to direct access
+
+-What is Inheritance?
+It allows one class to reuse properties and methods of another class
+Types-
+Single, Multiple, Multilevel, Hierarchical, Hybrid
+
+-What is Polymorphism?
+It means same method name but it shows a different behaviour
+
+-What is Abstraction?
+It hide implementation details and show only the essential features
+
+What is Method Overriding?
+It means same method name and same parameter but in child class also called Runtime polymorphisms
+
+-What is Method Overloading?
+Python does not support method overloading directly, but it can be achieved using default arguments
+It means same method name but different parameter in same class also called compile time polymorphism
+
+-How to achieve Abstraction in Python?
+Using abstract classes and abstract methods
+
+-What is an Abstract Class?
+An abstract class is a class you cannot create an object of. It is used as a parent class.
+
+-What is an Interface in Python?
+An interface is like a rule book It only tells what to do, not how to do.
+
+-Difference Class vs Object?
+Class
+Blueprint
+Logical
+No memory
+
+Object
+Real instance
+Physical
+Takes memory
+
+-What is super()?
+super() is used to call the parent class constructor from the child class
+
+-What are access modifiers in Python?
+Public-> var (no underscore) can be accessible anywhere
+Protected-> var (single underscore) only accessible inside a class and their child class
+Private-> var (double underscore) only accessible inside the same class
+
+-What is Constructor?
+A special method that runs automatically when an object is created.
+Python supports only one constructor per class
+
+11) Programs Practice
+
+For Loop Uses Iterating over a List, Tuple, String, Dictionary and with range() i in list, 
+i in tuple, i in String, i in Dictionary
+-if it is attached with a list, tuple, string then its iterating elements but 
+if it is not then its generating number based on () inside condition
+
+i in range(5) #01234
+i in range(1,6)#12345
+i in range(0,10,2) #0 2 4 6 8
+
+-using with length () function
+i in range(len(list)) Aman and its length=4 #A(0)
+                                             m(1)
+                                             a(2)
+                                             n(3)
+
+While Loop Uses=
+-repeat code unless condition is true as soon as condition is false stop that
+i=1
+while i<=5:
+print(i)
+i=i+1
+
+Output-1
+       2
+       3
+       4
+       5 (stop)
+
+-Infinite loop because condition never become false
+i=0
+while i>=0:
+     print(i)
+     i=i+1
+Output-  0
+         1
+         2
+         never stop infinite time run
