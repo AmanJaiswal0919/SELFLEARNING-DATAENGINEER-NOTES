@@ -270,6 +270,8 @@ Final Output:
 101   2
 103   2
 
+-------------------------------------------------------------------------------------------------------------------------------------------
+
 a) Find top3 departments with highest average salary only for departments having at least 5 employees?
 
 highest average salary only for departments having at least 5 employees (average salary, at least 5 employees aggregate function required here you can it is asking more than 1 employee means multiple employee belong to same department means department will be duplicate category value so groupby required)
@@ -332,6 +334,7 @@ totalrevenue    month
 11000              1
 11000              4
 12000              3
+
 
 
 
