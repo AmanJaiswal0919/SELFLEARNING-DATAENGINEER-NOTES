@@ -11,6 +11,7 @@ Aman       5000        1
 Neha       6000        1
 Ravi       4000        2
 Sara       8000        2
+
 SELECT empname
 FROM employees e
 WHERE e.salary > (
@@ -295,6 +296,7 @@ totalrevenue    month
 11000              1
 11000              4
 12000              3
+
 
 
 
