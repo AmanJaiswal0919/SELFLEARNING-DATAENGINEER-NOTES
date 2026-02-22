@@ -226,10 +226,9 @@ orderid      custid
 3             102
 4             103
 5             103
-6             103
-7             104
+6             104
+
 Example: Customers whose order count is above average order count?
-custid    order
 SELECT custid,
 FROM orders
 GROUP BY custid
@@ -251,25 +250,25 @@ SELECT COUNT(*) AS cnt,custid
 Subquery Output:
 table
 cnt  custid
-2      1
-5      2
-3      3
-10     4
+2      101
+1      102
+2      103
+1      104
+
 Step 2: Subquery executes Second
 SELECT AVG(cnt)
 FROM table
-Subquery Output:
-5
+Subquery Output
+1.5
+
 Step 2: Main query executes
-SELECT COUNT(*) > 5 AS cnt
+SELECT custid,COUNT(*) > 1.5 AS cnt
 FROM orders
 GROUP BY custid
-HAVING COUNT(*) > 5 AS cnt
-Subquery Output:
-cnt
-10
+HAVING COUNT(*) > 1.5 AS cnt
 Final Output:
-4
+101   2
+103   2
 
 a) Find top3 departments with highest average salary only for departments having at least 5 employees?
 
@@ -333,6 +332,7 @@ totalrevenue    month
 11000              1
 11000              4
 12000              3
+
 
 
 
