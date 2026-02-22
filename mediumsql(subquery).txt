@@ -6,25 +6,33 @@ Returns exactly one row and one column (single value).
 Used in: SELECT, WHERE, HAVING
 
 Example: Find employees earning more than company average salary?
-SELECT empname, salary
-FROM employees
-WHERE salary > (
+empname    salary    deptid
+Aman       5000        1
+Neha       6000        1
+Ravi       4000        2
+Sara       8000        2
+SELECT empname
+FROM employees e
+WHERE e.salary > (
     SELECT AVG(salary)
     FROM employees
 );
 
 Flow of execution:
+
 Step 1: Subquery executes first
 SELECT AVG(salary) FROM employees;
 Subquery Output:
 5000
+
 Step 2: Main query executes
 SELECT empname, salary
 FROM employees
-WHERE salary>5000
+WHERE e.salary (5000,6000,4000,8000)>5000
+
 Final Output:
-Ravi   6000
-Sara   8000
+Ravi   
+Sara   
 
 2. Correlated Subquery
 Definition:
@@ -47,6 +55,7 @@ WHERE e.salary > (
 );
 
 Flow of execution:
+
 a) For Aman (e.deptid=1)
 a-1)SELECT AVG(salary)
 FROM employees
@@ -55,37 +64,35 @@ WHERE deptid=1
 a-2)SELECT empname
 FROM employees e
 WHERE e.salary(5000)> 5500 = False
-
-b) For Aman (e.deptid=1)
-a-1)SELECT AVG(salary)
+b) For Neha (e.deptid=1)
+b-1)SELECT AVG(salary)
 FROM employees
 WHERE deptid=1
 5000+6000/2=5500
-a-2)SELECT empname
+b-2)SELECT empname
 FROM employees e
-WHERE e.salary(5000)> 5500 = False
+WHERE e.salary(6000)> 5500 = True
 
-c) For Aman (e.deptid=1)
-a-1)SELECT AVG(salary)
+c) For Ravi (e.deptid=2)
+c-1)SELECT AVG(salary)
 FROM employees
-WHERE deptid=1
-5000+6000/2=5500
-a-2)SELECT empname
+WHERE deptid=2
+4000+8000/2=6000
+c-2)SELECT empname
 FROM employees e
-WHERE e.salary(5000)> 5500 = False
-
-d)a) For Aman (e.deptid=1)
-a-1)SELECT AVG(salary)
+WHERE e.salary(4000)> 6000 = False
+d) For Sara (e.deptid=2)
+d-1)SELECT AVG(salary)
 FROM employees
-WHERE deptid=1
-5000+6000/2=5500
-a-2)SELECT empname
+WHERE deptid=2
+4000+8000/2=6000
+d-2)SELECT empname
 FROM employees e
-WHERE e.salary(5000)> 5500 = False
+WHERE e.salary(8000)> 5500 = True
 
 Final Output:
-Ravi  6000  10
-Sara  8000  20
+Ravi  
+Sara  
 
 3. Table Subquery
 Definition:
@@ -288,6 +295,7 @@ totalrevenue    month
 11000              1
 11000              4
 12000              3
+
 
 
 
