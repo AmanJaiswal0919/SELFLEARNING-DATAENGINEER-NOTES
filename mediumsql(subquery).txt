@@ -32,28 +32,29 @@ Depends on outer query value.
 Runs once for every row of outer query.
 
 Example: Find employees earning more than their department average salary?
-SELECT empname, salary, deptid
+empname    salary    deptid
+Aman       5000        1
+Neha       6000        1
+Ravi       4000        2
+Sara       8000        2
+
+SELECT empname
 FROM employees e
-WHERE salary > (
+WHERE e.salary > (
     SELECT AVG(salary)
     FROM employees
     WHERE deptid = e.deptid
 );
 
 Flow of execution:
-Step 1: Subquery executes first
-SELECT AVG(salary)
-    FROM employees
-    WHERE deptid = e.deptid
-Subquery Output:
-5500
-5500
-6000
-6000
-Step 2: Main query executes
-SELECT empname, salary, deptid
+a) For Aman (e.deptid=1)
+a-1)SELECT AVG(salary)
+FROM employees
+WHERE deptid=1
+5000+6000/2=5500
+a-2)SELECT empname
 FROM employees e
-WHERE salary > 5500,5500,6000,6000
+WHERE e.salary(5000)> 5500 = False
 Final Output:
 Ravi  6000  10
 Sara  8000  20
@@ -259,4 +260,5 @@ totalrevenue    month
 11000              1
 11000              4
 12000              3
+
 
