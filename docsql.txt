@@ -1,0 +1,345 @@
+1) What is SQL?
+SQL stand for structured query language is used to store and manage 
+data in relational databases.
+
+2) What are SQL Data types?
+SQL data types define the type of data a column can store
+INT- whole numbers (age,id)
+DECIMAL(ps) precise numbers (salary)
+where p is no. of digit allowed, s digit after decimal VARCHAR(n) variable-length text
+DATE- date only
+TIMESTAMP/DATETIME- date+time
+BOOLEAN- true/false
+
+3) Difference between CHAR and VARCHAR?
+CHAR- fixed length for fixed values(gender, country code)
+VARCHAR- variable length for names, addresses
+
+4) IS length mandatory to give for all data types?
+No only for CHAR, VARCHAR, DECIMAL
+
+5) If I dont know what length is need to give?
+then For Names VARCHAR(50) 
+then For Email VARCHAR(100)
+then For Address- VARCHAR(255)
+
+6) What are different types of SQL Commands?
+DDL (Data Definition Language) CREATE, ALTER, DROP, TRUNCATE 
+DML (Data Manipulation Language) INSERT, UPDATE, DELETE
+DQL (Data Query Language) SELECT
+DCL(Data Control Language) GRANT, REVOKE
+TCL (Transaction Control Language) COMMIT, ROLLBACK
+
+7) Difference between DELETE, TRUNCATE and Drop?
+DELETE
+remove a specific row
+WHERE clause allowed
+can rollback
+
+TRUNCATE
+remove all rows
+No WHERE clause allowed
+cannot rollback
+
+DROP
+remove entire table
+No WHERE clause allowed
+cannot rollback
+
+4) What is Primary key?
+uniquely identifies each row
+cannot be NULL
+only one per table
+
+5) What is Foreign key?
+links two tables
+- references primary key of another table can contain NULL values
+
+8) What is the difference between WHERE and HAVING?
+a) filter rows before grouping means come always before groupby,
+filters groups after aggregation means come always after groupby 
+b) Do not work with aggregate function, used with aggregate function
+c) Used with SELECT used with Group By
+
+9) What is GROUP BY, ORDER BY, OFFSET, LIMIT?
+-GROUPBY It is used to group rows by same column values to perform aggregate calculations 
+often used with aggregate functions like COUNT(), SUM(), AVG() etc.
+
+Note if you want an aggregate value per column use GROUP BY with aggregate function 
+like COUNT(), SUM(), AVG() etc. but if you want an aggregate value from entire table 
+dont use GROUP BY (aggregate value means combining rows]
+-ORDERBY It sorts the output rows in ascending or descending order default ascending 
+but for descending you have to mention (DESC).
+-OFFSET It is used with LIMIT to skip a number of rows from the result in top
+-LIMIT It is used to fetch only a specific number of rows from the result in top 
+after offset is applied if offset also there
+
+10) What are Aggregate Function?
+An aggregate function performs a calculation on multiple rows and returns a single summarized value 
+Example-COUNT(), SUM(), AVG(), MAX(), MIN() etc.
+
+11) What is join and their types?
+Join is used to combine rows from two or more tables based on a common column between them
+Types-INNER JOIN, LEFT JOIN, RIGHT JOIN, FULL JOIN, CROSS JOIN, SELF JOIN, NATURAL JOIN
+
+12) Explain different types of join?
+#Main Left, Right, Inner, Full Additional Cross, Self, Natural, Union
+
+a) INNER- matching rows only from both tables
+b) LEFT- all rows from left table matching rows from right table with left table
+c) RIGHT all rows from right table matching rows from left table with right table
+d) FULL OUTER all matching rows from both tables and non matching rows fill with NULL values
+e) CROSS each row of left table combine with every row of right table and return all the possible combination
+f) SELF A table is joined itself using alias
+g) NATURAL It automatically joins tables using same column names
+
+13) What is Subquery and CTE? Explain the difference also
+a) Subquery A query written inside another query used to filter or calculate values
+b)CTE Common Table Expression a temporary result set defined using WITH used in main query 
+for better readability and reuse
+                   Subquery       CTE
+Readability        Low           High 
+Reusable           No            Yes
+Recursive          No            Yes
+Debugging          Hard          Easy
+
+14) What is difference between UNION and UNION ALL?
+UNION- removes duplicates
+UNION ALL- keeps duplicates
+
+15) What is NULL?
+represents missing or unknown data
+
+16) What is difference between COUNT(*) and COUNT (column)?
+COUNT(*) To count total no. of rows in a table
+Differene-COUNT(column name) NULL values will not be counted
+COUNT(*) NULL values will be counted
+
+17) SQL Logical Execution Order
+1)FROM then 2)JOIN/ON then 3) WHERE then 4) GROUP BY then 5) AGGREGATE FUNCTION 
+(AVG, SUM etc) then 6) HAVING then 7) SELECT then 8) ORDER BY
+
+18) What is IN, NOT IN, EXIST, NOT EXIST? Difference between IN vs EXIST?
+IN= checks if a value exist in a list of values
+NOT IN= returns rows not present in the list
+EXIST= check whether a subquery returns at least one row 
+(safer than NOT IN when NULL values exist)
+NOT EXIST= returns row where the subquery returns no rows
+IN VS EXIST
+Compares values VS Checks row existence Slower for large data VS Faster for large data
+Affected by NULL VS Not Affected by NULL
+
+19)HANDSON-1: Start a New School Software Project?
+
+CREATE DATABASE schooldb;
+USE schooldb;
+CREATE TABLE students (
+    studentid INT PRIMARY KEY,
+    studentname VARCHAR(50),
+    studentage INT,
+    studentcity VARCHAR(50)
+);
+
+20)HANDSON-2: Add Data into Students Table and Display All Data?
+INSERT INTO students (studentid, studentname, studentage, studentcity)
+VALUES
+(1, 'Aman', 20, 'Delhi'),
+(2, 'Rohan', 22, 'Mumbai'),
+(3, 'Simran', 19, 'Lucknow');
+SELECT * FROM students;
+studentid   studentname  studentage   studentcity
+1             Aman           20          Delhi        
+2             Rohan          22          Mumbai
+3             Simran         19          Lucknow
+
+21)HANDSON-3: WHERE, UPDATE, DELETE, ALTER, DESC, RENAME, TRUNCATE, DROP?
+SELECT * 
+FROM students
+WHERE studentage > 20;
+studentid   studentname  studentage   studentcity
+2             Rohan          22          Mumbai
+
+UPDATE students
+SET studentcity = 'Pune'
+WHERE studentid = 2;
+SELECT * FROM students;
+studentid   studentname  studentage   studentcity
+1             Aman           20          Delhi        
+2             Rohan          22          Pune
+3             Simran         19          Lucknow
+
+DELETE FROM students
+WHERE studentid = 3;
+studentid   studentname  studentage   studentcity
+1             Aman           20          Delhi        
+2             Rohan          22          Pune
+
+ALTER TABLE students
+ADD studentemail VARCHAR(100);
+DESC students;
+Field             Type
+studentid         INT
+studentname       VARCHAR(50)
+studentage        INT
+studentcity       VARCHAR(50)
+studentemail      VARCHAR(100);
+
+RENAME TABLE students TO studentinfo;
+SELECT * FROM studentinfo;
+studentinfo
+studentid   studentname  studentage   studentcity  studentemail
+1             Aman           20          Delhi        
+2             Rohan          22          Pune
+
+TRUNCATE TABLE studentinfo;
+Output-studentinfo
+
+DROP TABLE studentinfo;
+Output-
+
+23)HANDSON-4: FOREIGN KEY
+
+FOREIGN KEY
+#create a students table with basic details
+Ans- CREATE TABLE students(
+studentid INT PRIMARY KEY, 
+studentname VARCHAR(50), 
+studentage INT, 
+studentcity VARCHAR(50));
+
+#create a courses table with basic details
+CREATE TABLE courses(
+courseid INT PRIMARY KEY,
+coursename VARCHAR(100)
+student id INT, FOREIGN KEY (student_id) REFERENCES students (student_id)); 
+#a student can join a course->link table
+
+SHOW TABLES;
+students courses
+SHOW DATABASE;
+schooldb
+
+INSERT INTO students (studentid, studentname, studentage, studentcity)
+VALUES (1, 'Aman', 20, 'Delhi),
+(2, 'Rohan', 22, 'Mumbai'),
+(3, 'Simran', 19, 'Lucknow');
+
+INSERT INTO courses (courseid, coursename, studentid)
+VALUES (101, 'SQL Basic', 1), 
+(102, 'Python' 3);
+
+As you see here id 1,3 present means
+Aman -> enrolled, Simran->enrolled, Rohan-> not enrolled
+
+24)Handson5- EXIST AND NON EXIST
+#give me a student who has at least enrolled in one course
+SELECT studentname FROM students s 
+WHERE EXISTS(SELECT 1 FROM courses c 
+WHERE c.studentid=s.studentid);
+
+studentname 
+Aman
+
+#give me students who has not enrolled in any course yet
+SELECT name FROM students s 
+WHERE NOT EXISTS(SELECT 1 FROM courses c 
+WHERE c.studentid=s.studentid);
+
+studentname 
+Rohan
+
+24) HANDSON-6: TRANSACTION, COMMIT, ROLLBACK, GRANT, REVOKE?
+studentid   studentname  studentage   studentcity
+1             Aman           20          Delhi        
+2             Rohan          22          Pune
+3             Simran         19          Lucknow
+
+TRANSACTION and COMMIT
+
+START TRANSACTION; Explanation:Starts a safe temporary session. Changes are not permanent until COMMIT.
+UPDATE students
+SET studentage = 25
+WHERE studentid = 1;
+COMMIT; Explanation:COMMIT makes changes permanent in database.
+
+Select*FROM students
+studentid   studentname  studentage   studentcity
+1             Aman           25          Delhi        
+2             Rohan          22          Pune
+3             Simran         19          Lucknow
+
+
+TRANSACTION and ROLLBACK
+
+START TRANSACTION;
+DELETE FROM students
+WHERE studentid = 2;
+Select*FROM students
+studentid   studentname  studentage   studentcity
+1             Aman           25          Delhi  
+3             Simran         19          Lucknow 
+ROLLBACK;  Explanation:ROLLBACK restores data to last COMMIT state.
+Select*FROM students
+studentid   studentname  studentage   studentcity
+1             Aman           25          Delhi        
+2             Rohan          22          Pune
+3             Simran         19          Lucknow
+
+GRANT – Give permission to user
+
+GRANT SELECT, INSERT
+ON schooldb.*
+TO 'teacher'@'localhost';
+Explanation:teacher user can now:
+Read data (SELECT)
+Insert data (INSERT)
+In all tables of schooldb.
+
+REVOKE INSERT
+ON schooldb.*
+FROM 'teacher'@'localhost';
+Explanation:teacher can no longer insert data, but can still SELECT.
+
+25)HANDSON-7: SQL Operators and Conditions
+
+1. AS (Alias)
+Alias gives temporary name to column.
+SELECT studentname,
+       studentage,
+       studentage + 5 AS agein5yrs
+FROM students
+WHERE studentage < 25;
+studentname   studentage  agein5yrs
+
+2. AND (Multiple conditions)
+SELECT studentname, studentcity, studentage
+FROM students
+WHERE studentcity = 'Delhi'
+AND studentage > 22;
+studentname  studentcity  studentage
+
+3. NOT (Exclude condition)
+studentname
+studentage
+
+4. Even studentscore
+Even number → remainder = 0
+SELECT studentname, studentscore
+FROM students
+WHERE studentscore % 2 = 0;
+studentname studentscore
+
+5. BETWEEN (Range)
+SELECT studentname, studentage
+FROM students
+WHERE studentage BETWEEN 20 AND 24;
+studentname  studentage
+
+6. IN (Multiple values match)
+studentname    studentcity
+
+7. NOT IN (Exclude values)
+SELECT studentname, studentcity
+FROM students
+WHERE studentcity NOT IN ('Delhi', 'Pune');
+studentname  studentcity
