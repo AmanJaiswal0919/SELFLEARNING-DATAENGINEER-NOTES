@@ -1,0 +1,386 @@
+Most Used SQL Concept
+
+1)Distinct/GROUP BY
+you have to find just unique value no aggregation required both work alone 
+but use DISTINCT instead GROUP BY with no aggregation 
+example 10-1,2,3,4 dept-HR, IT, IT Sales
+SELECT DISTINCT dept 
+FROM EMPLOVEES (BEST TO USE)
+or
+SELECT dept
+FROM EMPLOYEES
+GROUP BY dept; GROUP1-HR GROUP2-IT IT GROUP3-Sales
+Then return one per group so output will be HR, IT, Sales
+example- custid-101, 102, 102, 103 dept-HR, IT, IT, Sales
+
+SELECT DISTINCT custid, dept
+FROM EMPLOYEES (BEST TO USE)
+or
+SELECT custid, dept
+FROM EMPLOYEES
+GROUP BY custid, dept; GROUP1-101-HR GROUP2-102-IT, 182-IT GROUP3-103-SALES
+
+Note-when we write two column with GROUP BY it does not create separate Group for both like this 
+GROUP1-101, GROUP2-102, 102, GROUP3-103 
+GROUP1-HR, GROUP2-IT, IT, GROUP3-SALES
+instead of this GROUP1-101-HR GROUP2-102-IT, 102-IT GROUP3-103-SALES
+
+2) GROUP BY AGGREGATE FUNCTION
+you have to find out unique value with aggregation use GROUP BY AGG FUNCTION 
+example-average salary per department empid-1,2,3 dept-IT, IT, HR salary-5000, 7000, 4000
+SELECT dept, AVG(salary)
+FROM EMPLOYEES
+GROUP BY dept; GROUP1-IT, IT GROUP2-HR after this aggregation 
+applied on GROUP1-IT, IT (5000+7000)/2 =6000 GROUP2-HR 4000 (4000)/1=4000 
+output- IT 6000, HR 4000
+
+3) DISTINCT+GROUP BY
+example-count unique product sold per date 
+date- 1Jan, 1Jan, 1Jan product-A,A,B 
+#at the time of display COUNT for GROUP1-2(A,A), for GROUP2-1(B)
+SELECT date, COUNT (product) FROM SALES
+GROUP BY date, product; GROUP1-13an A, IJAN A GROUP2-1JAN-B 
+output-1Jan 2,1Jan 1
+
+#at the time of display DISTINCT-A,B COUNT=2 so our output will be 1Jan 2 
+SELECT date, COUNT(DISTINCT product) FROM SALES
+GROUP BY date; GROUP1-1Jan
+output-1Jan 2
+
+
+4) Aggregate function without GROUP By
+you have to find just single aggregate value from a column not per column category
+-find the total number of employees in the company-Only Aggregate (here we need one single result from whole table)
+SELECT COUNT(*)
+FROM Employees
+-find the number of employees in each department-GROUP BY+Aggregate 
+(here we need category (department) wise result) 
+SELECT dept, COUNT(*)
+FROM Employees
+GROUP BY dept;
+
+5) HAVING GROUP BY when you need to use filtering after grouping 
+Customers Who Bought All Products 
+SELECT custid FROM Customer 
+GROUP BY custid 
+HAVING COUNT (DISTINCT product_key)=(SELECT COUNT(*) FROM Product);
+
+6) Subquery
+If you need an aggregated value first then comparison with each row-scalar subquery 
+find employees earning more than their company average salary-scalar subquery needed here
+find the average salary of a company only aggregate (AVG)
+
+If question need to use any of these IN ANY ALL- column subquery
+find employees working in departments located in Delhi generally two table involvement employees, 
+department so need subquery otherwise you have to use join find employees working in 
+location Delhi, Mumbai, Pune only one table employees
+
+If you need an aggregated value first then comparison with each row but inside aggregation outer query column dependency correlated subquery 
+find employees earning more than their department average salary-correlated subquery needed here
+find employees average salary of each department - GROUP BY+aggregate
+
+
+7) LIMIT-OFFSET
+-Nth Highest value, Top N records
+-Find second highest salary?
+SELECT salary
+FROM Employees
+ORDER BY salary DESC
+LIMIT 1 OFFSET 1;
+-Find Top 3 highest salaries
+SELECT salary
+FROM Employees
+ORDER BY salary DESC
+LIMIT 3;
+
+8) INNER JOIN
+- two table are given and we want only matching records from both tables
+ques-find customers who placed orders greater than 500?
+(b/c we want only those customer which order greater than 500 not all customers)
+ques-show customer with their order?
+b/c we want only those customer who ordered not all customers)
+
+9) LEFT JOIN
+-two table are given and we want only matching records from both tables
+ques-show all customers with their orders?
+(here we want all customer regardless who ordered or not + first table priority)
+ques-find customers who never order?
+(here we want all customer regardless who ordered or not + then filter out who does not have any order or Negativity in Question)
+
+10) CROSS JOIN LEFT JOIN
+- three tables are given each, every,all,combination kind words used first table priority or Negativity in Question
+ques-show every customer and product along with the order id if that customer purchased that product?
+ques-List all customers and products with the order information if available?
+ques-find which customers have not purchased specific products?
+
+
+11) SELF CONCEPT
+-only one table is given in that table one column is given which is not related to that table
+(like employees table we except all employees data but one managerid is also included 
+which is not related to that employees table)
+#Employees (empid-1,2,3 name-Aman, Ravi, Neha managerid-NULL,1,1)
+#Customers(custid-1,2,3 name-Aman, Ravi, Neha), Orders(orderid-101 102 103 104 105 
+custid-1,1,2,1,3 amount-500, 700, 400, 300, 400)
+
+SELF INNER JOIN
+ques-find employees earning more than their manager
+ques-find customers who placed two orders with the same amount
+
+SELF LEFT JOIN
+ques-find employees without manager
+ques-show each order and the next order placed by the same customer
+
+12)CTE
+mostly question in which subquery is used we can also use cte there
+ques-Department Highest Salary
+cte form
+WITH MaxSal AS(
+SELECT dept, MAX(salary) AS max sal
+FROM Employees
+GROUP BY dept
+this give MaxSal contains dept, max sal columns
+here we have two tables Employees and 2nd just we created MaxSal
+SELECT FROM Employees e
+INNER JOIN MaxSal m ON e.dept-m.dept
+AND e salary-m.max_sal;
+
+subquery form
+SELECT FROM Employee e
+WHERE salary(SELECT MAX(salary)
+FROM Employees WHERE dept=e.dept);
+
+
+13) UNION vs UNION ALL
+
+14) ROW_NUMBER()
+-use when you need unique row ordering
+ques find the 2nd highest salary
+ques remove duplicate emails keep the first record
+ques get top 5 latest orders
+
+15) DENSE_RANK()
+-use when ranking with ties and but no gaps
+ques Top 3 salaries per department
+ques Each Department highest salary
+ques Highest selling products per category
+
+16) LAG()
+-use when comparing current row with previous row
+ques Previous order date per customer
+ques Detect consecutive login days
+
+17) LEAD()
+-use when comparing current row with next row
+ques- Next flight departure
+ques- Next login date
+
+18) SUM() OVER()
+-use when computing running totals
+ques-Customer lifetime spending
+ques-Cumulative orders per user
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
