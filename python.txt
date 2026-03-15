@@ -1,0 +1,393 @@
+Python Notes-
+Ques1-OPerator in Python
+Arithmetic,Comparison,Assignment,Logical,Bitwise,Membership(in,not in),Identity(is)
+a=10
+b=5
+c=3
+result=((a+b))*c>40) and (a%b==0) or (a<<1>b)
+print(result)
+print(a&b)
+print(a|b)
+print(a^b)
+print(b||c)
+print(a is b)
+print(3 in [1,2,3,4])
+print(True+False)
+Output-
+True
+0
+15
+15
+1.66=1(keep only integer part)
+False
+True
+1+0=1
+
+Notes-a<<1 means a<<n=a*2^n(10*2^1)=20
+a>>1 means a>>n=a//(2^n)(10//2^1)=5
+example-5&6 break numbers into power of 2 (5=4+1,6=4+2) 
+AND= common=4 ans-4
+OR=combine all unique power=4+2+1 ans-7
+5^6=remove common power=1+2=3 ans-3
+
+Ques2-Mutable vs Immutable
+# Immutable types: int, string, tuple
+# Mutable types: list, set, dictionary
+
+print("---- INT (Immutable) ----")
+a = 10
+print("Before:", a, id(a))
+a = a + 5
+print("After:", a, id(a))
+print("\n---- STRING (Immutable) ----")
+s = "hello"
+print("Before:", s, id(s))
+s = s + " world"
+print("After:", s, id(s))
+print("\n---- TUPLE (Immutable) ----")
+t = (1, 2, 3)
+print("Before:", t, id(t))
+t = t + (4,)
+print("After:", t, id(t))
+print("\n---- LIST (Mutable) ----")
+lst = [1, 2, 3]
+print("Before:", lst, id(lst))
+lst.append(4)
+print("After:", lst, id(lst))
+print("\n---- SET (Mutable) ----")
+st = {1, 2, 3}
+print("Before:", st, id(st))
+st.add(4)
+print("After:", st, id(st))
+print("\n---- DICTIONARY (Mutable) ----")
+d = {"a": 1, "b": 2}
+print("Before:", d, id(d))
+d["c"] = 3
+print("After:", d, id(d))
+Notes-In Immutable  changes in new object(different IDs)
+In mutable changes in same object(same IDs)
+Output-
+---- INT (Immutable) ----
+Before: 10 140732123456
+After: 15 140732654321
+---- STRING (Immutable) ----
+Before: hello 140732222111
+After: hello world 140732333444
+---- TUPLE (Immutable) ----
+Before: (1, 2, 3) 140732888777
+After: (1, 2, 3, 4) 140732999000
+---- LIST (Mutable) ----
+Before: [1, 2, 3] 140732555666
+After: [1, 2, 3, 4] 140732555666
+---- SET (Mutable) ----
+Before: {1, 2, 3} 140732777888
+After: {1, 2, 3, 4} 140732777888
+---- DICTIONARY (Mutable) ----
+Before: {'a': 1, 'b': 2} 140732444555
+After: {'a': 1, 'b': 2, 'c': 3} 140732444555
+
+Ques3-Methods which is allowed in List,Set,Dictionary but not in tuple,string?
+Works in List,Set,Dictionary
+List-append(),extend(),insert(),remove(),pop(),clear
+Set-clear(),add(),update()
+Dictionary-pop(),clear(),update()
+tuple,string()-count(),index()
+string()-upper(),lower(),replace(),split(),strip()
+
+#All List Method
+my_cart = ["apples", "bananas", "milk"]
+# Add "bread" to the end
+my_cart.append("bread")
+print(my_cart)
+# Insert "ketchup" at beginning
+my_cart.insert(0, "ketchup")
+print(my_cart)
+# Remove "bananas"
+my_cart.remove("bananas")
+print(my_cart)
+# Remove last item
+removed_item = my_cart.pop()
+print(removed_item)
+# Extend list
+my_cart.extend(["rice", "butter"])
+print(my_cart)
+# Sort list
+my_cart.sort()
+print(my_cart)
+# Reverse list
+my_cart.reverse()
+print(my_cart)
+# Concatenate lists
+list2 = ["juice", "jam"]
+res = my_cart + list2
+print(res)
+# Duplicate list
+duplist = my_cart * 2
+print(duplist)
+# Convert string to list
+veg = "tomato cucumber spinach"
+veglist = veg.split()
+print(veglist)
+
+Output-
+['apples', 'bananas', 'milk', 'bread']
+['ketchup', 'apples', 'bananas', 'milk', 'bread']
+['ketchup', 'apples', 'milk', 'bread']
+bread
+['ketchup', 'apples', 'milk', 'rice', 'butter']
+['apples', 'butter', 'ketchup', 'milk', 'rice']
+['rice', 'milk', 'ketchup', 'butter', 'apples']
+['rice', 'milk', 'ketchup', 'butter', 'apples', 'juice', 'jam']
+['rice', 'milk', 'ketchup', 'butter', 'apples',
+ 'rice', 'milk', 'ketchup', 'butter', 'apples']
+['tomato', 'cucumber', 'spinach']
+
+#All Dictionary OPeration
+# Create a dictionary named customer
+customer = {"name": "John Doe", "age": 32, "city": "New York"}
+print(customer)
+# Add "email" 
+customer["email"] = "john.doe@example.com"
+print(customer)
+# Print name 
+print(customer["name"])
+# Delete "age"
+del customer["age"]
+print(customer)
+# Print keys, values and items
+print(customer.keys())
+print(customer.values())
+print(customer.items())
+# Remove last inserted key-value pair
+last_item = customer.popitem()
+print(last_item)
+# Update dictionary
+customer.update({"city": "London"})
+print(customer)
+
+Output-
+{'name': 'John Doe', 'age': 32, 'city': 'New York'}
+{'name': 'John Doe', 'age': 32, 'city': 'New York',
+ 'email': 'john.doe@example.com'}
+John Doe
+{'name': 'John Doe', 'city': 'New York',
+ 'email': 'john.doe@example.com'}
+dict_keys(['name', 'city', 'email', 'phone'])
+dict_values(['John Doe', 'New York',
+             'john.doe@example.com', '123-456-7890'])
+dict_items([('name', 'John Doe'),
+            ('city', 'New York'),
+            ('email', 'john.doe@example.com'),
+            ('phone', '123-456-7890')])
+('phone', '123-456-7890')
+{'name': 'John Doe',
+ 'city': 'London',
+ 'email': 'john.doe@example.com'}
+
+#All String Method
+text = "  Python Programming Language  "
+# Convert to uppercase
+print("Uppercase:", text.upper())
+# Remove leading and trailing spaces
+print("Strip:", text.strip())
+# Replace word
+print("Replace:", text.replace("Python", "Java"))
+# Split string into list
+print("Split:", text.split())
+# Check if string starts with a word
+print("Starts with Python:", text.strip().startswith("Python"))
+# Check if string ends with a word
+print("Ends with Language:", text.strip().endswith("Language"))
+# Count occurrences
+print("Count of 'a':", text.count("a"))
+# Find position of substring
+print("Index of Programming:", text.index("Programming"))
+# Capitalize first letter
+print("Capitalize:", text.strip().capitalize())
+
+Output-
+Uppercase:   PYTHON PROGRAMMING LANGUAGE  
+Strip: Python Programming Language (remove start space and end space in text)
+Replace:   Java Programming Language  
+Split: ['Python', 'Programming', 'Language']
+Starts with Python: True
+Ends with Language: True
+Count of 'a': 3
+Index of Programming: 9
+Capitalize: Python programming language
+
+# All Set Methods
+fruits = {"apple", "banana", "mango"}
+# Add element
+fruits.add("orange")
+print("After add:", fruits)
+# Add multiple elements
+fruits.update(["grape", "kiwi"])
+print("After update:", fruits)
+# Remove element
+fruits.remove("banana")
+print("After remove:", fruits)
+# Pop random element
+removed = fruits.pop()
+print("Popped element:", removed)
+print("After pop:", fruits)
+# Copy set
+new_set = fruits.copy()
+print("Copied set:", new_set)
+# Clear set
+fruits.clear()
+print("After clear:", fruits)
+
+Output-
+After add: {'apple', 'banana', 'mango', 'orange'}
+After update: {'apple', 'banana', 'mango', 'orange', 'grape', 'kiwi'}
+After remove: {'apple', 'mango', 'orange', 'grape', 'kiwi'}
+Popped element: mango
+After pop: {'orange', 'grape', 'kiwi'}
+Copied set: {'orange', 'grape', 'kiwi'}
+After clear: set()
+
+#All tuple Methods
+numbers = (10, 20, 30, 20, 40)
+# Count occurrences of an element
+print("Count of 20:", numbers.count(20))
+# Find index of element
+print("Index of 30:", numbers.index(30))
+# Access elements using indexing
+print("First element:", numbers[0])
+# Slicing
+print("First three elements:", numbers[0:3])
+# Tuple length
+print("Length of tuple:", len(numbers))
+# Concatenate tuples
+t2 = (50, 60)
+new_tuple = numbers + t2
+print("Concatenated tuple:", new_tuple)
+# Repeat tuple
+print("Repeated tuple:", numbers * 2)
+
+Output-
+Count of 20: 2
+Index of 30: 2
+First element: 10
+First three elements: (10, 20, 30)
+Length of tuple: 5
+Concatenated tuple: (10, 20, 30, 20, 40, 50, 60)
+Repeated tuple: (10, 20, 30, 20, 40, 10, 20, 30, 20, 40)
+
+Ques4-Indexing and Slicing
+chai_description = "Aromatic and Bold"
+# indexing
+print(f"letter present at 3 position {chai_description[3]}")
+# slicing
+print(f"first word from string {chai_description[0:8]}")
+print(f"skip letter in string {chai_description[0:8:2]}")
+print(f"reverse whole string {chai_description[::-1]}")
+print(f"space between string {chai_description[11:]}")
+
+Output-
+letter present at 3 position m
+first word from string Aromatic
+skip letter in string Aoa
+reverse whole string dloB dna citamorA
+space between string Bold
+
+Ques5-For Loop vs While Loop
+for loop-Iterating through list, tuple, string and with range() and Known number of iterations
+while loop-Condition-based repetition and Unknown number of iterations
+
+1- you are counting step with a pedometer stop counting after 10000 steps
+Use While Loop b/c you stop based on condition(steps<10000)
+steps=0
+while steps<10000:
+    steps=steps+500
+    print("steps:",steps)
+2-keep asking user for a pin until its correct
+Use While Loop b/c number of attempts is unknown
+correct_pin="1234"
+pin=""
+while pin!=correct_pin:
+    pin=input("Enter Your Pin")
+print("Access Granted")
+3-you have a list of grocery prices Apply 10% discount to each 
+Use For loop because iterate through list
+prices=[100,200,300]
+for i in prices:
+    discounted=i*0.9
+    print(discounted)
+4-print odd numer until 20
+Use For loop because we know no. of iteration
+for i in range(1,20,2): start=1,stop=20,step=2
+    print(i) 
+
+Ques6-Continue,Break,For Loop, While Loop,function,if-else
+def simulate_atm_withdrawals(balance, withdrawals):
+    messages = []
+    i = 0
+    while i < len(withdrawals):
+        amount = withdrawals[i]
+        if balance >= amount:
+            balance = balance - amount
+            messages.append(f"Withdrawn: {amount}")
+        else:
+            messages.append(f"Insufficient funds for requested amount: {amount}")
+        i = i + 1
+    messages.append(f"Remaining Balance: {balance}")
+    return messages
+print(simulate_atm_withdrawals(1000, [200, 500, 400]))
+
+Output-
+['Withdrawn: 200',
+ 'Withdrawn: 500',
+ 'Insufficient funds for requested amount: 400',
+ 'Remaining Balance: 300']
+
+def scan_parcels(parcel_codes):
+    messages = []
+    for code in parcel_codes:
+        if code == "DAMAGED":
+            messages.append("Skipped damaged parcel")
+            continue
+        if code == "STOP":
+            messages.append("Critical error: Stopping scan")
+            break
+        messages.append(f"Scanned parcel: {code}")
+    else:
+        messages.append("All parcels scanned successfully")
+    return messages
+print(scan_parcels(["A123", "B456", "DAMAGED", "STOP", "C789"]))
+print(scan_parcels(["A123", "B456", "DAMAGED", "C789"]))
+
+Output-
+['Scanned parcel: A123',
+ 'Scanned parcel: B456',
+ 'Skipped damaged parcel',
+ 'Critical error: Stopping scan']
+
+['Scanned parcel: A123',
+ 'Scanned parcel: B456',
+ 'Skipped damaged parcel',
+ 'Scanned parcel: C789',
+ 'All parcels scanned successfully']
+
+Some Common and Most Asked Question in Mnc
+1)Reverse a String
+2)Check Palindrome
+3)Swap two number without third variable
+4)Remove duplicate from List
+5)Count Frequency of Characters
+6)Factorial of Number
+7)Fabonnaci Series
+8)Find Second Largest Number in List
+9)Find Common Element two List
+10)Reverse a Number
+11)Check if two string are Anagrams
+12)Check Armstrong Number
+13)Find First Non Repeating Character
+14)Find lenght of string without len()
+15)Check Prime Number
+16)Check Even or Odd
+17)Convert tuple into List
+18)Count word in string
+19)Merge two dictionary
+20)Find key with maximum value
