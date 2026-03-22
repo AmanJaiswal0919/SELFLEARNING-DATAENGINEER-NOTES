@@ -113,6 +113,7 @@ ques-show every customer and product along with the order id if that customer pu
 ques-List all customers and products with the order information if available?
 ques-find which customers have not purchased specific products?
 
+Note- when a three table is given if a table contain IDS from other two tables it usually stores the relationship and if a keyword like each, every, all which gives priority to first table and negativity is also not there so use inner join instead cross
 
 11) SELF CONCEPT
 -only one table is given in that table one column is given which is not related to that table
@@ -178,85 +179,6 @@ ques- Next login date
 -use when computing running totals
 ques-Customer lifetime spending
 ques-Cumulative orders per user
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
