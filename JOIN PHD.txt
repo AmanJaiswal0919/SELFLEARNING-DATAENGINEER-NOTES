@@ -1,0 +1,386 @@
+1) Replace Employee ID with Unique Identifier
+Problem:
+Write an SQL query to display the unique ID of each employee.
+If an employee does not have a unique ID, return NULL.
+Tables:
+Employees
+id → (1, 7, 11, 90, 3)
+name → (Alice, Bob, Meir, Winston, Jonathan)
+EmployeeUNI
+id → (3, 11, 90)
+uniqueid → (1, 2, 3)
+
+2) Students with Advisor Conditions
+Problem:
+Write an SQL query to display the roll number and name of students whose advisor satisfies either:
+Advisor is male and salary > 15000, OR
+Advisor is female and salary > 20000
+Tables:
+StudentInfo
+rollnumber → (1, 2, 3)
+name → (Rahul, Priya, Aman)
+advisorid → (101, 102, 103)
+FacultyInfo
+employeeid → (101, 102, 103)
+gender → (M, F, F)
+salary → (16000, 18000, 21000)
+
+3) Customers Who Visited but Did Not Make Transactions
+Problem:
+Find the customer IDs who visited but did not make any transactions, and count how many such visits they made.
+Tables:
+Visits
+visitid → (1, 2, 4, 5, 6, 7, 8)
+customerid → (23, 9, 30, 54, 96, 54, 54)
+Transactions
+transactionid → (2, 3, 9, 12, 13)
+visitid → (5, 5, 5, 1, 2)
+amount → (310, 300, 200, 910, 970)
+
+4) Average Time of Process Per Machine
+Problem:
+Each machine runs multiple processes with start and end timestamps.
+Write an SQL query to calculate:
+The average processing time per machine
+Processing time = end time - start time
+Round the result to 3 decimal places
+Table:
+Machine
+machineid → (0,0,0,0,1,1,1,1,2,2,2,2)
+processid → (0,0,1,1,0,0,1,1,0,0,1,1)
+activitytype → (start, end, start, end, …)
+timestamp → (0.712, 1.520, 3.140, 4.120, …)
+
+5) Employees Whose Manager Left the Company
+Problem:
+Find employees who:
+Have salary < 30000, AND
+Their manager is no longer present in the Employees table
+Return results ordered by employeeid.
+Table:
+Employees
+employeeid → (3, 12, 13, 1, 9, 11)
+name → (Mila, Antolle, Emery, Kalel, Mikaela, Joziah)
+managerid → (9, NULL, NULL, 11, NULL, 6)
+salary → (60301, 31000, 67084, 21241, 50937, 28485)
+
+6) Students and Examinations
+Problem:
+Find how many times each student attended each subject exam.
+Return results ordered by:
+studentid
+subjectname
+Tables:
+Students
+studentid → (1, 2, 13, 6)
+studentname → (Alice, Bob, John, Alex)
+Examinations
+studentid → (1,1,1,2,1,1,13,13,13,2,1)
+subjectname → (Math, Physics, Programming, …)
+Subjects
+subjectname → (Math, Physics, Programming)
+
+7) Business Expansion (Customer-Agent Interaction)
+Problem:
+Find all pairs of users (agents) and customers who have interacted more than once.
+For each pair, display:
+userid
+firstname
+lastname
+customerid
+customername
+number of contacts
+Order results by userid.
+Tables:
+Customer
+id-(101,102,103)
+customername-(ABC,XYZ,PQR)
+UserAccount
+id-(1,2)
+firstname-(John,Mike)
+lastname-(Smith,Brown)
+Contact
+contactid-(1,2,3,4) 
+usertableid-(1,1,1,2)
+customertableid-(101,101,102,103)
+
+Solutions-
+1)
+LEFT JOIN- becz we have to display uniqueid for each user(each user available in Employees table first table priority)
+if its INNER question find user who have uniqueid(not used keyword like each every all which gives priority to a table)
+if its RIGHT question show uniqueid of each user in EmployeeUNI table(right table specified)
+and if user does not have a uniqueid just show null.
+SELECT * FROM Employee e
+LEFT JOIN EmployeeUNI u
+ON e.id=u.id;
+Rule-
+first write all common record from both the table then remaining from ist and fill null for non matching cell
+e.id   name     uniqueid
+11   Meir       2
+90   Winston    3
+3    Jonathan   1
+1    Alice     null
+7    Bob       null
+if its INNER/RIGTH Output-
+id   name     uniqueid
+11   Meir       2
+90   Winston    3
+3    Jonathan   1
+- why both have same output becz EmployeeUNI table dont have non matching record like Employee table
+for example if (id,uniqueid)=(100,4) RIGHT output would have been id(11,90,3,100) 
+name(Meir,Winston,Jonathan,null) uniqueid(2,3,1,4)
+
+2)
+INNER JOIN- becz we have to display the rollnumber and name of students here not specified any column 
+name from both the tables
+SELECT s.rollnumber,s.name
+FROM StudentInfo s
+INNER JOIN FacultyInfo f
+ON s.advisorid=f.employeeid
+WHERE 
+(f.gender='M' AND f.salary>15000)
+OR
+(f.gender='F' AND f.salary>20000);
+Rule-
+write common record from both the table which satisfy the condition
+id   rollnumber   name
+101      1        Rahul
+103      3        Aman
+
+3)
+LEFT JOIN-becz negativity in Question
+SELECT v.customerid,COUNT(v.visitid) AS countnotrans
+FROM Visits v
+LEFT JOIN Transactions t
+ON v.visitid=t.visitid
+WHERE t.transactionid IS NULL
+GROUP BY v.customerid;
+Rule-
+first write all common record from both the table then remaining from ist and fill null for non matching cell
+v.visit    customerid      transactionid     amount
+1             23              12              910
+2             9               13              970
+5             54              2               310
+5             54              3               300
+5             54              9               200
+4             30             null             null
+6             96             null             null
+7             54             null             null
+8             54             null             null
+GROUP only those customerid which transactionid have null 
+GROUP1,count=1
+30 null
+GROUP2,count=1
+96 null
+GROUP3,count=2
+54 null
+54 null
+customerid  countnotrans
+30              1
+96              1
+54              2
+-can we use HAVING t.transactionid IS NULL (no because transactionid is not aggregated or grouped) 
+becz in this question first filtering then grouping so use WHERE and one more thing if table have 
+repeated data like in this case (5) in ist (5,5,5) in 2nd so in output take no.times record which is
+greater between these two like 2nd 3 times 5 record so in output also 3times 5 record
+
+4)
+SELF+LEFT-bcz only one table is there and each keyword which gives priority to Ist table
+SELECT a.machineid,ROUND(AVG(b.timestamp-a.timestamp),3)
+FROM Activity a
+LEFT JOIN Activity b
+ON a.machineid=b.machineid
+AND a.processid=b.processid
+AND a.activitytype='start'
+AND b.activitytype='end'
+GROUP BY a.machineid;
+a.machineid   a.processid   a.activitytype   a.timestamp
+0                 0             start            0.712
+0                 1             start            3.140
+AND
+a.machineid   a.processid   a.activitytype   a.timestamp
+0                 0              end            1.520
+0                 1              end            4.120
+---------------------------------------------------------------
+machineid     processid        starttime       endtime
+0                0              0.712          1.520
+0                1              3.140          4.120
+---------------------------------------------------------------
+
+GROUP1
+a.machineid     processid       processingtime(keep only 3digit after decimal becz ROUND,3)
+0                0              1.520-0.712=0.808
+0                1              4.120-3.140=0.980
+0.808+0.980/2=0.894  so for 0->0.894
+GROUP2
+a.machineid     processid      processingtime(keep only 3digit after decimal becz ROUND,3)
+1                 0           1.550-0.550=>1.000
+1                 1           1.420-0.430=0.99=>0.990
+1.000+0.990/2=0.995  so for 1->0.995
+GROUP3
+a.machineid     processid      processingtime(keep only 3digit after decimal becz ROUND,3)
+2                  0         4.512-4.100=0.412
+2                  1         5.000-2.500=2.5=>2.500
+0.412+2.500/2=1.456  so for 2->1.456
+if you try this question with SELF+INNER result will be same
+
+5)
+SELF+LEFT- becz only one table and there is negativity in question
+SELECT e.employeeid
+FROM Employee e
+LEFT JOIN Employee m
+ON e.managerid=m.employeeid
+WHERE e.salary<30000
+AND e.managerid IS NOT NULL
+AND m.employeeid IS NULL
+ORDER BY e.employeeid;
+
+e.employeeid  e.name     e.salary   e.managerid    m.employeeid
+3             Mila        60301          9              9
+12            Antolle     31000        null            null
+13            Emery       67084        null            null
+1             kalel       21241         11              11
+9             Mikaela     50937        null            null
+11            Joziah      28485         6              null
+
+for existance of manager we have to check e.managerid column values (which is given in question) in e.employeeid column
+if its match write that value in m.employeeid column (we created this column)
+e.employeeid employee ki id
+e.managerid  employee ke manager ki id
+m.employeeid manager ki employee id
+why e.managerid same value as m.employeeid because managerid is also an employeeid manager is also an employee of the company
+employee ke manager ki id = manager ki employeeid so if its employeeid it is present in e.employeeid column thatswhy we check
+and e.employeeid contain id only those employee which is currently working
+
+so for 3 manager is 9 check in e.employeeid column match write in m.employeeid column means 3 assigned manager is 9 and currently 
+working in company
+so for 12 manager is null check in e.employeeid not match write null in m.employeeid column means 12 have no manager assigned.
+so for 11 manager is 6 check in e.employeeid not match write null in m.employeeid column means 11 assigned manager is 6 but 
+he later on he left the company.
+
+6)
+CROSS+LEFT- 3 table is given think about two join will be use,
+so here tables - Students,Examinations,Subject
+Examinations table contain a column from both table means this is our relationship table so we need to join 
+Student and Subject table but here neither Students table contain id of Subjects table nor Subjects table contain id 
+of Students table so no relation CROSS JOIN will be used here and each keyword used for Students table which gives priority 
+to first table so left join with relationship table i.e Examinations table
+-flow is cross between students and subjects table gives resulting tablethen left between resulting table and examination.
+
+SELECT s.studentid,s.studentname,sub.subjectname,COUNT(e.subjectname) AS attendedexams
+FROM Students s
+CROSS JOIN Subjects sub
+LEFT JOIN Examinations e
+ON s.studentid=e.studentid
+AND sub.subjectname=e.subjectname
+GROUP BY s.studentid,s.studentname,sub.subjectname
+ORDER BY s.studentid,sub.subjectname;
+
+for better understanding
+Students-studentid(1,2) studentname(Alice,Bob)
+Subjects-subjectname(Math,Physics)
+Examinations-studentid(1,1,2) subjectname(Math,Math,Physics)
+
+FROM Students s
+CROSS JOIN Subjects sub
+s.studentid   s.studentname   sub.subjectname
+1               Alice          Math
+1               Alice          Physics
+2               Bob            Math
+2               Bob            Physics
+assume this store result in result table
+
+result LEFT JOIN Examination e
+ON s.studentid=e.studentid
+AND sub.subjectname=e.subjectname
+-rule take from ist(left table) common id then first write all common record then remaining from ist(left table)
+and 2nd have more freq take it and write it corresponding data also
+s.studentid  s.studentname  sub.subjectname  e.subjectname  e.studentid
+1             Alice           Math             Math              1
+1             Alice           Math             Math              1
+2             Bob             Physics          Physics           2
+1            Alice            Physics          Null             Null
+2            Bob              Math             Null             Null
+s.studentid,s.studentname,sub.subjectname(MAKING GROUPS)
+GROUP1-COUNT(e.subjectname) AS attendedexams=2
+1 Alice Math
+1 Alice Math
+GROUP2-COUNT(e.subjectname) AS attendedexams=1
+2 Bob Physics
+GROUP3-COUNT(e.subjectname) AS attendedexams=0
+1 Alice Physics
+GROUP4-COUNT(e.subjectname) AS attendedexams=0
+2  Bob  Math
+ORDER BY s.studentid,sub.subjectname;
+s.studentid  s.studentname  sub.subjectname (e.subjectname) AS attendedexams
+1                Alice             Math                  2
+1                Alice             Physics               0
+2                Bob               Math                  0
+2                Bob               Physics               1
+
+7)
+INNER+INNER- 3 table is given think about two join will be use,
+so here tables - Customer,UserAccount,Contact
+Contact table contain a column from both table means this is our relationship table and also both these two columns are ids
+contain direct relation so no cross join but here all pairs of customer and agent(user table) here all used for pairs 
+both these two tables which is neither given priority to any of table so INNER JOIN is used 
+- flow is inner between Contact table and Customer table or UserAccount table order doesnot matter here then between Contact table 
+and Customer table or UserAccount table.
+
+SELECT user.id AS userid,u.firstname,u.lastname,
+customer.id AS customerid,c.customername,COUNT(*) AS contactcount
+FROM Contact ct
+INNER JOIN user u
+ON ct.UserAccountid=u.id
+INNER JOIN Customer c
+ON ct.Customerid=c.id
+GROUP BY u.id,u.firstname,u.lastname,c.id,c.customername
+HAVING COUNT(*)>1
+ORDER BY u.id ASC;
+
+Customers table-customerid(101,102,103) customername(ABC,XYZ,PQR)
+User table-userid(1,2) firstname(John,Mike) lastname(Smith,Brown)
+Contact table-contactid(1,2,3,4) userid(1,1,1,2) customerid(101,101,102,103)
+
+ct.userid=u.userid
+join common id and write remaining all columns from both tables
+#for agents/users name who interact with Customer (INNER JOIN)
+here firstname lastname came from User table and 
+contactid customerid came from Contact table
+
+id  firstname  lastname  customerid  contactid
+1    John       Smith      101        1
+1    John       Smith      101        2
+1    John       Smith      102        3
+2    Mike       Brown      103        4
+here id belongs to both contact and user tables so we cant write if its left join it belongs to 
+ist table i.e user then we write u.userid
+
+result INNER JOIN Customer table, join common id and write remaining all columns from both tables
+
+ct.customerid=c.customerid
+#for customer name who interact with useraccount (INNER JOIN)
+here customername came from User table and 
+contactid userid came from Contact table
+
+id    contactid    userid    customername
+101    1              1        ABC
+101    2              1        ABC
+102    3              1        XYZ
+103    4              2        PQR      
+here id belongs to both contact and customer tables so we cant write if its left join it belongs to 
+ist table i.e user then we write c.customerid
+
+
+we take all columns for our understanding remove them keep only what question asked
+
+GROUP1-user.id,u.firstname,u.lastname,customer.id,c.customername|COUNT=2
+1     John       Smith      101         ABC
+1     John       Smith      101         ABC
+GROUP2-u.id,u.firstname,u.lastname,c.id,c.customername|COUNT=1
+1     John       Smith      102         XYZ 
+GROUP3-u.id,u.firstname,u.lastname,c.id,c.customername|COUNT=1
+2     John       Smith      103         PQR
+HAVING COUNT(*)>1
+userid fisrtname lastname customerid  customername contactcount
+1     John       Smith      101         ABC            2       
