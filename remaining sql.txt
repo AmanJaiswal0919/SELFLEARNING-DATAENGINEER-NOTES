@@ -1,0 +1,292 @@
+Remaining concept question in leetcode
+
+1) Write a SQL query to find the position of alphabet('a') in the FIRST NAME column 'Shivansh' from student table?
+#SELECT INSTR(LOWER(first_name), 'a')
+FROM student
+WHERE first_name = 'Shivansh';
+
+2) Write a SQL query CITY names FROM STATION which have vowels (a,e,i,o,u) 
+as both their first and last character. your result cannot contain duplicates?
+#SELECT DISTINCT CITY FROM STATION  
+WHERE (CITY LIKE 'A%' OR CITY LIKE 'E%' OR CITY LIKE '1%' OR CITY LIKE '0%' OR CITY LIKE '%') 
+AND (CITY LIKE '%a' OR CITY LIKE '%e' OR CITY LIKE '%' OR CITY LIKE '%0 OR CITY LIKE '%u');
+
+3)Write a SQL query CITY names FROM STATION that either do not start with vowels 
+or do not end with vowels. your result cannot contain duplicates?
+#SELECT DISTINCT CITY FROM STATION  
+WHERE (CITY NOT LIKE 'A%' AND CITY NOT LIKE 'E%' AND CITY NOT LIKE '1%' AND CITY NOT LIKE '0%' AND CITY NOT LIKE 'U%') 
+OR (CITY NOT LIKE '%a' AND CITY NOT LIKE '%e' AND CITY NOT LIKE '%i' AND CITY NOT LIKE '%0' AND CITY NOT LIKE '%u');  
+
+4)Find Customer Refree
+We need customer names who are
+-Not referred by customer with id=2
+-Not referred by anyone(NULL)
+so we exclude only those customers whose refereeid=2
+Customer
+id-1,2,3,4,5,6
+name-Will,Jane,Alex,Bill,Zack,Mark
+refereeid-null,null,2,null,1,2
+
+SELECT name
+FROM Customer
+WHERE refereeid!=2 OR refereeid IS NULL;
+output-
+Will
+Jane
+Bill
+Zack
+
+5)Samantha was tasked with calculating the average monthly salaries for all employees 
+in EMPLOYEES table but did not realize her keyboard 0 key was broken until 
+after completing the calculation Write a query calculating the amount of error 
+(actual - miscalculated average monthly salaries) and round it up to the next integer?  
+#SELECT CEIL(AVG(SALARY) - AVG(REPLACE(SALARY,'0','")))  
+FROM EMPLOYEES;
+
+6)Write a SQL query the sum of Northern Latitudes (LAT_N) from STATION having values greater than 38.7880 
+and less than 137.2345 Truncate your answer to 4 decimal places?  
+#SELECT TRUNCATE (SUM(LAT_N),4) FROM STATION WHERE LAT_N>38.7880 
+AND LAT_N<137.2345; 
+
+	
+
+8)Write a Query the average population for all cities in CITY rounded down to the nearest integer?
+#SELECT FLOOR(AVG(population))
+FROM CITY;
+
+9)An ecommerce company wants to find orders placed within last 24 hrs
+orderid  customerid  ordertime
+1         101         2026-03-04 12:30:00
+2         102         2026-03-03 09:00:00
+3         103         2026-03-05 09:10:00
+Select orderid,customerid
+FROM Orders
+WHERE ordertime>=NOW()-INTERVAL 1 DAY;
+NOW()=2026-03-05 11:00:00 suppose
+-1 Day=2026-03-04 11:00:00 
+so whichever is greater than or equal to 2026-03-04 11:00:00
+Output-1 101,3 103
+
+10)A company wants to find employees whose work anniversary is today?
+empid  name  join_date
+1     Aman   2021-07-21
+2     Ravi   2020-06-13
+3     Neha   2023-03-08
+suppose current date is 2026-03-08
+Select empid,name
+FROM Employees
+WHERE MONTH(join_date)=MONTH(CURDATE()) AND DAY(join_date)=DAY(CURDATE());
+MONTH=3,DAY=8 
+Output-3 Neha
+
+11) An online store promises delivery within 7 days of order date find orders delivered date?
+orderid  orderdate   delivery_date
+1        2023-01-01  2023-01-05
+2        2023-01-01  2023-01-10
+SELECT orderid
+FROM Orders
+WHERE delivery_date>DATE_ADD(order_date,INTERVAL 7 DAY);
+for 1-> 2023-01-01+7=2023-01-08 and 2023-01-05 so within 7 days-not late
+for 2-> 2023-01-01+7=2023-01-08 and 2023-01-10 not within 7 days-late
+Output-2
+
+12) A company wants to measure delivery time in days
+orderid  orderdate  deliverydate
+1       2023-01-01  2023-01-04
+2       2023-02-10  2023-02-15
+SELECT order_id,TIMESTAMPDIFF(DAY,orderdate,deliverydate) AS deliverydays
+FROM Orders;
+2023-01-01-2023-01-04 = 3days,2023-02-10-2023-02-15=5days
+Output
+orderid  deliverydays
+1            3
+2            5
+
+12) Primary Department(1789) - UNION 
+Write an SQL query to find each employee’s primary department.
+For employees with multiple departments, return the department where primary_flag = 'Y'.
+For employees with only one department, return their only department.
+Employee
+employeeid-1,2,2,3,4,4,4
+departmentid-1,1,2,3,2,3,4
+primaryflag-N,Y,N,N,N,Y,N
+
+SELECT employeeid,departmentid
+FROM Employee
+WHERE primaryflag='Y'
+UNION
+SELECT employeeid,departmentid
+FROM Employee
+GROUP BY employeeid
+HAVING COUNT(departmentid)=1;
+
+SELECT employeeid,departmentid
+FROM Employee
+WHERE primaryflag='Y'
+employeeid  departmentid
+2               1
+4               3
+
+SELECT employeeid,departmentid
+FROM Employee
+GROUP BY employeeid
+HAVING COUNT(departmentid)=1;
+group1
+1,1
+COUNT(departmentid)=1
+group2
+2,1
+2,2
+COUNT(departmentid)=2
+group3
+3,3
+COUNT(departmentid)=1
+group4
+4,2
+4,3
+4,4
+COUNT(departmentid)=3
+employeeid  departmentid
+1            1
+3            3
+
+final output-
+employeeid  departmentid
+1               1
+2               1
+3               3
+4               3
+
+13) Movie Rating
+
+we have 3 tables
+1 Movies
+movie_id-1,2,3
+title-Avengers, Frozen 2, Joker
+
+2. Users
+user_id-1,2,3,4
+name-Daniel, Monica, Maria, James
+
+3 Movie Rating
+movie_id-1,1,1,1,2,2,2,3,3
+user_id-1,2,3,4,1,2,3,1,2 rating-3,4,2,1,5,2,2,3,4
+created at-01-12,02-11,02-12, 01-01,02-17,02-01,03-01,02-22,02-25 (all are 2020)
+
+Task1-find user name who rated the maximum number of movies
+Count how many rating each user gave
+if multiple users have same highest count-choose lexicographically (alphabetically) smaller
+Daniel 3 rating and Monica 3 rating tie so choose Daniel
+
+Task2-Find the movie title with the highest average rating only for 2020-02-01 to 2020-02-29
+Calculate average rating for each movie in Feb 2020
+Highest average wins if tie choose lexicographically smaller Frozen 2-3.5 and Joker 3.5 tie choose Frozen 2
+
+(
+SELECT u.name AS results
+FROM Users u
+JOIN MovieRating r
+ON u.user id=r.user id
+GROUP BY u.user_id,u.name
+ORDER BY COUNT(*) DESC, u.name ASC
+LIMIT 1
+) 
+UNION ALL
+(
+SELECT m.title AS results
+FROM Movies m
+JOIN MovieRating r
+On m.movie_id=r.movie_id
+WHERE r.created at>='2020-02-01'
+AND r.created_at<'2020-03-01'
+GROUP BY m.movie id,m.title
+ORDER BY AVG(r.rating) DESC,m.title ASC LIMIT 1
+);
+
+user_id-1,2,3,4,1,2,3,1,2
+user_id-1,2,3,4
+
+SELECT u.name AS results
+FROM Users u
+JOIN MovieRating r
+ON u.user_id=r.user_id
+GROUP BY u.user_id,u.name
+ORDER BY COUNT(*) DESC,u.name ASC
+LIMIT 1
+1 
+1
+1
+2
+2
+2
+3
+3
+4
+
+Group1
+1 Daniel count-3
+
+Group2
+2 Monica count-3
+
+Group3
+3 Maria count-2
+
+Group4
+4 James count-1
+
+COUNT(*) DESC, u.name ASC
+
+1  Daniel
+2  Monica
+3  Maria
+4  James
+
+LIMIT 1 - 1 Daniel
+
+movie_id-1,2,3
+movie_id-1,1,1,1,2,2,2,3,3
+01-12,02-11,02-12,01-01,02-17,02-01,03-01,02-22,02-25 
+Avengers, Frozen 2, Joker
+3,4,2,1,5,2,2,3,4
+
+SELECT m.title AS results
+FROM Movies m
+JOIN MovieRating r
+On m.movie_id=r.movie_id
+WHERE r.created at>= '2020-02-01'
+AND r.created at 2020-03-01 LIMIT 1
+GROUP BY m.movie_id.m.title
+ORDER BY AVG(r.rating) DESC,m.title ASC
+LIMIT 1
+1
+1-Avengers
+1-Avengers
+1
+2-Frozen
+2-Frozen
+2
+3-Joker
+3-Joker
+
+Group1
+1-Avengers 2times 4+2/=3
+Group2
+2-Frozenc2 2times  5+2/=3.5
+Group3
+3-Joker 2times 1 3+4/-3.5
+
+AVG(r.rating) DESC.m.title ASC
+Avengers
+Frozen 2
+Joker
+Avengers
+LIMIT 1
+Frozen 2
+
+UNION ALL- combines both result without removing duplicate
+UNION- combines both result after removing duplicate
+
+result
+Daniel
+Frozen 2
