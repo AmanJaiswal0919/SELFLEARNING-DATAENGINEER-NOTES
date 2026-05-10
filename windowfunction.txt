@@ -1,0 +1,170 @@
+1) Delete Duplicate Emails (Keep Smallest ID)
+Problem Statement
+Delete all duplicate emails, keeping only one unique email with the smallest id.
+Tables
+Person
+id      email
+1     john@mail.com
+2     bob@mail.com
+3     john@mail.com
+4     alice@mail.com
+5     bob@mail.com
+Why Use ROW_NUMBER()?
+Need to identify duplicate emails
+Keep only one row from each email group
+Keep smallest id
+DISTINCT only removes duplicates, but cannot guarantee smallest id row for delete logic.
+DELETE FROM Person
+WHERE id IN (
+    SELECT id
+    FROM (
+        SELECT id,
+               ROW_NUMBER() OVER(
+                   PARTITION BY email
+                   ORDER BY id
+               ) AS rn
+        FROM Person
+    ) t
+    WHERE rn > 1
+);
+Step Output
+id    email                 rn
+4     alice@mail.com        1
+2     bob@mail.com          1
+5     bob@mail.com          2
+1     john@mail.com         1
+3     john@mail.com         2
+Rows Deleted (rn > 1)
+id      email
+5       bob@mail.com
+3       john@mail.com
+Final Output
+id    email
+4     alice@mail.com
+2     bob@mail.com
+1     john@mail.com
+
+
+2) Department Top 3 Salaries
+Problem Statement
+Find top 3 highest paid employees in each department.
+Why Use DENSE_RANK()?
+If same salary appears multiple times:
+Same rank given
+No rank skipped
+Example:
+Salary   Dense Rank
+90000     1
+85000     2
+85000     2
+70000     3
+
+SQL Solution
+SELECT d.name AS Department,
+       e.name AS Employee,
+       e.salary AS Salary
+FROM (
+    SELECT *,
+           DENSE_RANK() OVER(
+               PARTITION BY departmentId
+               ORDER BY salary DESC
+           ) AS rnk
+    FROM Employee
+) e
+JOIN Department d
+ON e.departmentId = d.id
+WHERE e.rnk <= 3;
+Final Output
+Department  Employee   Salary
+IT          Max        90000
+IT          Joe        85000
+IT          Randy      85000
+IT          Will       70000
+Sales       Henry      80000
+Sales       Sam        60000
+
+3) Last Person to Fit in Bus
+Problem Statement
+People board bus by turn order
+Bus limit = 1000 kg
+Find last person who can board without exceeding limit
+Why Use Running Sum?
+Need cumulative weight in boarding order.
+SQL Solution
+SELECT person_name
+FROM (
+    SELECT person_name,
+           SUM(weight) OVER(
+               ORDER BY turn
+           ) AS running_weight
+    FROM Queue
+) t
+WHERE running_weight <= 1000
+ORDER BY running_weight DESC
+LIMIT 1;
+
+Table
+person_name   weight    turn
+A             200         1
+B             300         2
+C             400         3
+D             200         4
+Running Sum Output
+person_name       running_weight
+A                 200
+B                 500
+C                 900
+D                 1100
+Eligible Rows (<=1000)
+person_name        running_weight
+A                  200
+B                  500
+C                  900
+Final Output
+person_name
+C
+
+4) you need to find the numbers that appear at least 3 times consecutively
+
+SELECT DISTINCT num AS consecutivenums
+FROM(SELECT num,
+LAG(num,1)OVER(ORDER BY id) AS prev1,
+LAG(num,2)OVER(ORDER BY id) AS prev2
+FROM Logs) AS t
+WHERE num=prev1 AND num=prev2;
+id     num
+1       1
+2       1
+3       1
+4       2
+5       1
+6       2
+7       2
+SELECT num,
+LAG(num,1)OVER(ORDER BY id) AS prev1,
+LAG(num,2)OVER(ORDER BY id) AS prev2
+FROM Logs) AS t
+id     num       prev1     prev2
+1       1        NULL      NULL
+2       1         1        NULL
+3       1         1         1
+4       2         1         1
+5       1         2         1
+6       2         1         2
+7       2         2         1
+Here distinct is not required because output will be 3-1
+id     num       prev1     prev2
+1       1        NULL      NULL
+2       1         1        NULL
+3       1         1         1
+4       2         1         1
+5       1         2         1
+6       2         1         1
+7       2         2         2
+8       2         2         1
+Here distinct required because output will be 3-1,4-1
+
+SELECT DISTINCT num AS consecutive FROM t
+WHERE num=prev1 AND num=prev2;
+consecutivenums
+1
