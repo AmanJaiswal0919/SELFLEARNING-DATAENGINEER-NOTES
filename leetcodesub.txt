@@ -1,0 +1,229 @@
+Ques1)To find the second highest distinct salary.
+Employee
+id-1,2,3 
+salary-100,200,300
+-Scalar + Table Subquery Solution-
+SELECT MAX(salary) AS second_highest_salary
+FROM Employee
+WHERE salary<(SELECT MAX(salary) FROM (
+SELECT DISTINCT salary FROM Employee) AS DistinctSalaries);
+
+-CTE Solution-
+WITH DistinctSalaries AS(
+SELECT DISTINCT salary 
+FROM Employee
+)
+SELECT MAX(salary) AS second_highest_salary
+FROM DistinctSalaries
+WHERE salary <(SELECT MAX(salary) FROM DistinctSalaries);
+
+explnation subquery-
+SELECT DISTINCT salary FROM Employee-remove duplicate salary
+SELECT MAX(salary) FROM (remove duplicate salary)-DistinctSalaries(300)
+SELECT MAX(salary) AS second_highest_salary
+WHERE salary< DistinctSalaries -100,200,300<300=100,200 pick max value (200)
+second_highest_salary
+200
+explnation cte-
+SELECT DISTINCT salary FROM Employee - DistinctSalaries(100,200,300)
+WHERE salary <(SELECT MAX(salary) FROM DistictSalaries)-100,200
+SELECT MAX(salary) AS second_highest_salary-200
+second_highest_salary
+200
+
+
+Ques2)Top 3 salaries employee in each department 
+Employee 
+id-1,2,3,4,5,6,7
+salary-85000,80000,60000,90000,69000,85000,70000
+name-Joe,Henry,Sam,Max,Janet,Randy,Will
+departmentid-1,2,2,1,1,1,1
+Department 
+id-1,2
+departmentname-IT,Sales
+
+Correlated Subquery Solution-
+SELECT 
+    d.name AS Department,
+    e1.name AS Employee,
+    e1.salary AS Salary
+FROM Employee e1
+JOIN Department d
+    ON e1.departmentId = d.id
+WHERE (
+    SELECT COUNT(DISTINCT e2.salary)
+    FROM Employee e2
+    WHERE e2.departmentId = e1.departmentId
+      AND e2.salary > e1.salary
+) < 3;
+
+CTE Solution-
+WITH DeptSalaryRank AS (
+    SELECT 
+        e1.id,
+        e1.name,
+        e1.salary,
+        e1.departmentId
+    FROM Employee e1
+    WHERE (
+        SELECT COUNT(DISTINCT e2.salary)
+        FROM Employee e2
+        WHERE e2.departmentId = e1.departmentId
+          AND e2.salary > e1.salary
+    ) < 3
+)
+
+SELECT 
+    d.name AS Department,
+    r.name AS Employee,
+    r.salary AS Salary
+FROM DeptSalaryRank r
+JOIN Department d
+    ON r.departmentId = d.id;
+
+id-1,2,3,4,5,6,7
+salary-85000,80000,60000,90000,69000,85000,70000
+name-Joe,Henry,Sam,Max,Janet,Randy,Will
+departmentId-1,2,2,1,1,1,1
+Department 
+id-1,2
+departmentname-IT,Sales
+
+subquery soluion-
+FROM Employee e1 JOIN Department d ON e1.departmentId = d.id
+id  name  departmentId  departmentname salary
+1   Joe       1               IT        85000
+1   Max       1               IT        90000
+1   Janet     1               IT        69000
+1   Randy     1               IT        85000
+1   Will      1               IT        70000
+2   Henry     2             Sales       80000
+2   Sam       2             Sales       60000
+SELECT COUNT(DISTINCT e2.salary)
+FROM Employee e2
+WHERE e2.departmentId = e1.departmentId
+AND e2.salary > e1.salary
+id  name  departmentId   salary
+1   Joe       1          85000
+1   Max       1          90000
+1   Janet     1          69000
+1   Randy     1          85000
+1   Will      1          70000
+2   Henry     2          80000
+2   Sam       2          60000
+
+3) manager with at least 5 direct reporst correlayted convert cte+ group by/ join 
+you have one employee table where every row is a worker
+id-101, 102, 103, 104, 105, 106
+name-John, Dan, James, Amy, Anne, Ron
+department-A,A,A,A,A,B
+managerId-null, 101, 101, 101, 101, 101
+main idea-some employees are also managers
+how do we know if another employees managerId points to their id then 
+that person is the manager what is Direct Reports employees who report directly to a manager 
+(employee->manager not like employee->team lead->manager)
+
+Column Subquery Solution-
+SELECT name
+FROM Employee
+WHERE id IN (
+    SELECT managerId
+    FROM Employee
+    WHERE managerId IS NOT NULL
+    GROUP BY managerId
+    HAVING COUNT(*) >= 5
+);
+
+CTE Solution-
+WITH manager_count AS (
+    SELECT managerId
+    FROM Employee
+    WHERE managerId IS NOT NULL
+    GROUP BY managerId
+    HAVING COUNT(*) >= 5
+)
+
+SELECT e.name
+FROM Employee e
+JOIN manager_count mc
+ON e.id = mc.managerId;
+
+
+5)investment in 2016 IN Subquery cte+join
+We need policyholder who satisfy 2 conditions
+condition1-they must have same tiv_2015 as at least one other person
+condition2-their city location(lat,lon) must be unique(no one else has the same (lat,lon) pair)
+Insurance
+pid-1,2,3,4
+tiv_2015-10,20,10,10
+tiv_2016-5,20,30,40
+lat-10,20,20,40
+lon-10,20,20,40
+
+Column Subquery Solution-
+SELECT ROUND(SUM(tiv_2016), 2) AS tiv_2016
+FROM Insurance
+WHERE tiv_2015 IN (
+        SELECT tiv_2015
+        FROM Insurance
+        GROUP BY tiv_2015
+        HAVING COUNT(*) > 1
+)
+AND (lat, lon) IN (
+        SELECT lat, lon
+        FROM Insurance
+        GROUP BY lat, lon
+        HAVING COUNT(*) = 1
+);
+
+CTE Solution-
+WITH duplicate_tiv AS (
+    SELECT tiv_2015
+    FROM Insurance
+    GROUP BY tiv_2015
+    HAVING COUNT(*) > 1
+),
+
+unique_location AS (
+    SELECT lat, lon
+    FROM Insurance
+    GROUP BY lat, lon
+    HAVING COUNT(*) = 1
+)
+
+SELECT ROUND(SUM(tiv_2016), 2) AS tiv_2016
+FROM Insurance
+WHERE tiv_2015 IN (
+    SELECT tiv_2015
+    FROM duplicate_tiv
+)
+AND (lat, lon) IN (
+    SELECT lat, lon
+    FROM unique_location
+);
+
+6)Product Price at a Given Date 
+Intially all product price=10
+we need the price on 2019-08-16
+Rule
+Take the latest price change on or before 2019-08-16
+if product has no change before that date price remain 10
+Product
+productid-1,2,1,1,2,3
+newprice-20,50,30,35,65,20
+changedate-2019-08-14,2019-08-14,2019-08-15,2019-08-16,2019-08-17,2019-08-18
+
+Correlated+Table Subquery Solution-
+SELECT p.product_id 
+COALESCE(
+(SELECT newprice
+FROM Products p2
+WHERE p2.productid=p.productid AND
+p2.changedate<='2019-08-16'
+ORDER BY changedate DESC
+LIMIT 1),10) AS price
+FROM (
+SELECT DISTINCT productid
+FROM Products) AS p;
+
+CTE Solution- dont need subquery solution is enough for this
