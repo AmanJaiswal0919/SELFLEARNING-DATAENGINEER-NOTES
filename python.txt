@@ -505,3 +505,24 @@ output-
 3 
 tcs
 
+9) getter and setter concept
+class employee():
+companyname='XYZ'
+def __init__(self,empname,empdept):
+self.empname=empname
+self.empdept=empdept
+def changes(self,newcompany):
+@property
+def info(self):
+print(f"Name{self.empname} Department{self.empdept}")
+@info.setter
+def info(self,newdetail):
+newempname=newdetail[0]
+newempdept=newdetail[1]
+self.empname=newempname
+self.empdept=newempdept
+emp1=employee('Priya','IT')
+emp1.info=['Aman','HR'] #setter
+emp1.info #getter
+output-
+NameAmanDepartmentHR
