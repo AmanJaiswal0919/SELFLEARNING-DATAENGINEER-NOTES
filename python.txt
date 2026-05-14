@@ -391,3 +391,117 @@ Some Common and Most Asked Question in Mnc
 18)Count word in string
 19)Merge two dictionary
 20)Find key with maximum value
+
+1) Wheneevr you are working within class we call variable as attribute and function as method
+2) and whenever you are creating method within class we have to pass default parameter self in that method
+3)whenever we use class attribute in method we have to use self it tells that it is coming from class attribute
+class employee():
+empname='Rahul'
+empdept='IT'
+def info(self):
+print(f"Name{empname} Department{empdept}")
+emp1=employee()
+print(emp1.empname)
+#here we need to use print b/c its not any print statement emp1.info() not work and just calling function it will auto print b/c it has
+print statement we use print with function when function have return statement
+output-
+Rahul
+Error empname is not defined
+why it is not working because we have to use something like this print(f"Name{self.empname} Department{self.empdept}")
+
+4)
+class employee():
+empname='Rahul'
+empdept='Finance'
+def info(self,empname,empdept):
+print(f"Name{self.empname} Department{empdept}")
+emp1=employee()
+emp1.info('Love','IT')
+output-
+NameRahulDepartmentIT
+self helps to create difference between the attribute which is inside the class and parameter which is outside the class.
+
+5)
+class employee():
+empname='Rahul'
+empdept='Finance'
+def info(self)
+print(f"Name{self.empname} Department{self.empdept}")
+emp1=employee()
+emp1.info()
+employee.info(emp1)
+#outside this emp1.info() and internally employee.info(emp1) python is passing parameter for you  internally emp1 refer to self
+output-
+NameRahulDepartmentFinance
+NameRahulDepartmentFinance
+
+6)
+employee.info(emp1) but why we need to pass here emp1 object here is the constructor comes because we have to create different object
+for different employee attributes like emp2,emp3___so on. suppose we have company name which is constant then we need to create
+different employees
+class employee():
+companyname='XYZ'
+def __int__(self,empname,empdept):
+self.empname=empname
+self.empdept=empdept
+def info(self):
+print(f"Name{self.empname} Department{self.empdept}")
+emp1=employee('Priya',"IT")
+emp1.info()
+emp2=employee('Aman','Finance')
+emp2.info()
+output-
+NamePriyaDepartmentIT
+NameAmanDepartmentFinance
+you can change company name by this in case of another employee belongs to different company
+emp2.companyname='ABC'
+print(emp2.companyname)
+
+7)
+in previous you can see we changed company name through object we can also do by class name  like
+emp2.companyname='ABC' but both object and class both are not recommended b/c both outside the class
+create function inside class then change
+class employee():
+companyname='XYZ'
+def __int__(self,empname,empdept):
+self.empname=empname
+self.empdept=empdept
+def info(self):
+print(f"Name{self.empname} Department{self.empdept}")
+def changes(self,newcompany):
+employee.companyname=newcompany
+emp1=employee('Priya','IT')
+emp2=employee('Aman''Finance')
+emp1.info()
+emp2.info()
+print(emp2.companyname)
+emp2.changes('infosys')
+print(emp2.companyname)
+output-
+NamePriyaDepartmentIT
+NameAmanDepartmentFinance
+XYZ
+Infosys
+
+8) static and class method
+class employee():
+companyname='XYZ'
+#def __init__(self,empname,empdept):
+#self.empname=empname
+#self.empdept=empdept
+def changes(self,newcompany):
+employee.companyname=newcompany
+@staticmethod
+def addition(x,y):
+print(x+y)
+@classmethod
+def changesInClassAttribute(cls,newcompany):
+cls.companyname=newcompany
+emp1=employee()
+emp1.addition(1,2)
+emp1.changesInClassAttribute('tcs')
+print(emp1.companyname)
+output-
+3 
+tcs
+
