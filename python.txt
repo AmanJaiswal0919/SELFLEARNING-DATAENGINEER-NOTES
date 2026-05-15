@@ -526,3 +526,112 @@ emp1.info=['Aman','HR'] #setter
 emp1.info #getter
 output-
 NameAmanDepartmentHR
+
+10) lambda and list compression map,filter,reduce
+a) exception/error handling- if you want to do something in your code if i get the error it should tell me the issue
+it should not block my code to execute rest of code i.e error/exception handling
+x='10'
+try:
+if(x>10):
+print('greater than 10')
+else:
+print('bla-bla')
+except Exception as e:
+print(e)
+print('hello world')
+output-
+'>' not supported between instance of 'str' and 'int'
+hello world
+
+def my_func(px):
+try:
+if px%2==0:
+   return 1
+else:
+    raise Exception('odd number error') #raise error
+except Exception as e:
+print(e)
+finally:
+print('hello world')
+my__func('5')
+my_func(4)
+my_func(5)
+output-
+not all arguments convereted during string formatting
+hello world
+hello world
+odd number error
+hello world
+
+2) List compression are just a shorter, cleaner way to write loops when creating lists.
+#Normal function
+mylist=[1,2,3,4,5]
+def square(px):
+retlist=[]
+for i in px:
+retlist.append(i*i)
+print(retlist)
+square(mylist)
+#with list compression
+mylist=[1,2,3,4,5]
+def square(px):
+retlist=[i*i for i in px]
+print(retlist)
+square(mylist)
+output-
+[1,4,9,16,25]
+[1,4,9,16,25]
+
+3) A lambda function is a small anonymous function It is used for short,simple operations It is helpful when you
+dont need to reuse the function It is called lightweight because: No def keyword, No function name required
+It is just not started unless you assign it to a variable
+def additon(x,y):
+return x*y
+var=addition(10,20)
+print(var)
+addition=lambda x,y:x*y
+var=addition(10,20)
+print(var)
+output-
+200
+200
+
+4) map filter
+mylist=[1,2,3,4,5]
+def square(px):
+return px*px
+result1=list(map(square,mylist))
+print(result1)
+
+def add(px):
+if(px%2==0):
+return px+px
+result2=list(map(add,mylist))
+result3=list(filter(add,mylist))
+print(result2)
+print(result3)
+output-
+[1,4,9,16,25]
+[None,4,None,8,None]
+[2,4]
+
+5) variable local global
+with nonlocal keyword you can use local variable for other inner function
+with global keyword you can modify a global variable with new data and overwrite
+previous global value
+def outer():
+x=100
+def hello():
+nonlocal x
+x=4
+print(x)
+def aman():
+print(x)
+aman()
+hello()
+aman()
+outer()
+output-
+100
+4
+4
