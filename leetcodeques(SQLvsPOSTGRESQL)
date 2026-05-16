@@ -1,32 +1,25 @@
-1. Fix Names Formatting
+1) Concept- CONCAT,UPPER,SUBSTRING (leetcode 1667)
+Problem Statement- Write an SQL query to fix the names so that: Only the first character is uppercase,
+Remaining characters are lowercase,Return result ordered by user_id.
 Table: Users
 userid → (1, 2)
 name → ('alice', 'bOB')
-👉 Question:
-Write an SQL query to fix the names so that:
-Only the first character is uppercase
-Remaining characters are lowercase
-📌 Output:
-Return result ordered by user_id
 
-2. Percentage of Users per Contest
-Tables:
-User
+
+2. Concept- DISTINCT+GROUP BY (leetcode 1633)
+Problem Statement- Write an SQL query to find: Percentage of users registered in each contest,
+Rounded to 2 decimal places,Order by percentage DESC,If tie → order by contest_id ASC.
+Tables: User
 userid → (6, 2, 7)
 username → ('Alice', 'Bob', 'Alex')
 Register
 contestid → (215, 209, 208, 210, 208, 209, 209, 215, 208, 210, 207, 210)
 userid → (6, 2, 2, 6, 6, 7, 6, 7, 7, 2, 2, 7)
-👉 Question:
-Write an SQL query to find:
-Percentage of users registered in each contest
-Rounded to 2 decimal places
-📌 Output:
-Order by percentage DESC
-If tie → order by contest_id ASC
 
-3. Average Selling Price
-Tables:
+3. Concept- IFNULL (leetcode 1251)
+Problem Statement- Write an SQL query to find: Average selling price for each product,
+Round to 2 decimal places, If no units sold → average price = 0.
+Tables: 
 Prices
 product_id → (1,1,2,2)
 start_date → (2019-02-17, 2019-03-01, 2019-02-01, 2019-02-21)
@@ -36,71 +29,49 @@ UnitsSold
 product_id → (1,1,2,2)
 purchase_date → (2019-02-25, 2019-03-01, 2019-02-10, 2019-03-22)
 units → (100, 15, 200, 30)
-👉 Question:
-Write an SQL query to find:
-Average selling price for each product
-Round to 2 decimal places
-📌 Rule:
-If no units sold → average price = 0
 
-4. Product Price on a Given Date
+4. Concept- COALESCE (leetcode 1164)
+Problem Statement: Initially, all products have price = 10, Write an SQL query to find:
+Price of each product on a given date (latest price before or on that date)
 Table: Products
 product_id → (1,2,1,1,2,3)
 new_price → (20,50,30,35,65,20)
 change_date → (2019-08-14, 2019-08-14, 2019-08-15, 2019-08-16, 2019-08-17, 2019-08-18)
-👉 Question:
-Initially, all products have price = 10
-Write an SQL query to find:
-Price of each product on a given date (latest price before or on that date)
 
-5. Rising Temperature
+
+5. Concept- DATEDIFF (leetcode 197)
+Problem Statement: Find all records where: Temperature is higher than previous day (yesterday),
+Return id
 Table: Weather
 id → (1,2,3,4)
 recordDate → (2015-01-01, 2015-01-02, 2015-01-03, 2015-01-04)
 temperature → (10,25,20,30)
-👉 Question:
-Find all records where:
-Temperature is higher than previous day (yesterday)
-📌 Output:
-Return id
 
-6. Monthly Transactions Report
+6. Concept- DATE_FORMAT()+CASE STATEMENT (leetcode 1193)
+Problem Statement: Write an SQL query to find for each: Month, Country
+Return:Number of transactions, Total amount, Number of approved transactions
+Total approved amount.
 Table: Transactions
 id → (121,122,123,124)
 country-> (US,US,US,DE)
 state-> (approved,declined,approved,approved)
 amount-> (1000,2000,2000,2000)
 trans_date-> (2018-12-18,2018-12-19,2019-01-01,2019-01-07)
-👉 Question:
-Write an SQL query to find for each:
-Month
-Country
-Return:
-Number of transactions
-Total amount
-Number of approved transactions
-Total approved amount
 
-7. Second Highest Salary
+7. Concept- Subquery, LIMIT+OFFSET (leetcode 176)
+Problem Statement: Write an SQL query to find: Second highest distinct salary,
+If not present → return NULL
 Table: Employee
 id → (1,2,3)
 salary → (100,200,300)
-👉 Question:
-Write an SQL query to find:
-Second highest distinct salary
-📌 Rule:
-If not present → return NULL
 
-8. Group Sold Products by Date
+8. Concept- GROUP_CONCAT() (leetcode 1484)
+Problem Statement: For each date: Count of distinct products sold,
+List of product names (sorted lexicographically),Order by sell_date
 Table: Activities
 sell_date → (2020-05-30, 2020-06-01, 2020-06-02, 2020-05-30, 2020-06-01, 2020-06-02, 2020-05-30)
 product → ('Headphone','Pencil','Mask','Basketball','Bible','Mask','T-Shirt')
-👉 Question:
-For each date:
-Count of distinct products sold
-List of product names (sorted lexicographically)
-📌 Output:
-Order by sell_date
+
 
 Solution-
 
