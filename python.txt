@@ -1,9 +1,7 @@
 Python Notes-
 Ques1-OPerator in Python
 Arithmetic,Comparison,Assignment,Logical,Bitwise,Membership(in,not in),Identity(is)
-a=10
-b=5
-c=3
+a=10, b=5, c=3
 result=((a+b))*c>40) and (a%b==0) or (a<<1>b)
 print(result)
 print(a&b)
@@ -392,96 +390,86 @@ Some Common and Most Asked Question in Mnc
 19)Merge two dictionary
 20)Find key with maximum value
 
-1) Wheneevr you are working within class we call variable as attribute and function as method
-2) and whenever you are creating method within class we have to pass default parameter self in that method
-3)whenever we use class attribute in method we have to use self it tells that it is coming from class attribute
+1) Class and object in Python.
+-Whenever you are working within class we call variable as attribute and function as method.
+-Whenever you are creating method within class we have to pass default parameter self in that method.
+-Whenever we use class attribute in method we have to use self it tells that it is coming from class attribute.
+
 class employee():
-empname='Rahul'
-empdept='IT'
-def info(self):
-print(f"Name{empname} Department{empdept}")
+    empname='Rahul'
+    empdept='IT'
+    def info(self):
+        print(f"Name{empname} Department{empdept}")
 emp1=employee()
 print(emp1.empname)
-#here we need to use print b/c its not any print statement emp1.info() not work and just calling function it will auto print b/c it has
-print statement we use print with function when function have return statement
+emp1.info()
 output-
 Rahul
 Error empname is not defined
-why it is not working because we have to use something like this print(f"Name{self.empname} Department{self.empdept}")
-
+#here we need to use print b/c we want print attribute value(empname)
+#we use print with function when function has return statement but here info has print so no need to write print(emp1.info())
+#emp1.info() and employee.info(emp1) both are same emp1.info() work like employee.info(emp1) internally in python
 4)
 class employee():
-empname='Rahul'
-empdept='Finance'
-def info(self,empname,empdept):
-print(f"Name{self.empname} Department{empdept}")
+    empname='Rahul'
+    empdept='Finance'
+    def info(self,empname,empdept):
+        print(f"Name{self.empname}Department{empdept}")
 emp1=employee()
 emp1.info('Love','IT')
+employee.info(emp1,'Love','IT')
 output-
 NameRahulDepartmentIT
-self helps to create difference between the attribute which is inside the class and parameter which is outside the class.
+NameRahulDepartmentIT
+#self helps to create difference between the attribute(variable) which is inside the class and parameter(variable) 
+which is outside the class.thatswhy it was not working in previous example python was not able to understand which 
+belongs to inside or outside the class now python understand self.empname-inside(Rahul), empdept-outside(IT)
 
-5)
-class employee():
-empname='Rahul'
-empdept='Finance'
-def info(self)
-print(f"Name{self.empname} Department{self.empdept}")
-emp1=employee()
-emp1.info()
-employee.info(emp1)
-#outside this emp1.info() and internally employee.info(emp1) python is passing parameter for you  internally emp1 refer to self
-output-
-NameRahulDepartmentFinance
-NameRahulDepartmentFinance
 
-6)
-employee.info(emp1) but why we need to pass here emp1 object here is the constructor comes because we have to create different object
-for different employee attributes like emp2,emp3___so on. suppose we have company name which is constant then we need to create
-different employees
-class employee():
-companyname='XYZ'
-def __int__(self,empname,empdept):
-self.empname=empname
-self.empdept=empdept
-def info(self):
-print(f"Name{self.empname} Department{self.empdept}")
-emp1=employee('Priya',"IT")
-emp1.info()
-emp2=employee('Aman','Finance')
-emp2.info()
-output-
-NamePriyaDepartmentIT
-NameAmanDepartmentFinance
-you can change company name by this in case of another employee belongs to different company
-emp2.companyname='ABC'
-print(emp2.companyname)
+6) Need of Constructor in Python
+employee.info(emp1) but why we need to pass here emp1 object
+here is the constructor comes because a class can have multiple object 
+so to differentiate these we provide unique name of each object
+Lets suppose a company which is class and employee which is object
+company name is constant but different-2 employee work in that company
+so we call employee1-emp1,employee2-emp2_____so on.
 
-7)
-in previous you can see we changed company name through object we can also do by class name  like
-emp2.companyname='ABC' but both object and class both are not recommended b/c both outside the class
-create function inside class then change
-class employee():
-companyname='XYZ'
-def __int__(self,empname,empdept):
-self.empname=empname
-self.empdept=empdept
-def info(self):
-print(f"Name{self.empname} Department{self.empdept}")
-def changes(self,newcompany):
-employee.companyname=newcompany
-emp1=employee('Priya','IT')
-emp2=employee('Aman''Finance')
-emp1.info()
-emp2.info()
-print(emp2.companyname)
-emp2.changes('infosys')
-print(emp2.companyname)
+normal function example
+class Employee:
+    companyname='XYZ'
+    def info(self, empname, empdept):
+        print(f"Name{empname}Department{empdept}")
+emp1 = Employee()
+emp2 = Employee()
+emp1.info("Love", "IT")
+emp2.info("Aman", "Finance")
+print(Employee.companyname)  
+Employee.companyname = "ABC"
+print(Employee.companyname) 
 output-
-NamePriyaDepartmentIT
+NameLoveDepartmentIT
 NameAmanDepartmentFinance
 XYZ
-Infosys
+ABC
+
+constructor example
+class Employee:
+    companyname='XYZ'
+    def __init__(self, empname, empdept):
+        print(f"Name{empname}Department{empdept}")
+emp1 = Employee("Love", "IT")
+emp2 = Employee("Aman", "Finance")
+print(Employee.companyname)  
+Employee.companyname = "ABC"
+print(Employee.companyname) 
+output-
+NameLoveDepartmentIT
+NameAmanDepartmentFinance
+XYZ
+ABC
+Difference- no need to call function just pass the parameter 
+Constructor → Prints automatically when object is created (Employee("Love","IT")).
+Normal function → Requires an extra step (emp1.info("Love","IT")).
 
 8) static and class method
 class employee():
