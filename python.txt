@@ -472,25 +472,36 @@ Constructor → Prints automatically when object is created (Employee("Love","IT
 Normal function → Requires an extra step (emp1.info("Love","IT")).
 
 8) static and class method
+static method
 class employee():
-companyname='XYZ'
-#def __init__(self,empname,empdept):
-#self.empname=empname
-#self.empdept=empdept
-def changes(self,newcompany):
-employee.companyname=newcompany
-@staticmethod
-def addition(x,y):
-print(x+y)
-@classmethod
-def changesInClassAttribute(cls,newcompany):
-cls.companyname=newcompany
+    def add(self,x,y):
+        print(x+y)
+    @staticmethod
+    def addition(x,y):
+        print(x+y)
 emp1=employee()
 emp1.addition(1,2)
+emp1.add(1,2)
+output-
+3
+3
+class method
+class employee():
+    companyname='infosys'
+    def changes(self,newcompany):
+        employee.companyname=newcompany
+    @classmethod
+    def changesInClassAttribute(cls,newcompany):
+        cls.companyname=newcompany
+emp1=employee()
+print(emp1.companyname)
+emp1.changes('accenture')
+print(emp1.companyname)
 emp1.changesInClassAttribute('tcs')
 print(emp1.companyname)
 output-
-3 
+infosys
+accenture
 tcs
 
 9) getter and setter concept
