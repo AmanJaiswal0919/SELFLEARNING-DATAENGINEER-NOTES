@@ -529,7 +529,7 @@ emp1 = Employee()
 emp1.set_info(['Aman', 'HR'])   # call setter function
 print(emp1.get_info())          # call getter function
 output-
-NameAmanDepartmentHR
+AmanDepartmentHR
 AmanDepartmentHR
 
 10) lambda and list compression map,filter,reduce
