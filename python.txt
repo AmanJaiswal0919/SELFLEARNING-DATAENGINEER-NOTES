@@ -505,26 +505,32 @@ accenture
 tcs
 
 9) getter and setter concept
-class employee():
-companyname='XYZ'
-def __init__(self,empname,empdept):
-self.empname=empname
-self.empdept=empdept
-def changes(self,newcompany):
-@property
-def info(self):
-print(f"Name{self.empname} Department{self.empdept}")
-@info.setter
-def info(self,newdetail):
-newempname=newdetail[0]
-newempdept=newdetail[1]
-self.empname=newempname
-self.empdept=newempdept
-emp1=employee('Priya','IT')
-emp1.info=['Aman','HR'] #setter
-emp1.info #getter
+with getter and setter
+class Employee:
+    @property   # getter
+    def info(self):
+        return f"{self.empname}Department{self.empdept}"
+    @info.setter   # setter
+    def info(self, newdetail):
+        self.empname = newdetail[0]
+        self.empdept = newdetail[1]
+emp1 = Employee()
+emp1.info = ['Aman', 'HR']#setter
+print(emp1.info) #getter
+
+Normal function
+class Employee:
+    def set_info(self, newdetail):   # setter-like
+        self.empname = newdetail[0]
+        self.empdept = newdetail[1]
+    def get_info(self):   # getter-like
+        return f"{self.empname}Department{self.empdept}"
+emp1 = Employee()
+emp1.set_info(['Aman', 'HR'])   # call setter function
+print(emp1.get_info())          # call getter function
 output-
 NameAmanDepartmentHR
+AmanDepartmentHR
 
 10) lambda and list compression map,filter,reduce
 a) exception/error handling- if you want to do something in your code if i get the error it should tell me the issue
