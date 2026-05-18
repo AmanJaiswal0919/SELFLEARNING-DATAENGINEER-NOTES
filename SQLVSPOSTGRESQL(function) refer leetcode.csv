@@ -15,7 +15,7 @@ same as MYSQL,BETWEEN A AND B SAME WORK AS (>=A AND <=B),easysql.txt-(h)
 same as MYSQL,"ROUND(AVG(salary),2)",Project Employees 1(Leetcode 1075)
 CEILING(),CEIL(4.1),easysql.txt-(z-1)
 TRUNC(),TRUNCATE(4.9),easysql.txt-(z-2)
-same as MYSQL,IS NULL,easysql.txt-(f)
+same as MYSQL,IS NULL,easysql.txt-(f) | Find Customer Refree(Leetcode 584)
 same as MYSQL,IS NOT NULL,easysql.txt-(p)
 same as MYSQL,"IN ('IT','HR','Finance')",Investments in 2016(Leetcode 585)
 same as MYSQL,"NOT IN ('IT','HR','Finance')",
