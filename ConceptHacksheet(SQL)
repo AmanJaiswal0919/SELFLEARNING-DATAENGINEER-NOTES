@@ -1,6 +1,7 @@
 Most Used SQL Concept
 
-1) IS NULL not use = NULL - for checking  null values in a column
+1) IS NULL not use = NULL - for checking  null values in a column because null=null is unknown and where in sql ignore 
+unknown value and return nothing
 
 1)Distinct/GROUP BY
 you have to find just unique value no aggregation required both work alone 
