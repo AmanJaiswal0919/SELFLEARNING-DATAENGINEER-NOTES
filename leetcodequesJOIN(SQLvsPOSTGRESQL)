@@ -147,7 +147,7 @@ id   rollnumber   name
 101      1        Rahul
 103      3        Aman
 
-3)
+3) first table both records matching + non matching we required without making means non matching records only
 LEFT JOIN-becz negativity in Question
 SELECT v.customerid,COUNT(v.visitid) AS countnotrans
 FROM Visits v
