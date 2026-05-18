@@ -20,7 +20,7 @@ same as MYSQL,IS NULL,easysql.txt-(f) | Find Customer Refree(Leetcode 584)
 same as MYSQL,IS NOT NULL,easysql.txt-(p)
 same as MYSQL,"IN ('IT','HR','Finance')",Investments in 2016(Leetcode 585)
 same as MYSQL,"NOT IN ('IT','HR','Finance')",
-same as MYSQL,    =(equal),easysql.txt-(v)
+same as MYSQL,    =(equal),1148. Article Views I
 same as MYSQL,Floor(),easysql.txt-(g)
 COALESCE(),IFNULL(),Average Selling Price (Leetcode 1251)/Product Price at Given Date (Leetcode 1164)
 same as MYSQL,UNION/UNIONALL,Primary Department for Each Employee (Leetcode 1789)/Movie Rating (Leetcode 1341)/Friend Request (Leetcode 602)/Count Salary Categories(Leetcode 1907)
