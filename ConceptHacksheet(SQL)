@@ -1,5 +1,7 @@
 Most Used SQL Concept
 
+1) IS NULL not use = NULL - for checking  null values in a column
+
 1)Distinct/GROUP BY
 you have to find just unique value no aggregation required both work alone 
 but use DISTINCT instead GROUP BY with no aggregation 
