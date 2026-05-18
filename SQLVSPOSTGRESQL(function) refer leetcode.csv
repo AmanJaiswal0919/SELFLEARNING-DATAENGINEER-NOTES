@@ -5,7 +5,7 @@ same as MYSQL,"SUBSTRING(columnname,start,no.ofcharacter)",Fix Names in a Table(
 POSITION(),"INSTR(columnname,'that character')",easysql.txt-(s)
 same as MYSQL,"REPLACE(columnname,'a character','another character')",easysql.txt-(z-1)
 same as MYSQL,LIKE  thatcharacter% ,easysql.txt-(y)
-same as MYSQL, greater than <= answer try this also <= answer Andorra after change(population<=2381741)- Big Countries(leetcode 595)
+same as MYSQL, greater than <= answer <= answer Andorra after change(population<=2381741),Big Countries(leetcode 595)
 same as MYSQL,LIKE   %thatcharacter,easysql.txt-(y)
 same as MYSQL,NOT LIKE  thatcharacter% ,easysql.txt-(z)
 same as MYSQL,NOT LIKE  %thatcharacter,easysql.txt-(z)
