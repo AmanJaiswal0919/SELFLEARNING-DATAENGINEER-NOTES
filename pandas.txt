@@ -380,3 +380,42 @@ pd.merge(df1, df2, on="id")
 join()
 Used for index-based join
 df1.join(df2, how="inner")
+
+--------------------------------------------------------------------------------------------------------------------------
+
+1) What is Pandas and why we used it? 
+2) Difference between Series and Dataframe?
+
+3) How to read files in Pandas?
+Extraction Question(means taking data from source)
+
+-How to extract data from csv to MySQL?
+LOAD DATA INFILE 'file path'
+INTO TABLE tablename
+FIELDS TERMINATED BY ',' (COMMA SEPARATED)
+ENCLOSED BY ""  (removing double quotes)
+LINES TERMINATED BY '\n' (specifie where each row ends)
+IGNORE 1 ROWS (ignore first row header)
+(name,id,salary); (specifie column for table)
+
+-How to extract data from MYSQL in Jupyter Pandas?
+import pandas as pd
+from sqlalchemy import create_engine
+df=pd.read_csv('employee.csv)
+engine=create_engine('mysql+pymysql:??root:pa___')
+df=pd.read_sql('SELECT*FROM employees',con=engine)
+print(df)
+one ques raise here why use SQL+Pandas together
+SQL for extraction and filtering
+Pandas for transformation and analysis
+
+-Extract data from csv,excel in Jupyter Pandas
+df=pd.read_csv("data.csv")
+-Extract only required columns from huge dataset
+df=pd.read_csv("data.csv",usecols=['id','name'])
+-Extract data from excel containing multiple sheet
+df=pd.read_excel("data.xlsx,sheet_name="Sheet1")
+
+4)
+
+
