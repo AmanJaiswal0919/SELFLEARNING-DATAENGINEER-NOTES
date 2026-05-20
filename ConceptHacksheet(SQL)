@@ -225,3 +225,13 @@ ques- Next login date
 -use when computing running totals
 ques-Customer lifetime spending
 ques-Cumulative orders per user
+
+19) MONTH(join_date)=MONTH(CURDATE()) AND DAY(join_date)=DAY(CURDATE())
+CURDATE()- give present date when you execute this query suppose today so give today date
+MONTH(),DAY(),YEAR() - extraction month,day,year from date column in your table
+
+20) NOW()-INTERVAL 1 DAY
+INTERVAL amount+unit , amount-number|unit-DAY,MONTH,YEAR,HOUR,MINUTE
+NOW()- give present date+time
+CURDATE()- today’s date
+DATE()- remove time, keep only date
