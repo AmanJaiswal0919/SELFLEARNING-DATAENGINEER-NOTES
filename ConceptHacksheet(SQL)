@@ -31,6 +31,45 @@ Note-when we write two column with GROUP BY it does not create separate Group fo
 GROUP1-101, GROUP2-102, 102, GROUP3-103 
 GROUP1-HR, GROUP2-IT, IT, GROUP3-SALES
 instead of this GROUP1-101-HR GROUP2-102-IT, 102-IT GROUP3-103-SALES
+example for clearence difference between DISTINCT and GROUP BY
+
+customerid-1,1,2,3,3,3
+orderid-101,102,103,104,105,106
+SELECT customerid FROM order 
+GROUP BY customerid
+HAVING COUNT(orderid)>1;
+1,1 | 101,102 = group1,count-2
+2 | 103 = group2,count-1
+3,3,3 | 104,105,106 = group3,count-3
+1|2,3|3 => COUNT(orderid)>1
+output-1,3
+
+customerid-1,1,2,3,3,3
+orderid-101,101,103,104,104,105
+SELECT customerid FROM order 
+GROUP BY customerid
+HAVING COUNT(DISTINCT orderid)>1;
+group customerid
+1|101,1|101
+2|103
+3|104,3|104,3|105
+then apply distict orderid
+1|101 count-1
+2|103 count-1
+3|104,3|105 count-2
+3|104, 3|105 => COUNT(DISTINCT orderid)>1
+output- 3
+
+SELECT orderid FROM order 
+GROUP BY orderid;
+or SELECT DISTINCT orderid FROM order;
+DISTINCT is recommended here because we dont need aggregate function use group by only when you need to some
+aggregation on duplicate values if you want only unique without aggregate use DISTINCT only both have same result
+output-
+101
+103
+104
+105
 
 2) GROUP BY AGGREGATE FUNCTION
 you have to find out unique value with aggregation use GROUP BY AGG FUNCTION 
@@ -186,130 +225,3 @@ ques- Next login date
 -use when computing running totals
 ques-Customer lifetime spending
 ques-Cumulative orders per user
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
