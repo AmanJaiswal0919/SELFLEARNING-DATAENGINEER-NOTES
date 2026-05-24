@@ -16,7 +16,7 @@ Register
 contestid → (215, 209, 208, 210, 208, 209, 209, 215, 208, 210, 207, 210)
 userid → (6, 2, 2, 6, 6, 7, 6, 7, 7, 2, 2, 7)
 
-2. Concept- DISTINCT+COUNT()
+2. Concept- DISTINCT+COUNT (leetcode 1633)
 Write a solution to find the percentage of the users registered in each contest rounded to two decimals.
 Return the result table ordered by percentage in descending order. In case of a tie, 
 order it by contest_id in ascending order.
@@ -95,7 +95,7 @@ as both their first and last character. your result cannot contain duplicates?
 Problem Statement- Write a SQL query CITY names FROM STATION that either do not start with 
 vowels or do not end with vowels. your result cannot contain duplicates?
 
-12. Concept- <>,!=,ISNULL
+12. Concept- <>,!=,ISNULL (leetcode 584)
 Problem Statement- We need customer names who are:Not referred by customer with id=2,
 Not referred by anyone(NULL) so we exclude only those customers whose refereeid=2
 Customer
@@ -103,7 +103,7 @@ id-1,2,3,4,5,6
 name-Will,Jane,Alex,Bill,Zack,Mark
 refereeid-null,null,2,null,1,2
 
-13 Concept- ROUND
+13 Concept- ROUND (leetcode 1075)
 Problem Statement- Write an SQL query that reports the average experience years of all the 
 employees for each project, rounded to 2 digits.
 Project
@@ -156,7 +156,7 @@ orderid  orderdate  deliverydate
 2       2023-02-10  2023-02-15
 
 
-20  Concept- UNION
+20  Concept- UNION (leetcode 1789)
 Problem Statement- Write an SQL query to find each employee’s primary department:
 For employees with multiple departments, return the department where primary_flag = 'Y'.
 For employees with only one department, return their only department.
@@ -165,7 +165,7 @@ employeeid-1,2,2,3,4,4,4
 departmentid-1,1,2,3,2,3,4
 primaryflag-N,Y,N,N,N,Y,N
 
-21 Concept- UNION ALL
+21 Concept- UNION ALL (leetcode 1341)
 Problem Statement: we have 3 tables
 Movies
 movie_id-1,2,3
