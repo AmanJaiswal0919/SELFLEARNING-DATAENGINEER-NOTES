@@ -16,6 +16,17 @@ Register
 contestid → (215, 209, 208, 210, 208, 209, 209, 215, 208, 210, 207, 210)
 userid → (6, 2, 2, 6, 6, 7, 6, 7, 7, 2, 2, 7)
 
+2. Concept- DISTINCT+COUNT()
+Write a solution to find the percentage of the users registered in each contest rounded to two decimals.
+Return the result table ordered by percentage in descending order. In case of a tie, 
+order it by contest_id in ascending order.
+Users
+user_id-6,2,7
+user_name-Alice,Bob,Alex
+Register
+contest_id-215,209,208,210,208,209,209,215,208,210,207,210
+user_id-6,2,2,6,6,7,6,7,7,2,2,7
+
 3. Concept- IFNULL (leetcode 1251)
 Problem Statement- Write an SQL query to find: Average selling price for each product,
 Round to 2 decimal places, If no units sold → average price = 0.
@@ -91,6 +102,17 @@ Customer
 id-1,2,3,4,5,6
 name-Will,Jane,Alex,Bill,Zack,Mark
 refereeid-null,null,2,null,1,2
+
+13 Concept- ROUND
+Problem Statement- Write an SQL query that reports the average experience years of all the 
+employees for each project, rounded to 2 digits.
+Project
+project_id-1,1,1,2,2
+employee_id-1,2,3,1,4
+Employee
+employee_id-1,2,3,4
+name-khaled,Ali,John,Doe
+experience_years-3,2,1,2
 
 13 Concept- CEIL
 Problem Statement- Samantha was tasked with calculating the average monthly salaries for all employees 
