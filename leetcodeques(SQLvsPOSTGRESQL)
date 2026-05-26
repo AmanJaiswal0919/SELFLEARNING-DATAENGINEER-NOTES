@@ -197,6 +197,8 @@ name='bOB'
 -Now combined these two string in one single string CONCAT('B','ob')->Bob
 
 2)
+COUNT(columnname)-count duplicate but not null values
+COUNT(*)-count duplicate and null value both
 SELECT contestid,
 ROUND(
 COUNT(DISTINCT r.userid)*100/(SELECT COUNT(*) FROM Users),2) AS percentage
