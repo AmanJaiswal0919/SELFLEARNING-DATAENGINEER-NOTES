@@ -791,3 +791,103 @@ print("ketchup" in branch_a_products)
 # Frozenset
 essential_items = frozenset(["milk", "bread", "ketchup"])
 print(essential_items)
+
+-------------------------------------------------------------------------------------------------------------------------------------
+1. Reverse a String
+Problem Statement:
+Given a string s, write a Python program to reverse the string without using built-in reverse methods.
+Example:
+Input: "hello"
+Output: "olleh"
+Note- Strings are immutable so you cant use reverse() b/c it change the original string
+Expected interview question:
+-Using reversed()
+-Using Slicing
+-Using loop
+
+2. Reverse a List
+Problem Statement:
+Given a list of integers, reverse the order of elements in the list.
+Example:
+Input: [1,2,3,4,5]
+Output: [5,4,3,2,1]
+Expected interview question:
+-Using reversed()
+-Using Slicing
+-Using loop
+-Using reverse()
+
+3. Reverse a Tuple
+Problem Statement:
+Given a tuple containing elements, return a new tuple with elements in reverse order.
+Example:
+Input: (10,20,30,40)
+Output: (40,30,20,10)
+Note- Tuple are immutable so you cant use reverse() b/c it change the original string
+Expected interview question:
+-Using reversed()
+-Using Slicing
+-Using loop
+
+4. Reverse a Dictionary
+Problem Statement (Most Asked Variation):
+Given a dictionary, reverse the order of key-value pairs.
+Example:
+Input: d = {'a':1, 'b':2, 'c':3}
+Output: {'c':3, 'b':2, 'a':1}
+Expected interview question:
+-Using reversed()
+-Using loop
+Note- We cant use slicing here b/c dictionary is not index-based,
+and not reverse() here b/c dictionary has no reverse() method
+
+5. Reverse a Set 
+-We cant reverse a set b/c set is unordered
+
+6. Remove Duplicate in String
+Problem Statement:
+Given a string, remove duplicate characters while maintaining the original order.
+Example:
+Input: "programming"
+Output: "progamin"
+Expected interview question:
+-Using Set()
+-Using loop()
+-Using dict.fromkeys()
+
+7. Remove Duplicates from List
+Problem Statement:
+Given a list of integers, remove duplicate elements while preserving the original order.
+Example:
+Input: [1,2,2,3,4,4,5]
+Output: [1,2,3,4,5]
+Expected interview question:
+-Using Set()
+-Using loop()
+-Using dict.fromkeys()
+
+8.Remove Duplicates from Tuple
+Problem Statement:
+Given a tuple, remove duplicate elements and return a new tuple while preserving order.
+Example:
+Input: (1,2,2,3,4,4,5)
+Output: (1,2,3,4,5)
+Expected interview question:
+-Using Set()
+-Using loop()
+-Using dict.fromkeys()
+
+9. Remove Duplicates from Dictionary
+Problem Statement:
+Given a dictionary, remove duplicate values while keeping the first occurrence.
+Example:
+Input: {'a':1, 'b':2, 'c':1, 'd':3}
+Output: {'a':1, 'b':2, 'd':3}
+Expected interview question:
+-Using loop()
+Note- not set() b/c dictionary stores data as key-value pairs while set() work on single unique values
+and not dict.fromkeys() b/c in dictionary  keys are already unique
+
+10.Remove Duplicates from Set
+-Already Contain Unique Values
+Output: 
