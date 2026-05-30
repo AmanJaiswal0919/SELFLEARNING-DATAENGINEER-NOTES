@@ -111,6 +111,12 @@ SELECT custid FROM Customer
 GROUP BY custid 
 HAVING COUNT (DISTINCT product_key)=(SELECT COUNT(*) FROM Product);
 
+CASE WHEN condition THEN return value ELSE O or column END condition
+when you need to use if else inside the query
+CASE WHEN state = 'approved' THEN 1 ELSE 0 END
+CASE WHEN department ='IT' THEN salary ELSE experience END>5;
+
+
 6) Subquery
 If you need an aggregated value first then comparison with each row-scalar subquery 
 find employees earning more than their company average salary-scalar subquery needed here
