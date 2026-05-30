@@ -179,6 +179,13 @@ SELF INNER JOIN
 ques-find employees earning more than their manager
 ques-find customers who placed two orders with the same amount
 
+Join
+when we need both matching and non matching record but one of table has no non matching record then inner also work
+if 2nd table prioirity and 2nd table have no non matching record-right or inner both work
+if ist table prioirity and ist table have no non matching record-left or inner both work
+when we need only matching record-inner
+when we need non matching record - leftorright +IS NULL
+
 SELF LEFT JOIN
 ques-find employees without manager
 ques-show each order and the next order placed by the same customer
