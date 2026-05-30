@@ -198,6 +198,10 @@ FROM Employees WHERE dept=e.dept);
 
 
 13) UNION vs UNION ALL
+-when problem statement is given in one question
+UNION ALL- combines both result without removing duplicate
+UNION- combines both result after removing duplicate
+
 
 14) ROW_NUMBER()
 -use when you need unique row ordering
