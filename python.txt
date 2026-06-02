@@ -891,3 +891,28 @@ and not dict.fromkeys() b/c in dictionary  keys are already unique
 10.Remove Duplicates from Set
 -Already Contain Unique Values
 Output: 
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Reverse a String       
+-Using Slicing
+def revString(s):
+    print(s[::-1))
+revString('Aman')
+
+-Using reversed()    #reversed() return iterator and by using this you can access one by one each character
+def revString(s)     #reversed(s)-('n','a','m','A') then join combined them (namA)
+    print(''.join(reversed(s))
+revString('Aman')
+
+-Using loop
+*think like in c++ you do like for (i=s.length()-1,i>=0,i--) in python range(len(s)-1,-1,-1)
+def revString(s):
+    for in range(len(s)-1,-1,-1)
+        print(s[i],end='')  #end remove next line from each character and keep into one single line
+revString('Aman')
+*another method to build a new string
+def revString(s):
+    rev=''
+    for ch in s:
+       rev=ch+rev
+    print(rev)
+revString('Aman')
