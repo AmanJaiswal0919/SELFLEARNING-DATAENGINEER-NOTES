@@ -944,4 +944,39 @@ def revList(s):
 revList(['Aman','Ashu'])
 
 -------------------------------------------------------------------------------------------------------------------------
+Reverse a Tuple
+
+-Using for loop
+def revTuple(s):
+    result=()
+for i in range(len(s)-1,-1,-1):
+    result=result+(s[i],)
+print(result)
+revTuple(('aman','yash'))
+
+-Using Slicing
+def revTuple(s):
+    print(s[::-1])
+revTuple(('aman','yash'))
+
+-Using reversed()
+def revTuple(s):
+    print(tuple(reversed(s)))
+revTuple(('aman','yash'))
+------------------------------------------------------------------------------------------------------------------------
+Reverse a Dictionary
+
+-Using Reversed()
+def reverse_dict(d):
+    print(dict(reversed(d.items())))
+reverse_dict({'a': 1, 'b': 2, 'c': 3})
+
+-Using loop key,value exchange
+
+def reverse_dict2(d):
+    result = {}
+    for k, v in d.items():
+        result[v] = k
+    print(result)
+reverse_dict2({'a': 1, 'b': 2})
 
