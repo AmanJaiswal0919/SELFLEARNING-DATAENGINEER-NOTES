@@ -891,7 +891,7 @@ and not dict.fromkeys() b/c in dictionary  keys are already unique
 10.Remove Duplicates from Set
 -Already Contain Unique Values
 Output: 
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------
 Reverse a String       
 -Using Slicing
 def revString(s):
@@ -916,3 +916,32 @@ def revString(s):
        rev=ch+rev
     print(rev)
 revString('Aman')
+--------------------------------------------------------------------------------------------------------------------------
+Reverse a List
+
+-Using Slicing
+def revList(s):
+    print(s[::-1])
+revList(['Aman'])
+
+-Using reversed()
+def revList(s):
+    print(list(reversed(s)))
+revList(['Aman','Ashu'])
+
+-Using reverse()
+def revList(s):
+    s.reverse()
+    print(s)
+revList(['Aman','Ashu'])
+
+-Using for loop
+def revList(s):
+    result=[]
+    for i in range(len(s)-1,-1,-1):
+        result.append(s[i])  #result=result+[s[i]]
+    print(result)
+revList(['Aman','Ashu'])
+
+-------------------------------------------------------------------------------------------------------------------------
+
